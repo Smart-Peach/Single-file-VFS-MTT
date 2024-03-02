@@ -10,9 +10,27 @@
     - Operations: read and write operations (to interact with the single file).
     - Functions: opening, closing, and modifying the file content.
 
+3. The stracture includes several main components that allow you to abstract from a specific system and provide a unified interface for working with files and directories. These include:
+    - interfaces;
+    - file table;
+    - file descriptor table;
+    - drivers;
+    - cache;
+    - system calls.
+
 3. File Metadata Handling:
     - Manage file metadata  (file attributes, permissions etc).
     - Mechanisms to store and update file metadata.
+    - Possible entities for metadata:
+        - Superblock
+        - inode
+        - file
+        - dentry
+    - Metadata interact using (maybe) next subsystems: 
+        - dentry cache
+        - inode cache
+        - buffer cache
+
 
 #### Part 2: File System Operations and Management
 1. File Manipulation Operations:
