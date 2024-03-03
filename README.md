@@ -1,6 +1,6 @@
-#Virtual File System MTT
+# Virtual File System MTT
 
-### Brilliant, incredible, amazing plan:
+## Brilliant, incredible, amazing plan:
 
 ### Part 1: File System Setup and Initialization
 1. File System Initialization:
@@ -55,7 +55,7 @@
     - Should it be like Far? idk.
 
 
-###Nice and useful links:
+### Nice and useful links:
 1. OSDev:
 https://wiki.osdev.org/VFS
 
