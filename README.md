@@ -1,7 +1,8 @@
+#Virtual File System MTT
 
 ### Brilliant, incredible, amazing plan:
 
-#### Part 1: File System Setup and Initialization
+### Part 1: File System Setup and Initialization
 1. File System Initialization:
     - Initialize the file system structures and metadata for managing the single file within the VFS.
     - Setup basic data structures to handle file operations and properties.
@@ -32,7 +33,7 @@
         - buffer cache
 
 
-#### Part 2: File System Operations and Management
+### Part 2: File System Operations and Management
 1. File Manipulation Operations:
     - Operations: creating, deleting, copying, moving, and renaming the single file.
     - Functions: modifying file properties and contents.
@@ -44,7 +45,7 @@
     - Functions: navigating, accessing, and searching.
     - Maybe retrieval mechanisms.
 
-#### Part 3: TODO
+### TODO:
 1. Error Handling and Logging:
     - Handle exceptions, errors.
     - Log file system activities.
@@ -54,7 +55,7 @@
     - Should it be like Far? idk.
 
 
-##Nice and useful links:
+###Nice and useful links:
 1. OSDev:
 https://wiki.osdev.org/VFS
 
