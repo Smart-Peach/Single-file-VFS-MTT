@@ -11,9 +11,10 @@
     - Interpret console commands (parser)
     - Initialize the file system structures and metadata for managing the single file within the VFS (Connect VFS and FS + buffer cache)
     - Structure which filled with pointers to corresponding FS driver functions (esp_vfs_t)
+    - File Descriptors: mapping global file descriptors to VFS driver indexes registered in the array.
+    - Master File Table: Contains metadata of file
     - Registration - we should register FS we work with. Kinda:
-   
-''' 
+```
 esp_vfs_t myfs = {
             .flags = ESP_VFS_FLAG_DEFAULT,
             .write = &myfs_write,
@@ -22,14 +23,9 @@ esp_vfs_t myfs = {
             .close = &myfs_close,
             .read = &myfs_read,
             };
-ESP_ERROR_CHECK(esp_vfs_register("/data", &myfs, NULL)); 
-'''
+ESP_ERROR_CHECK(esp_vfs_register("/data", &myfs, NULL));
+```
 
-    - File Descriptors: 
-    mapping global file descriptors to VFS driver indexes registered in the array.
-
-    - Master File Table: 
-    Contains metadata of file
    
 2. File System Read and Write Operations:
     - Operations: read and write operations (to interact with the single file).
