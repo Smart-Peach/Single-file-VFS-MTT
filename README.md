@@ -12,7 +12,7 @@
     - Initialize the file system structures and metadata for managing the single file within the VFS (Connect VFS and FS + buffer cache)
     - Structure which filled with pointers to corresponding FS driver functions (esp_vfs_t)
     - Registration - we should register FS we work with. Kinda:
-        '''esp_vfs_t myfs = {
+        ''' esp_vfs_t myfs = {
             .flags = ESP_VFS_FLAG_DEFAULT,
             .write = &myfs_write,
             .open = &myfs_open,
@@ -20,8 +20,7 @@
             .close = &myfs_close,
             .read = &myfs_read,
             };
-
-            ESP_ERROR_CHECK(esp_vfs_register("/data", &myfs, NULL));'''
+            ESP_ERROR_CHECK(esp_vfs_register("/data", &myfs, NULL)); '''
 
     - File Descriptors: 
     mapping global file descriptors to VFS driver indexes registered in the array.
