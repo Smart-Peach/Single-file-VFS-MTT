@@ -71,3 +71,6 @@ https://support.kaspersky.ru/help/KCE/1.1/en-US/vfs_backends.htm
 
 5. Really useful: 
 https://www.quora.com/How-can-I-implement-a-virtual-file-system-using-C-or-C++-Can-you-please-share-some-code
+
+6. Our google file:
+https://docs.google.com/document/d/1NtjZ_1by78jzoXFTpV_xjDl8-KFVUTvta4vsJ2M6H_U/edit?pli=1
