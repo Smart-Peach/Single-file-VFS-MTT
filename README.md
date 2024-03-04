@@ -2,13 +2,33 @@
 
 ## Brilliant, incredible, amazing plan:
 
+### Part 0:
+1. Setup environment (not to break computers) --> cygwin(?) or VirtualBox
+
 ### Part 1: File System Setup and Initialization
 1. File System Initialization:
     - Create executable file
     - Interpret console commands (parser)
-    - Initialize the file system structures and metadata for managing the single file within the VFS (Connect VFS and FS + buffer cache):
+    - Initialize the file system structures and metadata for managing the single file within the VFS (Connect VFS and FS + buffer cache)
+    - Structure which filled with pointers to corresponding FS driver functions (esp_vfs_t)
+    - Registration - we should register FS we work with. Kinda:
+        '''esp_vfs_t myfs = {
+            .flags = ESP_VFS_FLAG_DEFAULT,
+            .write = &myfs_write,
+            .open = &myfs_open,
+            .fstat = &myfs_fstat,
+            .close = &myfs_close,
+            .read = &myfs_read,
+            };
 
+            ESP_ERROR_CHECK(esp_vfs_register("/data", &myfs, NULL));'''
 
+    - File Descriptors: 
+    mapping global file descriptors to VFS driver indexes registered in the array.
+
+    - Master File Table: 
+    Contains metadata of file
+   
 2. File System Read and Write Operations:
     - Operations: read and write operations (to interact with the single file).
     - Functions: opening, closing, and modifying the file content.
@@ -19,7 +39,7 @@
     - Functions: modifying file properties and contents.
 
 2. File System Security and Permissions:
-    - Security mechanisms: file access control, permissions, and ownership settings.
+    - Security mechanisms: file access control (security descriptor), permissions, and ownership settings.
 
 3. File System Navigation and Search:
     - Functions: navigating, accessing, and searching.
