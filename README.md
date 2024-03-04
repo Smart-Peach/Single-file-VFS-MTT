@@ -4,34 +4,14 @@
 
 ### Part 1: File System Setup and Initialization
 1. File System Initialization:
-    - Initialize the file system structures and metadata for managing the single file within the VFS.
-    - Setup basic data structures to handle file operations and properties.
+    - Create executable file
+    - Interpret console commands (parser)
+    - Initialize the file system structures and metadata for managing the single file within the VFS (Connect VFS and FS + buffer cache):
+
 
 2. File System Read and Write Operations:
     - Operations: read and write operations (to interact with the single file).
     - Functions: opening, closing, and modifying the file content.
-
-3. The stracture includes several main components that allow you to abstract from a specific system and provide a unified interface for working with files and directories. These include:
-    - interfaces;
-    - file table;
-    - file descriptor table;
-    - drivers;
-    - cache;
-    - system calls.
-
-3. File Metadata Handling:
-    - Manage file metadata  (file attributes, permissions etc).
-    - Mechanisms to store and update file metadata.
-    - Possible entities for metadata:
-        - Superblock
-        - inode
-        - file
-        - dentry
-    - Metadata interact using (maybe) next subsystems: 
-        - dentry cache
-        - inode cache
-        - buffer cache
-
 
 ### Part 2: File System Operations and Management
 1. File Manipulation Operations:
@@ -54,6 +34,28 @@
     - UI.
     - Should it be like Far? idk.
 
+
+### Optional: 
+1. File Metadata Handling:
+    - Manage file metadata  (file attributes, permissions etc).
+    - Mechanisms to store and update file metadata.
+    - Possible entities for metadata:
+        - Superblock
+        - inode
+        - file
+        - dentry
+    - Metadata interact using (maybe) next subsystems: 
+        - dentry cache
+        - inode cache
+        - buffer cache
+
+2. The structure includes several main components that allow you to abstract from a specific system and provide a unified interface for working with files and directories. These include:
+    - interfaces;
+    - file table;
+    - file descriptor table;
+    - drivers;
+    - cache;
+    - system calls.
 
 ### Nice and useful links:
 1. OSDev:
