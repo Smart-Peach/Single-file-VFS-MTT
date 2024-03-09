@@ -6,7 +6,7 @@ public:
     Interpretor(std::string input_line):
         parser(new Parser{input_line}) {};
 
-    bool interpret(std::string input_line);
+    bool interpret();
 
 private:
     Parser* parser;

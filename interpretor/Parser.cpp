@@ -13,18 +13,20 @@ Command* Parser::next_command() {
              token.append(1, next_sym);
         }
         Command* cmd;
-        if (next_sym == SEPARATOR && !token.empty()){
+        if ((next_sym == SEPARATOR && !token.empty()) ||
+             next_pos == input_line.length() - 1){
             cmd = parse(token);
         }
         else continue;
         curr_pos = next_pos;
         return cmd;
     }
-    if (!token.empty()) {std::cout << "Unknown command '" << token << "'";};
+    if (!token.empty()) {std::cout << "Unknown command '" << token << "'\n";};
     return nullptr;
 }
 
 Command* Parser::parse(std::string token) {
-    return nullptr;
-        
+    Command* cmd = funcs[token];
+    if (cmd == nullptr) {std::cout << "Unknown command '" << token << "'\n";};
+    return funcs[token];
 }

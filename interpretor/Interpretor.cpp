@@ -1,9 +1,9 @@
 #include "Interpretor.hpp"
 
-bool Interpretor::interpret(std::string input_line){
+bool Interpretor::interpret(){
     while (true){
         Command* next_cmd = parser->next_command();
-        if (!next_cmd) break;
+        if (next_cmd == nullptr) break;
         next_cmd->apply();
     }
     return 1;
