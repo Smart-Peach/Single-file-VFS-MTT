@@ -1,19 +1,24 @@
 #pragma once 
-#iclude "Function.hpp"
+#include <string>
+#include "/commands/Command.hpp"
 
-class Parser(): public Function{
+
+// TODO: add commands for dir
+
+struct Context {
+    int parser_pos;  
+};
+
+class Parser {
 public:
-    void create_file();
-    void delete_file();
-    void edit_file();
-    void read_file();
-    void write_file();
-    void append_file();
-    void seek_file();
-    void rename_file();
-    void move_file();
+    Parser(std::string input_line):
+            input_line(input_line),
+            curr_pos(-1) {};
+    
+    Command* next_command();
 
 private:
-    void next_command();
-    void parse();
-}
+    std::string input_line;
+    size_t curr_pos;
+    Command* parse(std::string token);
+};
