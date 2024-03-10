@@ -26,6 +26,7 @@ public:
         args(args),
         args_pos(-1),
         finished(false) {};
+    ~Parser() {};
 
     Command* next_command();
     bool is_finished();

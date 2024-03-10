@@ -6,6 +6,7 @@ public:
     DeleteFile() = default;
     DeleteFile(str file_name):
         file_name(file_name) {};
+    ~DeleteFile() {};
 
     void apply() override {
         std::cout << "file " << file_name << " deleted" << std::endl;

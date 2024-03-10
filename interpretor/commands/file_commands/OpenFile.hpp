@@ -6,6 +6,8 @@ public:
     OpenFile() = default;
     OpenFile(str file_name):
         file_name(file_name) {};
+    ~OpenFile() {};
+
     void apply() override {
         std::cout << "file " << file_name << " opened" << std::endl;
         return;

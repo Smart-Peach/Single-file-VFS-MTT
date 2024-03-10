@@ -16,6 +16,7 @@ TEST(InterpretorGTest, writeCommand){
     std::cout << "Actual:" << std::endl;
     Interpretor* interpretor = new Interpretor(all_args);
     interpretor->interpret();
+    delete interpretor;
 }
 
 

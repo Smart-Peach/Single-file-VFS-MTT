@@ -6,6 +6,7 @@ bool Interpretor::interpret(){
         Command* next_cmd = parser->next_command();
         if (next_cmd == nullptr) break;
         next_cmd->apply();
+        delete next_cmd;
     }
     return true;
 }

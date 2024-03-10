@@ -8,6 +8,7 @@ public:
     Interpretor(str_vector_t args):
         parser(new Parser{args}),
         args(args) {};
+    ~Interpretor() {delete parser;};
 
     bool interpret();
 

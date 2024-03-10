@@ -6,6 +6,8 @@ public:
     ReadFile() = default;
     ReadFile(str file_name):
         file_name(file_name) {};
+    ~ReadFile() {};
+
     void apply() override {
         std::cout << "file " << file_name << " read" << std::endl;
         return;

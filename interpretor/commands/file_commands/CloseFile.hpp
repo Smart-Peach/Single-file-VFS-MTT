@@ -6,6 +6,7 @@ public:
     CloseFile() = default;
     CloseFile(str file_name):
         file_name(file_name) {};
+    ~CloseFile() {};
 
     void apply() override {
         std::cout << "file " << file_name << " closed" << std::endl;

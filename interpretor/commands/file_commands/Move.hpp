@@ -6,6 +6,8 @@ public:
     MoveFile() = default;
     MoveFile(str file_name):
         file_name(file_name) {};
+    ~MoveFile() {};
+
     void apply() override {
         std::cout << "file " << file_name << " moved" << std::endl;
         return;
