@@ -3,8 +3,14 @@
 class RenameFile: public Command {
 
 public:
+    RenameFile() = default;
+    RenameFile(str file_name):
+        file_name(file_name) {};
     void apply() override {
-        std::cout << "file renamed" << std::endl;
+        std::cout << "file " << file_name << " renamed" << std::endl;
         return;
     }
+
+private:
+    str file_name;
 };
