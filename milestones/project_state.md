@@ -10,12 +10,12 @@
           | --------------------- | ------------------------------- |-----------------------|--------------------------------|
           | Create                | create <file_name>              | Create dir            | crtdir <dir_name>              |
           | Delete                | delete <file_name>              | Delete dir            | deldir <dir_name>              |
-          | Edit                  | edit <file_name>                | Open dir              | odir <dir_name>                |
-          | Read                  | read <file_name>                | Close dir             | cdir <dir_name>                |
-          | Write                 | write <file_name> "text"        | Read dir              | rdir <dir_name>                |
-          | Append                | append <file_name> "text"       | Rename dir            | rndir <dir_name>               |                                        
-          | Seek (search in file) | seek <file_name>                | Link dir              | ldir <dir_name>                |
-          | Rename                | rn <file_name> <new_file_name>  | Unlink dir            | uldir <dir_name>               |
+          | Edit                  | edit <file_name>                | Read dir              | rdir <dir_name>                |
+          | Read                  | read <file_name>                | Rename dir            | rndir <dir_name>               |
+          | Write                 | write <file_name> "text"        | Link dir              | ldir <dir_name>                |
+          | Append                | append <file_name> "text"       | Unlink dir            | uldir <dir_name>               |                                        
+          | Seek (search in file) | seek <file_name>                |                       |                                |
+          | Rename                | rn <file_name> <new_file_name>  |                       |                                |
           | Move file             | mv <file_name> <new_file_path>  |                       |                                |
 
           
@@ -24,8 +24,8 @@
 
           | Command name <        | <div style="width:235px">Syntax</div>| Command name     | <div style="width:132px">Syntax</div>|
           | --------------------- | ------------------------------- |-----------------------|--------------------------------|
-          | Open                  | - <file_name>                   | -                     | - <dir_name>                   |
-          | Close                 | - <file_name>                   | -                     | - <dir_name>                   |
+          | Open                  | - <file_name>                   | Open dir              | - <dir_name>                   |
+          | Close                 | - <file_name>                   | Close dir             | - <dir_name>                   |
 
 
    
