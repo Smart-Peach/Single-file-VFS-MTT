@@ -4,7 +4,7 @@ class WriteFile: public Command {
 
 public:
     WriteFile() = default;
-    WriteFile(str file_name):
+    WriteFile(str_t file_name):
         file_name(file_name) {};
     ~WriteFile() {};
     void apply() override {
@@ -13,5 +13,5 @@ public:
     }
 
 private:
-    str file_name;
+    str_t file_name;
 };

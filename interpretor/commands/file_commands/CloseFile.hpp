@@ -4,7 +4,7 @@ class CloseFile: public Command {
 
 public:
     CloseFile() = default;
-    CloseFile(str file_name):
+    CloseFile(str_t file_name):
         file_name(file_name) {};
     ~CloseFile() {};
 
@@ -14,5 +14,5 @@ public:
     }
 
 private:
-    str file_name;
+    str_t file_name;
 };

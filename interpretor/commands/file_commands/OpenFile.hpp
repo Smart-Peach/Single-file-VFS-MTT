@@ -4,7 +4,7 @@ class OpenFile: public Command {
 
 public:
     OpenFile() = default;
-    OpenFile(str file_name):
+    OpenFile(str_t file_name):
         file_name(file_name) {};
     ~OpenFile() {};
 
@@ -14,5 +14,5 @@ public:
     }
 
 private:
-    str file_name;
+    str_t file_name;
 };

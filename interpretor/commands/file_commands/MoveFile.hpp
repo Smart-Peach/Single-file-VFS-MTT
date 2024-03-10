@@ -4,7 +4,7 @@ class MoveFile: public Command {
 
 public:
     MoveFile() = default;
-    MoveFile(str file_name):
+    MoveFile(str_t file_name):
         file_name(file_name) {};
     ~MoveFile() {};
 
@@ -14,5 +14,5 @@ public:
     }
 
 private:
-    str file_name;
+    str_t file_name;
 };

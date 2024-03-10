@@ -4,7 +4,7 @@ class CreateFile: public Command {
 
 public:
     CreateFile() = default;
-    CreateFile(str file_name):
+    CreateFile(str_t file_name):
         file_name(file_name) {};
     ~CreateFile() {};
 
@@ -14,5 +14,5 @@ public:
     }
 
 private:
-    str file_name;
+    str_t file_name;
 };

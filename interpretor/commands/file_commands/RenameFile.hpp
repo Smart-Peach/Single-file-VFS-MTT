@@ -4,7 +4,7 @@ class RenameFile: public Command {
 
 public:
     RenameFile() = default;
-    RenameFile(str file_name):
+    RenameFile(str_t file_name):
         file_name(file_name) {};
     ~RenameFile() {};
 
@@ -14,5 +14,5 @@ public:
     }
 
 private:
-    str file_name;
+    str_t file_name;
 };

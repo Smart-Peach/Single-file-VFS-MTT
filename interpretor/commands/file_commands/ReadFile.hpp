@@ -4,7 +4,7 @@ class ReadFile: public Command {
 
 public:
     ReadFile() = default;
-    ReadFile(str file_name):
+    ReadFile(str_t file_name):
         file_name(file_name) {};
     ~ReadFile() {};
 
@@ -14,5 +14,5 @@ public:
     }
 
 private:
-    str file_name;
+    str_t file_name;
 };

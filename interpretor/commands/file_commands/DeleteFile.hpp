@@ -4,7 +4,7 @@ class DeleteFile: public Command {
 
 public:
     DeleteFile() = default;
-    DeleteFile(str file_name):
+    DeleteFile(str_t file_name):
         file_name(file_name) {};
     ~DeleteFile() {};
 
@@ -14,5 +14,5 @@ public:
     }
 
 private:
-    str file_name;
+    str_t file_name;
 };

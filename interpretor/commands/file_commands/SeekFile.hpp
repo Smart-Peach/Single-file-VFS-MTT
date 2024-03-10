@@ -4,7 +4,7 @@ class SeekFile: public Command {
 
 public:
     SeekFile() = default;
-    SeekFile(str file_name):
+    SeekFile(str_t file_name):
         file_name(file_name) {};
     ~SeekFile() {};
     
@@ -14,5 +14,5 @@ public:
     }
 
 private:
-    str file_name;
+    str_t file_name;
 };
