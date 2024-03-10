@@ -21,8 +21,8 @@ cmd_cstr_t Parser::get_constructor(str_t token) {
     return funcs[token];
 }
 
-// TODO: check in db if file exists
-// TODO: think about dir commands. May be better to separate cmd parser
+// TODO: - check in db if file exists
+//       - think about dir commands. May be better to separate cmd parser
 
 bool Parser::is_next_file() {
     if (args_pos + 1 < args.size()){
@@ -32,6 +32,9 @@ bool Parser::is_next_file() {
     return false;
 }
 
+// TODO: - consider difference btw commands
+//       - add parsing of command - cmd <name> "name"
+//       - mb add fields to such cmds     
 
 Command* Parser::parse(str_t token) {
 
