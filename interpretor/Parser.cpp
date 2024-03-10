@@ -17,22 +17,23 @@ Command* Parser::next_command() {
 }
 
 
-cmd_cstr_t Parser::get_constructor(str token) {
+cmd_cstr_t Parser::get_constructor(str_t token) {
     return funcs[token];
 }
 
+// TODO: check in db if file exists
+// TODO: think about dir commands. May be better to separate cmd parser
 
 bool Parser::is_next_file() {
-    // and check in db if file exists
     if (args_pos + 1 < args.size()){
-        str token = args.at(args_pos + 1);
+        str_t token = args.at(args_pos + 1);
         return !get_constructor(token);
     }
     return false;
 }
 
 
-Command* Parser::parse(str token) {
+Command* Parser::parse(str_t token) {
 
     if (!get_constructor(token)) {
         std::cout << "Unknown command '" << token << "'\n";
@@ -40,7 +41,7 @@ Command* Parser::parse(str token) {
     } else if (is_next_file()){
         return get_constructor(token)(args.at(++args_pos));
     } else {
-        std::cout << "No input file for command '" << token << "'\n";
+        std::cout << "No src input for command '" << token << "'\n";
         return nullptr;
     }
 }
