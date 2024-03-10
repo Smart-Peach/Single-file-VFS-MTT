@@ -9,7 +9,7 @@ public:
     ~RenameDir() {};
 
     void apply() override {
-        std::cout << "directory " << dir_name << " created" << std::endl;
+        std::cout << "directory " << dir_name << " renamed" << std::endl;
         return;
     }
 

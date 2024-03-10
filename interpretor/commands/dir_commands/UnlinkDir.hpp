@@ -9,7 +9,7 @@ public:
     ~UnlinkDir() {};
 
     void apply() override {
-        std::cout << "directory " << dir_name << " created" << std::endl;
+        std::cout << "directory " << dir_name << " unlinked" << std::endl;
         return;
     }
 

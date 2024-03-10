@@ -9,7 +9,7 @@ public:
     ~OpenDir() {};
 
     void apply() override {
-        std::cout << "directory " << dir_name << " created" << std::endl;
+        std::cout << "directory " << dir_name << " opened" << std::endl;
         return;
     }
 

@@ -9,7 +9,7 @@ public:
     ~LinkDir() {};
 
     void apply() override {
-        std::cout << "directory " << dir_name << " created" << std::endl;
+        std::cout << "directory " << dir_name << " linked" << std::endl;
         return;
     }
 
