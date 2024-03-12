@@ -12,6 +12,7 @@ int  main(int argc, char* argv[]){
         all_args.assign(argv + 1, argv + argc);
         Interpretor* interpretor = new Interpretor(all_args);
         interpretor->interpret();
+        delete interpretor;
 
     } else std::cout << "No input arguments" << std::endl;
 

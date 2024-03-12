@@ -11,9 +11,9 @@
           | Create                | create <file_name>              | Create dir            | crtdir <dir_name>              |
           | Delete                | delete <file_name>              | Delete dir            | deldir <dir_name>              |
           | Edit                  | edit <file_name>                | Read dir              | rdir <dir_name>                |
-          | Read                  | read <file_name>                | Rename dir            | rndir <dir_name>               |
+          | Read                  | read <file_name>                | Rename dir            | rndir <dir_name> "text"        |
           | Write                 | write <file_name> "text"        | Link dir              | ldir <dir_name>                |
-          | Append                | append <file_name> "text"       | Unlink dir            | uldir <dir_name>               |                                        
+          | Append                | append <file_name> "text"       | Unlink dir            | uldir <dir_name>               | 
           | Seek (search in file) | seek <file_name>                |                       |                                |
           | Rename                | rn <file_name> <new_file_name>  |                       |                                |
           | Move file             | mv <file_name> <new_file_path>  |                       |                                |

@@ -17,6 +17,7 @@ all: interpretor clean
 interpretor:
 	$(CXX) -c interpretor/Parser.cpp src/vfs_mtt_main.cpp interpretor/Interpretor.cpp $(SAN)
 	$(CXX) vfs_mtt_main.o Parser.o Interpretor.o -o main.out $(SAN)
+	rm *.o
 	./main.out
 
 test: 
