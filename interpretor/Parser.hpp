@@ -1,25 +1,5 @@
 #pragma once 
-#include <functional>
-#include <string>
-#include <map>
-#include <vector>
-#include "commands/Command.hpp"
-#include "commands/file_commands/CreateFile.hpp"
-#include "commands/file_commands/DeleteFile.hpp"
-#include "commands/file_commands/EditFile.hpp"
-#include "commands/file_commands/MoveFile.hpp"
-#include "commands/file_commands/ReadFile.hpp"
-#include "commands/file_commands/RenameFile.hpp"
-#include "commands/file_commands/SeekFile.hpp"
-#include "commands/file_commands/WriteFile.hpp"
-#include "commands/dir_commands/CreateDir.hpp"
-#include "commands/dir_commands/DeleteDir.hpp"
-#include "commands/dir_commands/ReadDir.hpp"
-#include "commands/dir_commands/RenameDir.hpp"
-#include "commands/dir_commands/LinkDir.hpp"
-#include "commands/dir_commands/UnlinkDir.hpp"
-
-// TODO: add commands for dir
+#include "includes.hpp"
 
 typedef std::function<Command*(std::string)> cmd_cstr_t;
 typedef std::vector<std::string> str_vector_t;
@@ -28,11 +8,21 @@ typedef std::string str_t;
 class Parser {
 
 public:
+    // move and copy assignment operators/constructors (aka rule of 5)
     Parser(str_vector_t args):
-        args(args),
-        args_pos(-1),
-        finished(false) {};
-    ~Parser() {};
+                args(args),
+                args_pos(-1),
+                finished(false) {};
+
+    Parser(const Parser& other) = default;
+    Parser(Parser&& other) = default;
+    Parser& operator=(Parser other){
+        std::swap(args, other.args);
+        std::swap(args_pos, other.args_pos);
+        std::swap(finished, other.finished);
+        return *this;
+    } 
+    ~Parser() = default;
 
     Command* next_command();
     bool is_finished();
@@ -42,6 +32,7 @@ private:
     bool finished;
     size_t args_pos;
     str_vector_t args;
+
     std::map<const str_t, cmd_cstr_t> funcs = {
     {"create", [](str_t file_name) { return new CreateFile(file_name);}},
     {"delete", [](str_t file_name) { return new DeleteFile(file_name);}},

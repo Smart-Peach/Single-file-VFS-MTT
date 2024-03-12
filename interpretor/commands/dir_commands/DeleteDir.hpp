@@ -3,10 +3,14 @@
 class DeleteDir: public Command {
 
 public:
-    DeleteDir() = default;
     DeleteDir(str_t dir_name):
         dir_name(dir_name) {};
-    ~DeleteDir() {};
+    DeleteDir(const DeleteDir& other) = default;
+    DeleteDir& operator=(DeleteDir other){
+        std::swap(dir_name, other.dir_name);
+        return *this;
+    }
+    ~DeleteDir() = default;
 
     void apply() override {
         std::cout << "directory " << dir_name << " deleted" << std::endl;

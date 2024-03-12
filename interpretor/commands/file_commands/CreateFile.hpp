@@ -3,10 +3,14 @@
 class CreateFile: public Command {
 
 public:
-    CreateFile() = default;
     CreateFile(str_t file_name):
         file_name(file_name) {};
-    ~CreateFile() {};
+    CreateFile(const CreateFile& other) = default;
+    CreateFile& operator=(CreateFile other){
+        std::swap(file_name, other.file_name);
+        return *this;
+    }
+    ~CreateFile() = default;
 
     void apply() override {
         std::cout << "file " << file_name << " created" << std::endl;

@@ -3,10 +3,14 @@
 class RenameDir: public Command {
 
 public:
-    RenameDir() = default;
     RenameDir(str_t dir_name):
         dir_name(dir_name) {};
-    ~RenameDir() {};
+    RenameDir(const RenameDir& other) = default;
+    RenameDir& operator=(RenameDir other){
+        std::swap(dir_name, other.dir_name);
+        return *this;
+    }
+    ~RenameDir() = default;
 
     void apply() override {
         std::cout << "directory " << dir_name << " renamed" << std::endl;
