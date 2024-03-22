@@ -2,7 +2,7 @@
 #include <vector>
 
 typedef std::string str_t;
-typedef std::time_t time_t;
+// typedef std::time_t time_t;
 
 // describes exact file or directory
 class Inode {
@@ -26,6 +26,7 @@ private:
 
 
 public:
+    Inode() = default;  // tmp: only for test InodeMap funcs, should be removed lately
     Inode(int magic_number, int sizeof_file, str_t identifier,
           int block_amount, std::vector<int> storage_blocks):
                                             magic_number(magic_number),
@@ -34,10 +35,10 @@ public:
                                             blocks_amount(block_amount), 
                                             storage_blocks(storage_blocks) 
             {
-                std::time_t current_time = std::time(nullptr);
-                last_access_time = current_time;
-                last_file_modif_time = current_time;
-                last_inode_modif_time = current_time;
+                // std::time_t current_time = std::time(nullptr);
+                // last_access_time = current_time;
+                // last_file_modif_time = current_time;
+                // last_inode_modif_time = current_time;
             };
 
 
