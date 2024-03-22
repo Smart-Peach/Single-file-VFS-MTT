@@ -1,4 +1,4 @@
-#include "InodeMap.hpp"
+#include "../includes/InodeMap.hpp"
 
 Inode InodeMap::get_inode(str_t src_name){
     std::cout << "inode of \"" << src_name << "\" source is being observed";
