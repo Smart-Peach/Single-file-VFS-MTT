@@ -10,8 +10,8 @@ typedef std::string str_t;
 
 
 /**
-* @brief Class for containing file inode instances.
-* @brief Implemented via unordered_map (aka hash map).
+* Class for containing file inode instances.
+* Implemented via unordered_map (aka hash map).
 */
 class InodeMap {
 

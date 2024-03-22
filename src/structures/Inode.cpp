@@ -1,8 +1,9 @@
 #include <iostream>
+#include <vector>
 #include "../includes/Inode.hpp"
 
 // Maybe another type
-int* Inode::get_storage_blocks() {  
+const std::vector<int>& Inode::get_storage_blocks() {  
     return storage_blocks;
 }
 
@@ -17,9 +18,9 @@ void Inode::print() {
     std::cout << "Time of the last access to the file = " << last_access_time << std::endl;
     std::cout << "Time of the last file modification = " << last_file_modif_time << std::endl;
     std::cout << "Time of the last inode modification = " << last_inode_modif_time << std::endl;
-    std::cout << "Current sizeof array with storage block addresses = " << amount_blocks << std::endl;
+    std::cout << "Current sizeof array with storage block addresses = " << blocks_amount << std::endl;
     std::cout << "Array of storage block addresses: ";
-    for(int i = 0; i < amount_blocks; i++) std::cout << storage_blocks[i] << " ";
+    for(int i = 0; i < blocks_amount; i++) std::cout << storage_blocks[i] << " ";
 }
 
 // hz whether we need this:
