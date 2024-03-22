@@ -5,7 +5,7 @@ class Inode {
 
 private:
 
-    const int   magic_number;          // Unique number of inode (aka hash) 
+    int         magic_number;          // Unique number of inode (aka hash) 
     int         optional_bit1 = 0;     // | bits for permissions (optional)
     int         optional_bit2 = 0;     // |
     int         number_references;     // Number of references to file
@@ -14,20 +14,29 @@ private:
     int         last_access_time;      // | Maybe another type
     int         last_file_modif_time;  // |
     int         last_inode_modif_time; // | 
+    int         amount_blocks;         // Сurrent sizeof the array with storage block addresses
     int         storage_blocks[];      // Array of storage block addresses
 
-    void generate_magic_number() {
-        // aka hash
-    }
 
 public:
 
     int* get_storage_blocks() {  // Maybe another type
-        return Inode::storage_blocks;
+        return storage_blocks;
     }
 
-    void print() {
-
+    void print() { //Print all fields of inode 
+        std::cout << "Magic number of inode = " << magic_number << std::endl;
+        std::cout << "optional_bit1 = " << optional_bit1 << std::endl;
+        std::cout << "optional_bit2 = " << optional_bit2 << std::endl;
+        std::cout << "Number of references to file = " << number_references << std::endl;
+        std::cout << "Identificator of owner/user and group-owner = " << identifier << std::endl;
+        std::cout << "Current sizeof file = " << sizeof_file << std::endl;
+        std::cout << "Time of the last access to the file = " << last_access_time << std::endl;
+        std::cout << "Time of the last file modification = " << last_file_modif_time << std::endl;
+        std::cout << "Time of the last inode modification = " << last_inode_modif_time << std::endl;
+        std::cout << "Current sizeof array with storage block addresses = " << amount_blocks << std::endl;
+        std::cout << "Array of storage block addresses: ";
+        for(int i = 0; i < amount_blocks; i++) std::cout << storage_blocks[i] << " ";
     }
 
 // hz whether we need this:
@@ -35,17 +44,12 @@ public:
         return sizeof_file;
     }
 
+    void set_magic_number(int new_magic_number){
+        magic_number = new_magic_number;
+    }
+
     int get_magic_number() {
         return magic_number;
     }
-
-    int get_modification_time() {
-        // Returns all time fields ??? or prints
-    }
-
     
-};
-
-class I_list {
-    // Hashtable
 };
