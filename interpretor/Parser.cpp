@@ -24,6 +24,10 @@ cmd_cstr_t Parser::get_constructor(str_t token) {
 // TODO: - check in db if file exists
 //       - think about dir commands. May be better to separate cmd parser
 
+
+// TODO: goto hash table of inodes
+//       check in inodes by hash of the name of file
+
 bool Parser::is_next_file() {
     if (args_pos + 1 < args.size()){
         str_t token = args.at(args_pos + 1);
