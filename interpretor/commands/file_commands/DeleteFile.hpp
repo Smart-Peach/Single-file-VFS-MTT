@@ -3,20 +3,19 @@
 class DeleteFile: public Command {
 
 public:
-    DeleteFile(str_t file_name):
-        file_name(file_name) {};
+    DeleteFile(str_t src_name): Command(src_name) { }
     DeleteFile(const DeleteFile& other) = default;
     DeleteFile& operator=(DeleteFile other){
-        std::swap(file_name, other.file_name);
+        std::swap(src_name, other.src_name);
         return *this;
     }
     ~DeleteFile() = default;
 
     void apply() override {
-        std::cout << "file " << file_name << " deleted" << std::endl;
+        std::cout << "file " << src_name << " deleted" << std::endl;
         return;
     }
 
 private:
-    str_t file_name;
+    str_t src_name;
 };

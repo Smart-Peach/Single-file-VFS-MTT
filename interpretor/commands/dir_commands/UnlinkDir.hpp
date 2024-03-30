@@ -3,20 +3,19 @@
 class UnlinkDir: public Command {
 
 public:
-    UnlinkDir(str_t dir_name):
-        dir_name(dir_name) {};
+    UnlinkDir(str_t src_name): Command(src_name) { }
     UnlinkDir(const UnlinkDir& other) = default;
     UnlinkDir& operator=(UnlinkDir other){
-        std::swap(dir_name, other.dir_name);
+        std::swap(src_name, other.src_name);
         return *this;
     }
     ~UnlinkDir() = default;
 
     void apply() override {
-        std::cout << "directory " << dir_name << " unlinked" << std::endl;
+        std::cout << "directory " << src_name << " unlinked" << std::endl;
         return;
     }
 
 private:
-    str_t dir_name;
+    str_t src_name;
 };
