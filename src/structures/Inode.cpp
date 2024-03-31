@@ -3,7 +3,7 @@
 #include "../includes/Inode.hpp"
 
 // Maybe another type
-const std::vector<int>& Inode::get_storage_blocks() {  
+const std::vector<size_t>& Inode::get_storage_blocks() {  
     return storage_blocks;
 }
 
@@ -26,11 +26,6 @@ void Inode::print() {
 // hz whether we need this:
 int Inode::get_sizeof_file() {
     return sizeof_file;
-}
-
-// TODO: reduce of setter. Magic number is private there mustn't be any setters. It creates once in beginning.
-void Inode::set_magic_number(int new_magic_number){
-    magic_number = new_magic_number;
 }
 
 int Inode::get_magic_number() {
