@@ -1,22 +1,20 @@
 #include "../includes/Superblock.hpp"
 
 //Loads Superblock's fields into second 1024 bytes
-int Superblock::load_into_memory(FILE* address_space) {  // TODO: REMAKE FOR FSTREAM
+int Superblock::load_into_memory(fstream& address_space) {
 
-    // TODO: FINISH LOADING
     try {
-        fseek(address_space, 3, SEEK_SET);
-        fputs(fs_type, address_space);
-        fprintf(address_space, "%d", sizeof_fs);
-
-        // out << sizeof_fs;
-        // out << max_sizeof_file;
-        // out << sizeof_ilist_bytes;
-        // out << number_blocks;
-        // out << number_free_blocks;
-        // out << number_available_inodes;
-        // out << sizeof_block;
-        // out << free_blocks.to_string();  // may be error
+        address_space.seekg(1024);
+        address_space << sizeof_fs;
+        address_space << max_sizeof_file;
+        address_space << sizeof_ilist_bytes;
+        address_space << number_blocks;
+        address_space << number_free_blocks;
+        address_space << number_available_inodes;
+        address_space << sizeof_block;
+        address_space << free_blocks.to_string();
+        address_space << endl;
+        address_space.seekg(0);
     } catch (const ifstream::failure& e) {
         cout << "File is not open to load Superblock!"; 
         return 1;
@@ -25,7 +23,29 @@ int Superblock::load_into_memory(FILE* address_space) {  // TODO: REMAKE FOR FST
     return 0;
 }
 
-// TODO: update fields while adding/deleting Inode
+// Updates fields after creating new Inode
+void Superblock::update_fields_after_inode_addition(Inode inode) {
+    number_available_inodes--;
+    number_free_blocks -= inode.get_blocks_amount();
+
+    for (int block_address : inode.get_storage_blocks()) {
+        int block_ind = (block_address - 2048 - free_blocks.size() - sizeof_ilist_bytes - size_of_rootdir) / sizeof_block;
+        free_blocks.set(1);
+    }
+
+}
+
+// Updates fields after deleting new Inode
+void Superblock::update_fields_after_inode_deletion(Inode inode) {
+    number_available_inodes++;
+    number_free_blocks += inode.get_blocks_amount();
+
+    for (int block_address : inode.get_storage_blocks()) {
+        int block_ind = (block_address - 2048 - free_blocks.size() - sizeof_ilist_bytes - size_of_rootdir) / sizeof_block;
+        free_blocks.set(0);
+    }
+
+}
 
 //Returns address of ONE free block
 int Superblock::get_free_block() {

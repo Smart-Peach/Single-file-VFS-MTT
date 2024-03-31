@@ -4,10 +4,12 @@
 #include <cstdio>
 #include <string>
 
+#include "../includes/Inode.hpp"
+
 using namespace std;
 
-class Superblock {
 // Contains information about file system in general
+class Superblock {
 
 private:
 // TODO: move to header constatnts 
@@ -26,7 +28,9 @@ private:
 public:
 
     //Loads Superblock's fields into second 1024 bytes
-    int load_into_memory(FILE* address_space);
+    int load_into_memory(fstream& address_space);
+    void update_fields_after_inode_addition(Inode inode);
+    void update_fields_after_inode_deletion(Inode inode);
     //Returns address of ONE free block
     int get_free_block();
     int get_max_sizeof_file();

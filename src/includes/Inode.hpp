@@ -47,5 +47,6 @@ public:
     int get_sizeof_file();                          // hz whether we need this:
     void set_magic_number(int new_magic_number);
     int get_magic_number();
+    int get_blocks_amount();
     
 };
