@@ -15,5 +15,4 @@ public:
         std::cout << "file " << src_name << " sought" << std::endl;
         return;
     }
-
 };

@@ -15,7 +15,4 @@ public:
         std::cout << "file " << src_name << " closed" << std::endl;
         return;
     }
-
-private:
-    str_t src_name;
 };
