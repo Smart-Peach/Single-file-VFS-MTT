@@ -28,6 +28,7 @@ int Inode::get_sizeof_file() {
     return sizeof_file;
 }
 
+// TODO: reduce of setter. Magic number is private there mustn't be any setters. It creates once in beginning.
 void Inode::set_magic_number(int new_magic_number){
     magic_number = new_magic_number;
 }

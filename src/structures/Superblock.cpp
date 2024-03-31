@@ -1,9 +1,9 @@
 #include "../includes/Superblock.hpp"
 
 //Loads Superblock's fields into second 1024 bytes
-int Superblock::load_into_memory(FILE* address_space) { 
+int Superblock::load_into_memory(FILE* address_space) {  // TODO: REMAKE FOR FSTREAM
 
-    // TODO: check sizeof(address_space) == 1024
+    // TODO: FINISH LOADING
     try {
         fseek(address_space, 3, SEEK_SET);
         fputs(fs_type, address_space);
@@ -25,8 +25,11 @@ int Superblock::load_into_memory(FILE* address_space) {
     return 0;
 }
 
+// TODO: update fields while adding/deleting Inode
+
 //Returns address of ONE free block
 int Superblock::get_free_block() {
+    // TODO: USE EXISTED CHECK
     if (free_blocks.count() == free_blocks.size()) {
         cout << "Out of memory! No free blocks left!";  // TODO: throw exception
         return 2; 
@@ -49,8 +52,8 @@ int Superblock::get_sizeof_block() {
     return sizeof_block;
 }
 
+//Prints fields and their values to console
 void Superblock::print() {
-    //Prints fields and their values to console
     std::cout << "Superblock:"
                 << "\nfs_type: "                     << fs_type
                 << "\nSizeof fs: "                   << sizeof_fs
@@ -60,16 +63,16 @@ void Superblock::print() {
                 << "\nAmount of free blocks: "       << number_free_blocks
                 << "\nAmount of available i-nodes: " << number_available_inodes
                 << "\nSizeof block in bytes: "       << sizeof_block
-                << "\nMax file size: "               << max_sizeof_file;
+                << "\nMax file size: "               << max_sizeof_file << endl;
     
 }
 
+// Checks whether there is a free block to store data
 bool Superblock::check_free_blocks() {
-    // Checks whether there is a free block to store data
     return number_free_blocks > 0;
 }
 
+// Checks whether there is a free inode
 bool Superblock::check_free_inodes() {
-    // Checks whether there is a free inode
     return number_available_inodes > 0;
 }
