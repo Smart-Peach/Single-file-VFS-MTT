@@ -15,7 +15,4 @@ public:
         std::cout << "file " << src_name << " edited" << std::endl;
         return;
     }
-
-private:
-    str_t src_name;
 };

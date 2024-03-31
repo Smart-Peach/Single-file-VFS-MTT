@@ -15,7 +15,4 @@ public:
         std::cout << "directory " << src_name << " created" << std::endl;
         return;
     }
-
-private:
-    str_t src_name;
 };

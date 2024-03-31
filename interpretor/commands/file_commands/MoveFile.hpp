@@ -15,7 +15,4 @@ public:
         std::cout << "file " << src_name << " moved" << std::endl;
         return;
     }
-
-private:
-    str_t src_name;
 };
