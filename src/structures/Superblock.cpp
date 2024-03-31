@@ -1,35 +1,44 @@
 #include "../includes/Superblock.hpp"
 
 //Loads Superblock's fields into second 1024 bytes
-int Superblock::load_into_memory(fstream& address_space) {
+void Superblock::load_into_memory(fstream& address_space) {
 
-    try {
-        address_space.seekg(1024);
-        address_space << sizeof_fs;
-        address_space << max_sizeof_file;
-        address_space << sizeof_ilist_bytes;
-        address_space << number_blocks;
-        address_space << number_free_blocks;
-        address_space << number_available_inodes;
-        address_space << sizeof_block;
-        address_space << free_blocks.to_string();
-        address_space << endl;
-        address_space.seekg(0);
-    } catch (const ifstream::failure& e) {
-        cout << "File is not open to load Superblock!"; 
-        return 1;
+    if (!address_space.is_open()) {
+        throw new SuperblockException("Superblock: It's impossible to load, because file is closed");
     }
 
-    return 0;
+    address_space.seekg(1024);
+    address_space << sizeof_fs;
+    address_space << max_sizeof_file;
+    address_space << sizeof_ilist_bytes;
+    address_space << number_blocks;
+    address_space << number_free_blocks;
+    address_space << number_available_inodes;
+    address_space << sizeof_block;
+    address_space << free_blocks.to_string();
+    address_space << endl;
+    address_space.seekg(0);
 }
 
 // Updates fields after creating new Inode
 void Superblock::update_fields_after_inode_addition(Inode inode) {
+    if (!Superblock::check_free_blocks()) {
+        throw new SuperblockException("Superblock: no free inodes left! Addition of inode was failed.");
+    }
+
+    if (!Superblock::check_free_blocks()){
+        throw new SuperblockException("Superblock: no free blocks left! Addition of Inode was failed.");
+    }
+
     number_available_inodes--;
     number_free_blocks -= inode.get_blocks_amount();
 
     for (int block_address : inode.get_storage_blocks()) {
         int block_ind = (block_address - 2048 - free_blocks.size() - sizeof_ilist_bytes - size_of_rootdir) / sizeof_block;
+        if (free_blocks.test(block_ind)) {
+
+            throw new SuperblockException("Superblock: block with index " + std::to_string(block_ind) + " and actual address " + std::to_string(block_address) + " is already busy! Adding an Inode was failed!");
+        }
         free_blocks.set(1);
     }
 
@@ -49,10 +58,8 @@ void Superblock::update_fields_after_inode_deletion(Inode inode) {
 
 //Returns address of ONE free block
 int Superblock::get_free_block() {
-    // TODO: USE EXISTED CHECK
-    if (free_blocks.count() == free_blocks.size()) {
-        cout << "Out of memory! No free blocks left!";  // TODO: throw exception
-        return 2; 
+    if (!check_free_blocks()) {
+        throw new SuperblockException("Superblock: no free blocks left!");
     }
 
     int block_ind = 0;
@@ -61,7 +68,14 @@ int Superblock::get_free_block() {
             block_ind = i;
         }
     }
-    return 2048 + free_blocks.size() + sizeof_ilist_bytes + size_of_rootdir + block_ind * sizeof_block;
+
+    int block_address = 2048 + free_blocks.size() + sizeof_ilist_bytes + size_of_rootdir + block_ind * sizeof_block;
+
+    if (block_address + sizeof_block >= sizeof_fs) {
+        throw new SuperblockException("Superblock: CORE DUMPED! Block is beyond file system boundaries!");
+    }
+
+    return block_address; 
 }
 
 int Superblock::get_max_sizeof_file() {

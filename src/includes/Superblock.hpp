@@ -3,8 +3,8 @@
 #include <iostream>
 #include <fstream>
 #include <bitset>
-
 #include "../includes/Inode.hpp"
+#include "../exceptions/SuperblockException.hpp"
 
 using namespace std;
 
@@ -28,7 +28,7 @@ private:
 public:
 
     //Loads Superblock's fields into second 1024 bytes
-    int load_into_memory(fstream& address_space);
+    void load_into_memory(fstream& address_space);
     void update_fields_after_inode_addition(Inode inode);
     void update_fields_after_inode_deletion(Inode inode);
     //Returns address of ONE free block
