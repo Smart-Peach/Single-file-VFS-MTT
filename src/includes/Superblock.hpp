@@ -1,8 +1,8 @@
+#pragma once
+
 #include <iostream>
 #include <fstream>
 #include <bitset>
-#include <cstdio>
-#include <string>
 
 #include "../includes/Inode.hpp"
 

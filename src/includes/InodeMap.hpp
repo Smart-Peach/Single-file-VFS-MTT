@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <optional>
 #include <unordered_map>
 #include "Inode.hpp"
 

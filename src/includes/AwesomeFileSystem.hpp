@@ -1,12 +1,17 @@
+#pragma once
+
 #include "FileSystem.hpp"
 
-class AwesomeFileSystem: public FileSystem{
+class AwesomeFileSystem: protected FileSystem{
 public:
-    ~FileSystem();
+    AwesomeFileSystem(Superblock superblock, bitset_t free_blocks, InodeMap inode_map, str_t fs_name):
+                FileSystem(superblock, free_blocks, inode_map, fs_name) { }
+    AwesomeFileSystem(const AwesomeFileSystem& other) = delete;
+    ~AwesomeFileSystem() = default;
+
     void write_to_file(string, string);
     void open_file(string);
     void read_file(string);
+    void close_file(string);
     void upload_to_file(string);
-    // TODO: should it take name of the file to open or (mb) already opened file?
-    FileSystem(Superblock, bitset_t, InodeMap, str_t);
-}
+};
