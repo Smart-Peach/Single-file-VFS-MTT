@@ -3,7 +3,7 @@
 #include <bitset>
 #include <fstream>
 #include "InodeMap.hpp"
-#include "../structures/Superblock.cpp"
+#include "Superblock.hpp"
 
 // TODO: replace with real num of blocks
 static const size_t BLOCKS_AMOUNT = 10000;      
