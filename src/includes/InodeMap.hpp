@@ -4,6 +4,8 @@
 #include <optional>
 #include <unordered_map>
 #include "Inode.hpp"
+#include "../exceptions/InodeMapException.hpp"
+
 
 // Key   - magic_number (name hash)
 // Value - instance of Inode
@@ -20,7 +22,7 @@ public:
     std::optional<Inode> get_inode(str_t src_name);
     void  add_inode(str_t src_name);
     void  delete_inode(str_t src_name);
-    void  update_inode(str_t src_name);
+    void  update_inode(Inode updated_inode);
     bool  is_file_in_directory(str_t src_name);
     
 private:
