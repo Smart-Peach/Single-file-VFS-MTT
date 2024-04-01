@@ -3,16 +3,13 @@
 class CreateFile: public Command {
 
 public:
-    CreateFile(str_t src_name): Command(src_name) { }
+    CreateFile() { };
     CreateFile(const CreateFile& other) = default;
-    CreateFile& operator=(CreateFile other){
-        std::swap(src_name, other.src_name);
-        return *this;
-    }
+    CreateFile& operator=(const CreateFile& other) = default;
     ~CreateFile() = default;
 
-    void apply() override {
-        std::cout << "file " << src_name << " created" << std::endl;
+    void apply(Context* context) override {
+        std::cout << "file " << context->src_name << " created" << std::endl;
         return;
     }
 };

@@ -3,16 +3,13 @@
 class DeleteDir: public Command {
 
 public:
-    DeleteDir(str_t src_name): Command(src_name) { }
+    DeleteDir() { };
     DeleteDir(const DeleteDir& other) = default;
-    DeleteDir& operator=(DeleteDir other){
-        std::swap(src_name, other.src_name);
-        return *this;
-    }
+    DeleteDir& operator=(const DeleteDir& other) = default;
     ~DeleteDir() = default;
 
-    void apply() override {
-        std::cout << "directory " << src_name << " deleted" << std::endl;
+    void apply(Context* context) override {
+        std::cout << "file " << context->src_name << " closed" << std::endl;
         return;
     }
 };

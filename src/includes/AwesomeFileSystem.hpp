@@ -9,9 +9,9 @@ public:
     AwesomeFileSystem(const AwesomeFileSystem& other) = delete;
     ~AwesomeFileSystem() { fs_file.close(); };
 
-    void write_to_file(string src_name, string data) override;
-    void open_file(string src_name) override;
-    void read_file(string src_name) override;
-    void close_file(string src_name) override;
-    void upload_to_file(string src_name) override;
+    void write_to_file(string src_name, string data) override { };
+    void open_file(string src_name) override { };
+    void read_file(string src_name) override { };
+    void close_file(string src_name) override { };
+    void upload_to_file(string src_name) override { };
 };

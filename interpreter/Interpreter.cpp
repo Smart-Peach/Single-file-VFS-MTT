@@ -4,7 +4,7 @@
 bool Interpreter::interpret(std::string input_line){
     
     if (this->exit_flag) return false;
-    Parser parser = Parser(input_line);
+    Parser parser = Parser(context, input_line);
 
     while (true){
         Command* next_cmd = parser.next_command();
@@ -13,7 +13,7 @@ bool Interpreter::interpret(std::string input_line){
             this->exit_flag = parser.get_exit_flag();
             break;
         }
-        next_cmd->apply();
+        next_cmd->apply(context);
         delete next_cmd;
     }
 

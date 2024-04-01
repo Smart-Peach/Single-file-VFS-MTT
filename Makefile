@@ -16,7 +16,7 @@ endif
 all: interpreter clean 
 
 interpreter:
-	$(CXX) -c interpreter/Parser.cpp src/vfs_mtt_main.cpp interpreter/Interpreter.cpp $(SAN) $(STD)
+	$(CXX) -c interpreter/Parser.cpp  interpreter/Interpreter.cpp src/vfs_mtt_main.cpp $(SAN) $(STD)
 	$(CXX) vfs_mtt_main.o Parser.o Interpreter.o -o main.out $(SAN) $(STD)
 	rm *.o
 	./main.out

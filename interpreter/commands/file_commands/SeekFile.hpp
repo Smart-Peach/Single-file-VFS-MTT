@@ -3,16 +3,13 @@
 class SeekFile: public Command {
 
 public:
-    SeekFile(str_t src_name): Command(src_name) { }
+    SeekFile() { };
     SeekFile(const SeekFile& other) = default;
-    SeekFile& operator=(SeekFile other){
-        std::swap(src_name, other.src_name);
-        return *this;
-    }
+    SeekFile& operator=(const SeekFile& other) = default;
     ~SeekFile() = default;
-    
-    void apply() override {
-        std::cout << "file " << src_name << " sought" << std::endl;
+
+    void apply(Context* context) override {
+        std::cout << "file " << context->src_name << " seeked" << std::endl;
         return;
     }
 };

@@ -3,16 +3,13 @@
 class EditFile: public Command {
 
 public:
-    EditFile(str_t src_name): Command(src_name) { }
+    EditFile() { };
     EditFile(const EditFile& other) = default;
-    EditFile& operator=(EditFile other){
-        std::swap(src_name, other.src_name);
-        return *this;
-    }
+    EditFile& operator=(const EditFile& other) = default;
     ~EditFile() = default;
 
-    void apply() override {
-        std::cout << "file " << src_name << " edited" << std::endl;
+    void apply(Context* context) override {
+        std::cout << "file " << context->src_name << " edited" << std::endl;
         return;
     }
 };

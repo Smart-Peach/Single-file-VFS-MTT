@@ -3,16 +3,13 @@
 class OpenDir: public Command {
 
 public:
-    OpenDir(str_t src_name): Command(src_name) { }
+    OpenDir() { };
     OpenDir(const OpenDir& other) = default;
-    OpenDir& operator=(OpenDir other){
-        std::swap(src_name, other.src_name);
-        return *this;
-    }
+    OpenDir& operator=(const OpenDir& other) = default;
     ~OpenDir() = default;
 
-    void apply() override {
-        std::cout << "directory " << src_name << " opened" << std::endl;
+    void apply(Context* context) override {
+        std::cout << "file " << context->src_name << " closed" << std::endl;
         return;
     }
 };

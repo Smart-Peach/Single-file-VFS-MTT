@@ -1,15 +1,16 @@
 #pragma once
+
 #include <iostream>
+
+#include "../includes/Context.hpp"
 
 typedef std::string str_t;
 
+
 class Command {
 public:
-    Command() { }
-    Command(str_t src_name): src_name(src_name) { }
-    virtual ~Command() { }
+    virtual ~Command() { };
     virtual void apply() { }
+    virtual void apply(Context* context) = 0;
     
-protected:
-    str_t src_name;
 };

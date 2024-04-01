@@ -46,10 +46,11 @@ Command* Parser::parse(str_t token) {
         return nullptr;
     }
     if (!get_constructor(token)) {
-        throw new InterpreterException("Unknown command '" + token + "'");
+        throw InterpreterException("Unknown command '" + token + "'");
     } else if (is_next_file()){
-        return get_constructor(token)(args.at(++args_pos));
+        context->src_name = args.at(++args_pos);
+        return get_constructor(token)();
     } else {
-        throw new InterpreterException("No src input for command '" + token + "'");
+        throw InterpreterException("No src input for command '" + token + "'");
     }
 }

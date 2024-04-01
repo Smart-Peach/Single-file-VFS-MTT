@@ -3,16 +3,13 @@
 class MoveFile: public Command {
 
 public:
-    MoveFile(str_t src_name): Command(src_name) { }
+    MoveFile() { };
     MoveFile(const MoveFile& other) = default;
-    MoveFile& operator=(MoveFile other){
-        std::swap(src_name, other.src_name);
-        return *this;
-    }
+    MoveFile& operator=(const MoveFile& other) = default;
     ~MoveFile() = default;
 
-    void apply() override {
-        std::cout << "file " << src_name << " moved" << std::endl;
+    void apply(Context* context) override {
+        std::cout << "file " << context->src_name << " moved" << std::endl;
         return;
     }
 };

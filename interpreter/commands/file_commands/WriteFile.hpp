@@ -3,16 +3,13 @@
 class WriteFile: public Command {
 
 public:
-    WriteFile(str_t src_name): Command(src_name) { }
+    WriteFile() { };
     WriteFile(const WriteFile& other) = default;
-    WriteFile& operator=(WriteFile other){
-        std::swap(src_name, other.src_name);
-        return *this;
-    }
+    WriteFile& operator=(const WriteFile& other) = default;
     ~WriteFile() = default;
 
-    void apply() override {
-        std::cout << "file " << src_name << " written" << std::endl;
+    void apply(Context* context) override {
+        std::cout << "file " << context->src_name << " written" << std::endl;
         return;
     }
 };

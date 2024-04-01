@@ -29,7 +29,7 @@ public:
         
     }
     FileSystem(const FileSystem& other) = delete;
-    virtual ~FileSystem() = 0;
+    virtual ~FileSystem() { };
 
     virtual void write_to_file(string src_name, string data) = 0;
     virtual void open_file(string src_name) = 0;

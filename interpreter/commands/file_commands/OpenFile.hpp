@@ -3,16 +3,13 @@
 class OpenFile: public Command {
 
 public:
-    OpenFile(str_t src_name): Command(src_name) { }
+    OpenFile() { };
     OpenFile(const OpenFile& other) = default;
-    OpenFile& operator=(OpenFile other){
-        std::swap(src_name, other.src_name);
-        return *this;
-    }
+    OpenFile& operator=(const OpenFile& other) = default;
     ~OpenFile() = default;
 
-    void apply() override {
-        std::cout << "file " << src_name << " opened" << std::endl;
+    void apply(Context* context) override {
+        std::cout << "file " << context->src_name << " opened" << std::endl;
         return;
     }
 };

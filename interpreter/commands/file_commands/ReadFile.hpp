@@ -3,16 +3,13 @@
 class ReadFile: public Command {
 
 public:
-    ReadFile(str_t src_name): Command(src_name) { }
+    ReadFile() { };
     ReadFile(const ReadFile& other) = default;
-    ReadFile& operator=(ReadFile other){
-        std::swap(src_name, other.src_name);
-        return *this;
-    }
+    ReadFile& operator=(const ReadFile& other) = default;
     ~ReadFile() = default;
 
-    void apply() override {
-        std::cout << "file " << src_name << " read" << std::endl;
+    void apply(Context* context) override {
+        std::cout << "file " << context->src_name << " read" << std::endl;
         return;
     }
 };

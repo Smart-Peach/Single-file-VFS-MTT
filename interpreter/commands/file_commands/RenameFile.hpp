@@ -3,16 +3,13 @@
 class RenameFile: public Command {
 
 public:
-    RenameFile(str_t src_name): Command(src_name) { }
+    RenameFile() { };
     RenameFile(const RenameFile& other) = default;
-    RenameFile& operator=(RenameFile other){
-        std::swap(src_name, other.src_name);
-        return *this;
-    }
+    RenameFile& operator=(const RenameFile& other) = default;
     ~RenameFile() = default;
 
-    void apply() override {
-        std::cout << "file " << src_name << " renamed" << std::endl;
+    void apply(Context* context) override {
+        std::cout << "file " << context->src_name << " renamed" << std::endl;
         return;
     }
 };

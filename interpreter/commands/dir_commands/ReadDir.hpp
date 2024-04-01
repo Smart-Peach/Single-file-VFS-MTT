@@ -3,16 +3,13 @@
 class ReadDir: public Command {
 
 public:
-    ReadDir(str_t src_name): Command(src_name) { }
+    ReadDir() { };
     ReadDir(const ReadDir& other) = default;
-    ReadDir& operator=(ReadDir other){
-        std::swap(src_name, other.src_name);
-        return *this;
-    }
+    ReadDir& operator=(const ReadDir& other) = default;
     ~ReadDir() = default;
 
-    void apply() override {
-        std::cout << "directory " << src_name << " read" << std::endl;
+    void apply(Context* context) override {
+        std::cout << "file " << context->src_name << " closed" << std::endl;
         return;
     }
 };

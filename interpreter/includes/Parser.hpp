@@ -3,7 +3,7 @@
 #include <sstream>
 #include <string> 
 
-typedef std::function<Command*(std::string)> cmd_cstr_t;
+typedef std::function<Command*(void)> cmd_cstr_t;
 typedef std::vector<std::string> str_vector_t;
 typedef std::string str_t;
 
@@ -11,9 +11,10 @@ typedef std::string str_t;
 class Parser {
 
 public:
-    Parser(str_t input_line):
-                args_pos(-1),
-                exit_flag(false)
+    Parser(Context* context, str_t input_line):
+                            context(context),
+                            args_pos(-1),
+                            exit_flag(false)
     {
         std::istringstream iss(input_line);
         std::string token;
@@ -27,26 +28,27 @@ public:
 
 
 private:
+    Context* context;
     bool exit_flag;
     size_t args_pos;
     str_vector_t args;
 
     std::map<const str_t, cmd_cstr_t> funcs = {
-    {"create", [](str_t file_name) { return new CreateFile(file_name);}},
-    {"delete", [](str_t file_name) { return new DeleteFile(file_name);}},
-    {"edit", [](str_t file_name) { return new EditFile(file_name);}},
-    {"move", [](str_t file_name) { return new MoveFile(file_name);}},
-    {"read", [](str_t file_name) { return new ReadFile(file_name);}},
-    {"rename", [](str_t file_name) { return new RenameFile(file_name);}},
-    {"seek", [](str_t file_name) { return new SeekFile(file_name);}},
-    {"write", [](str_t file_name) { return new WriteFile(file_name);}},
+    {"create", []() { return new CreateFile();}},
+    {"delete", []() { return new DeleteFile();}},
+    {"edit", []() { return new EditFile();}},
+    {"move", []() { return new MoveFile();}},
+    {"read", []() { return new ReadFile();}},
+    {"rename", []() { return new RenameFile();}},
+    {"seek", []() { return new SeekFile();}},
+    {"write", []() { return new WriteFile();}},
 
-    {"crtdir", [](str_t dir_name) { return new CreateDir(dir_name);}},
-    {"deldir", [](str_t dir_name) { return new DeleteDir(dir_name);}},
-    {"rdir", [](str_t dir_name) { return new ReadDir(dir_name);}},
-    {"rndir", [](str_t dir_name) { return new RenameDir(dir_name);}},
-    {"ldir", [](str_t dir_name) { return new LinkDir(dir_name);}},
-    {"uldir", [](str_t dir_name) { return new UnlinkDir(dir_name);}}};
+    {"crtdir", []() { return new CreateDir();}},
+    {"deldir", []() { return new DeleteDir();}},
+    {"rdir", []() { return new ReadDir();}},
+    {"rndir", []() { return new RenameDir();}},
+    {"ldir", []() { return new LinkDir();}},
+    {"uldir", []() { return new UnlinkDir();}}};
 
     Command* parse(str_t token);
     bool is_next_file();
