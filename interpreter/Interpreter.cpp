@@ -1,7 +1,7 @@
 #include "includes/Interpreter.hpp"
 #include "includes/Parser.hpp"
 
-bool Interpreter::interpret(std::string input_line, FileSystem* fs){
+bool Interpreter::interpret(std::string input_line){
     
     if (this->exit_flag) return false;
     Parser parser = Parser(input_line);
