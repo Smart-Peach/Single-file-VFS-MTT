@@ -21,6 +21,7 @@ void Superblock::load_into_memory(fstream& address_space) {
     address_space << number_available_inodes;
     address_space << sizeof_block;
     address_space << size_of_rootdir;
+    address_space.seekg(2048);
     address_space << free_blocks.to_string();
     address_space.seekg(0);
 }
@@ -41,6 +42,7 @@ void Superblock::load_from_memory(fstream& address_space) {
     address_space.read((char*)(&number_available_inodes), sizeof(number_available_inodes));
     address_space.read((char*)(&sizeof_block), sizeof(sizeof_block));
     address_space.read((char*)(&size_of_rootdir), sizeof(size_of_rootdir));
+    address_space.seekg(2048);
     address_space.read((char*)(&free_blocks), sizeof(free_blocks));
     address_space.seekg(0);
 }
@@ -93,7 +95,7 @@ int Superblock::get_free_block() {
         }
     }
 
-    int block_address = 2048 + free_blocks.size() + sizeof_ilist_bytes + size_of_rootdir + block_ind * sizeof_block;
+    int block_address = 1024 + 1024 + free_blocks.size() + sizeof_ilist_bytes + size_of_rootdir + block_ind * sizeof_block;
 
     if (block_address + sizeof_block >= sizeof_fs) {
         throw SuperblockException("Superblock: CORE DUMPED! Block is beyond file system boundaries!");
