@@ -1,4 +1,4 @@
-.PHONY: clean, interpretor
+.PHONY: clean, interpreter
 
 CXX = clang++
 STD = -std=c++20
@@ -13,29 +13,29 @@ ifeq (test,$(firstword $(MAKECMDGOALS)))
   $(eval $(TEST_COMMANDS):;@:)
 endif
 
-all: interpretor clean 
+all: interpreter clean 
 
-interpretor:
-	$(CXX) -c interpretor/Parser.cpp src/vfs_mtt_main.cpp interpretor/Interpretor.cpp $(SAN) $(STD)
-	$(CXX) vfs_mtt_main.o Parser.o Interpretor.o -o main.out $(SAN) $(STD)
+interpreter:
+	$(CXX) -c interpreter/Parser.cpp src/vfs_mtt_main.cpp interpreter/Interpreter.cpp $(SAN) $(STD)
+	$(CXX) vfs_mtt_main.o Parser.o Interpreter.o -o main.out $(SAN) $(STD)
 	rm *.o
 	./main.out
 
 test: 
-	$(CXX) -c interpretor/Parser.cpp src/vfs_mtt_main.cpp interpretor/Interpretor.cpp $(STD)
-	$(CXX) vfs_mtt_main.o Parser.o Interpretor.o -o main.out $(STD)
+	$(CXX) -c interpreter/Parser.cpp src/vfs_mtt_main.cpp interpreter/Interpreter.cpp $(STD)
+	$(CXX) vfs_mtt_main.o Parser.o Interpreter.o -o main.out $(STD)
 	rm *.o
 	./main.out $(TEST_COMMANDS)
 
-run-interpretor-gtest: 
-	$(CXX) -c interpretor/Parser.cpp tests/interpretor_gtest.cpp interpretor/Interpretor.cpp $(SAN) $(STD)
-	$(CXX) interpretor_gtest.o Parser.o Interpretor.o -o tests/test.out $(TEST_FLAGS) $(SAN) $(STD)
+run-interpreter-gtest: 
+	$(CXX) -c interpreter/Parser.cpp tests/interpreter_gtest.cpp interpreter/Interpreter.cpp $(SAN) $(STD)
+	$(CXX) interpreter_gtest.o Parser.o Interpreter.o -o tests/test.out $(TEST_FLAGS) $(SAN) $(STD)
 	rm *.o
 	./tests/test.out
 
-run-interpretor-test: 
-	$(CXX) -c interpretor/Parser.cpp tests/interpretor_test.cpp interpretor/Interpretor.cpp $(STD)
-	$(CXX) interpretor_test.o Parser.o Interpretor.o -o tests/test.out $(STD)
+run-interpreter-test: 
+	$(CXX) -c interpreter/Parser.cpp tests/interpreter_test.cpp interpreter/Interpreter.cpp $(STD)
+	$(CXX) interpreter_test.o Parser.o Interpreter.o -o tests/test.out $(STD)
 	rm *.o
 	clear
 	./tests/test.out

@@ -1,6 +1,6 @@
 
 #include <vector>
-#include "../interpretor/Interpretor.hpp"
+#include "../iinterpreter/Interpreter.hpp"
 
 typedef std::vector<std::string> str_args_t;
 
@@ -8,8 +8,8 @@ void CommandTest(size_t test_number, str_args_t all_args, std::string excpected)
     std::cout << "--------------------- Running " << test_number << " test ---------------------" << std::endl;
     std::cout << "Excpected: \n" << excpected << std::endl;
     std::cout << "Actual:" << std::endl;
-    Interpretor* interpretor = new Interpretor(all_args);
-    interpretor->interpret();
+    Interpreter* iinterpreter = new Interpreter(all_args);
+    iinterpreter->interpret();
 }
 
 

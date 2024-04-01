@@ -1,6 +1,6 @@
 # First Part:
    
-## 1. Interpretor:
+## 1. Interpreter:
 
 Some basic commands to implement: 
 </br>

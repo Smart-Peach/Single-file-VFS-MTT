@@ -1,35 +1,33 @@
 #pragma once 
 #include "includes.hpp"
+#include <sstream>
+#include <string> 
 
 typedef std::function<Command*(std::string)> cmd_cstr_t;
 typedef std::vector<std::string> str_vector_t;
 typedef std::string str_t;
 
+
 class Parser {
 
 public:
-    // move and copy assignment operators/constructors (aka rule of 5)
-    Parser(str_vector_t args):
-                args(args),
+    Parser(str_t input_line):
                 args_pos(-1),
-                finished(false) {};
-
+                exit_flag(false)
+    {
+        std::istringstream iss(input_line);
+        std::string token;
+        while(iss >> token) { args.push_back(token); }
+    };
     Parser(const Parser& other) = default;
-    Parser(Parser&& other) = default;
-    Parser& operator=(Parser other){
-        std::swap(args, other.args);
-        std::swap(args_pos, other.args_pos);
-        std::swap(finished, other.finished);
-        return *this;
-    } 
     ~Parser() = default;
 
     Command* next_command();
-    bool is_finished();
+    bool get_exit_flag();
 
 
 private:
-    bool finished;
+    bool exit_flag;
     size_t args_pos;
     str_vector_t args;
 

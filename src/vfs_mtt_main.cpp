@@ -1,20 +1,19 @@
-#include <iostream>
-#include <vector>
-#include "../interpretor/Interpretor.hpp"
+#include <sstream>
+#include <string> 
+#include <iostream>  
+#include "../interpreter/includes/Interpreter.hpp"
+#include "exceptions/InterpreterException.hpp"
 
 int  main(int argc, char* argv[]){
-    // test with args
-
-    std::string current_exec_name = argv[0];
-    std::vector<std::string> all_args;
-
-    if (argc > 1) {
-        all_args.assign(argv + 1, argv + argc);
-        Interpretor* interpretor = new Interpretor(all_args);
-        interpretor->interpret();
-        delete interpretor;
-
-    } else std::cout << "No input arguments" << std::endl;
-
-
+    
+    Interpreter interpreter = Interpreter();
+    std::string input_line;
+    while (std::getline(std::cin, input_line)) {
+        try {
+            if (!interpreter.interpret(input_line)) break;
+        } catch (const InterpreterException& e) {
+            std::cerr << e.what() << std::endl;
+        }   
+    }
+    return 0;
 }
