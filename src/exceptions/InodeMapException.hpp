@@ -6,5 +6,5 @@ class InodeMapException: public std::exception {
 
 public:
     InodeMapException(const std::string& message): message(message) { }
-    const char* what() const noexcept override { return ("InodeMap ERROR: " + message).c_str();}
+    const char* what() const noexcept override { return message.c_str();}
 };

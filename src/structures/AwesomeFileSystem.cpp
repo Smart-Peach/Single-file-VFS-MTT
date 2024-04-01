@@ -9,7 +9,6 @@
 //     - Add Inode to Superblock (update fields in Superblock --> it will be in Superblock.cpp)
 //     (I guess we don't need to open bin file here, because in description of "AddInode" in InodeMap it should write to bin file)
 
-*/
 
 // void AwesomeFileSystem::load_superblock_into_memory() {
 //     if (!fs_file.is_open()) {
