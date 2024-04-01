@@ -10,7 +10,6 @@ Command* Parser::next_command() {
     if (args_pos == args.size() - 1) {
         return nullptr;
     }
-    std::cout << args[args_pos + 1]<< std::endl;
     return parse(args[++args_pos]);
 }
 

@@ -5,11 +5,12 @@
 #include <unordered_map>
 #include "Inode.hpp"
 
-
+// Key   - magic_number (name hash)
+// Value - instance of Inode
 typedef std::unordered_map<size_t, Inode> inode_hashmap_t;
 
 
-/**
+/*
 * Class for containing file inode instances.
 * Implemented via unordered_map (aka hash map).
 */

@@ -1,5 +1,10 @@
 #include "../includes/Superblock.hpp"
 
+
+int Superblock::get_number_of_blocks() {
+    return number_blocks;
+}
+
 //Loads Superblock's fields into second 1024 bytes
 void Superblock::load_into_memory(fstream& address_space) {
 
@@ -15,8 +20,27 @@ void Superblock::load_into_memory(fstream& address_space) {
     address_space << number_free_blocks;
     address_space << number_available_inodes;
     address_space << sizeof_block;
+    address_space << size_of_rootdir;
     address_space << free_blocks.to_string();
-    address_space << endl;
+    address_space.seekg(0);
+}
+
+
+void Superblock::load_from_memory(fstream& address_space) {
+
+    if (!address_space.is_open()) {
+        throw new SuperblockException("Superblock: It's impossible to load, because file is closed");
+    }
+    address_space.seekg(1024);
+    address_space.read((char*)(&sizeof_fs), sizeof(sizeof_fs));
+    address_space.read((char*)(&max_sizeof_file), sizeof(max_sizeof_file));
+    address_space.read((char*)(&sizeof_ilist_bytes), sizeof(sizeof_ilist_bytes));
+    address_space.read((char*)(&number_blocks), sizeof(number_blocks));
+    address_space.read((char*)(&number_free_blocks), sizeof(number_free_blocks));
+    address_space.read((char*)(&number_available_inodes), sizeof(number_available_inodes));
+    address_space.read((char*)(&sizeof_block), sizeof(sizeof_block));
+    address_space.read((char*)(&size_of_rootdir), sizeof(size_of_rootdir));
+    address_space.read((char*)(&free_blocks), sizeof(free_blocks));
     address_space.seekg(0);
 }
 

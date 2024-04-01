@@ -8,7 +8,7 @@ using namespace std;
 
 int main() {
     std::fstream file;
-    file.open("test.bin", std::ios_base::out | std::ios_base::binary);
+    file.open("tests/test.bin", std::ios_base::out | std::ios_base::binary);
     if(!file.is_open())
     {
         std::cout<<"Unable to open the file\n";
@@ -16,6 +16,8 @@ int main() {
     }
     Superblock superblock;
     superblock.load_into_memory(file);
+    superblock.load_from_memory(file);
+    superblock.print();
 
 
     // file << "3333345";

@@ -46,9 +46,9 @@ public:
             };
 
 
-    const std::vector<size_t>& get_storage_blocks();   // Maybe another type
-    void print();                                   // Print all fields of inode 
-    int get_sizeof_file();                          // hz whether we need this:
+    const std::vector<size_t>& get_storage_blocks();   
+    void print_fields();                                      
+    int get_sizeof_file();                             
     int get_magic_number();
     int get_blocks_amount();
     

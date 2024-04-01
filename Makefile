@@ -45,5 +45,10 @@ test-binary:
 	./test_bin.out
 	rm *.out
 
+test-superblock:
+	$(CXX) tests/test_superblock_func.cpp src/structures/Inode.cpp src/structures/Superblock.cpp  -o test_bin.out
+	./test_bin.out
+	rm *.out
+
 clean: 
 	rm *.out 

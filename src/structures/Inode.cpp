@@ -8,7 +8,7 @@ const std::vector<size_t>& Inode::get_storage_blocks() {
 }
 
 // Print all fields of inode 
-void Inode::print() { 
+void Inode::print_fields() { 
     std::cout << "Magic number of inode = " << magic_number << std::endl;
     std::cout << "optional_bit1 = " << optional_bit1 << std::endl;
     std::cout << "optional_bit2 = " << optional_bit2 << std::endl;
@@ -23,12 +23,16 @@ void Inode::print() {
     for(int i = 0; i < blocks_amount; i++) std::cout << storage_blocks[i] << " ";
 }
 
-// hz whether we need this:
+
 int Inode::get_sizeof_file() {
     return sizeof_file;
 }
 
 int Inode::get_magic_number() {
     return magic_number;
+}
+
+int Inode::get_blocks_amount() {
+    return blocks_amount;
 }
 
