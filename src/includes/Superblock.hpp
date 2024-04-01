@@ -17,12 +17,12 @@ private:
     const int             sizeof_fs               = 1073741824; // Sizeof file system in bytes, 1 Gb
     const int             max_sizeof_file         = 104857600;  // Maximum available file size, 1 Mb
     int                   sizeof_ilist_bytes      = 214726656;  // Sizeof ilist in bytes (in memory) 
-    const int             number_blocks           = 838776;     // Number of all blocks (occupied and free)
-    int                   number_free_blocks      = 838776;     // Number of blocks available for data storage
-    int                   number_available_inodes = 838776;     // Number of inodes available for storage
+    static const int      number_blocks           = 800000;     // Number of all blocks (occupied and free)
+    int                   number_free_blocks      = 800000;     // Number of blocks available for data storage
+    int                   number_available_inodes = 800000;     // Number of inodes available for storage
     const int             sizeof_block            = 1024;       // Sizeof one block
     const int             size_of_rootdir         = 512;        // Size of root directory
-    bitset<838776>        free_blocks;                          // May be faster in case array of bool --> in beginning 838776 0's 
+    bitset<number_blocks> free_blocks;                          // May be faster in case array of bool --> in beginning 838776 0's 
 
 
 public:
@@ -39,6 +39,12 @@ public:
     int get_free_block();
     int get_max_sizeof_file();
     int get_sizeof_block();
+    int get_sizeof_fs();
+    int get_sizeof_ilist_bytes();
+    int get_number_of_freeblocks();
+    int get_number_available_inodes();
+    int get_sizeof_rootdir();
+    bitset<Superblock::number_blocks> get_free_blocks();
     void print();
     bool check_free_blocks();
     bool check_free_inodes();
