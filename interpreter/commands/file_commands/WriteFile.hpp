@@ -15,4 +15,10 @@ public:
         std::cout << "file " << src_name << " written" << std::endl;
         return;
     }
+
+    void apply(FileSystem* fs) override {
+        fs->write_to_file(src_name, "Hello world");
+        return;
+    }
+
 };
