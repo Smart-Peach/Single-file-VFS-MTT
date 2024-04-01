@@ -1,6 +1,6 @@
 # Milestones
 1. 04.03 - 01.04
-   1. Interpretor (1p) 04.03-10.03 {1w}
+   1. Interpreter (1p) 04.03-10.03 {1w}
    2. FS Registration (3p) 11-17 {1w}
    - Descriptors and structures (3p) 18-26 {1.5w}
    - Merge, debug and log {4d}
