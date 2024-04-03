@@ -81,3 +81,36 @@ Some basic commands to implement:
           - think about hash-function
           - key - hash, value - i-node
           - In case of fs crash it loads into memory
+
+# Part 2
+## File System Basic Commands:
+
+### TODO: interpretor and context, friend commands for FileSystem (Superblock)
+
+  1. Create file:
+     * create inode
+     * add too InodeMap 
+     * update Superblock
+  2. Delete file:
+     * check if file exists
+     * delete inode in InodeMap
+     * update inode in Syperblock
+     * resolve problem with garbage in blocks
+  3. Open file:
+     * get addresses of blocks
+  4. Close file:
+     * load data into bin file
+  5. Read file:
+     * open file
+     * read file content from binary file  #TODO: read_from_memory(block), read_from_memory(block[])
+     * print file content to console
+  7. Write to file:
+     * inode = InodeMap.get_inode()
+     * get last block and size of file (to define the end of file) #TODO: get_end_of_file()
+     * check size of data to write (count amount of extra blocks)
+     * get addresses of free blocks from Superblock
+     * update inode in Superblock and InodeMap
+     * load input data to bin file (close)
+  8. Edit file:
+     * get position to write data into file
+     * write(pos, data)
