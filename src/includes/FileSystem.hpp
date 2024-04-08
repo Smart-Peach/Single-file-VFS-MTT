@@ -15,7 +15,6 @@ class FileSystem {
 
 protected:
     Superblock          superblock;     // file system metadata
-    // bitset_t            free_blocks;    // TODO: naming - not only free blocks
     InodeMap            inode_map;      // contains all inodes
     std::fstream        fs_file;        // opened file
 
@@ -33,7 +32,7 @@ public:
 
     virtual void load_all_into_memory() = 0;
     virtual void load_superblock_into_memory() = 0;
-    
+
     virtual void write_to_file(string src_name, string data) = 0;
     virtual void open_file(string src_name) = 0;
     virtual void read_file(string src_name) = 0;
