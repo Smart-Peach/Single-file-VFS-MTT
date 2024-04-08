@@ -114,3 +114,4 @@ Some basic commands to implement:
   8. Edit file:
      * get position to write data into file
      * write(pos, data)
+  9. Update interpretor

@@ -37,7 +37,6 @@ void Superblock::load_from_memory(fstream& address_space) {
     address_space.read((char*)(&sizeof_fs), sizeof(sizeof_fs));
     address_space.read((char*)(&max_sizeof_file), sizeof(max_sizeof_file));
     address_space.read((char*)(&sizeof_ilist_bytes), sizeof(sizeof_ilist_bytes));
-    address_space.read((char*)(&number_blocks), sizeof(number_blocks));
     address_space.read((char*)(&number_free_blocks), sizeof(number_free_blocks));
     address_space.read((char*)(&number_available_inodes), sizeof(number_available_inodes));
     address_space.read((char*)(&sizeof_block), sizeof(sizeof_block));
