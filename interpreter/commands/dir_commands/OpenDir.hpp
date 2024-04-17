@@ -1,15 +1,16 @@
+
 #include "../Command.hpp"
+#include "../../includes/context/Context.hpp"
 
 class OpenDir: public Command {
-
 public:
-    OpenDir() { };
+    OpenDir(Context* ctx): Command(ctx) { }
     OpenDir(const OpenDir& other) = default;
     OpenDir& operator=(const OpenDir& other) = default;
     ~OpenDir() = default;
 
-    void apply(Context* context) override {
-        std::cout << "file " << context->src_name << " closed" << std::endl;
+    void apply() override {
+        std::cout << "OpenDir command applied to \"" << context->get_basic_src_name() << "\"" << std::endl;
         return;
     }
 };

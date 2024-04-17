@@ -2,15 +2,19 @@
 
 #include <iostream>
 
-#include "../includes/Context.hpp"
+#include "../includes/context/Context.hpp"
 
 typedef std::string str_t;
 
+// class Context;
 
 class Command {
+protected:
+    Context* context;
+
 public:
+    Command(Context* ctx): context(ctx) { }
     virtual ~Command() { };
-    virtual void apply() { }
-    virtual void apply(Context* context) = 0;
+    virtual void apply() = 0;
     
 };
