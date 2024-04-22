@@ -1,8 +1,7 @@
 #include "../includes/AwesomeFileSystem.hpp"
 #include "../exceptions/IOException.hpp"
 
-/* TODO: EXTENDS FileSystem.cpp 
-
+/* TODO: EXTENDS FileSystem.cpp
 Create file:
     - Create Inode
     - Add Inode to i-list

@@ -2,9 +2,10 @@
 
 #include <iostream>
 #include <vector>
+#include <ctime>
 
 typedef std::string str_t;
-// typedef std::time_t time_t;
+typedef std::time_t time_t;
 
 // describes exact file or directory
 class Inode {
@@ -39,10 +40,10 @@ public:
                                             blocks_amount(block_amount), 
                                             storage_blocks(storage_blocks) 
             {
-                // std::time_t current_time = std::time(nullptr);
-                // last_access_time = current_time;
-                // last_file_modif_time = current_time;
-                // last_inode_modif_time = current_time;
+                time_t current_time = time(nullptr);
+                last_access_time = current_time;
+                last_file_modif_time = current_time;
+                last_inode_modif_time = current_time;
             };
 
 

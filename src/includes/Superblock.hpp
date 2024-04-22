@@ -13,7 +13,7 @@ using namespace std;
 class Superblock {
 
 private:
-// TODO: move to header constatnts 
+// TODO: add constructor 
     const char*           fs_type                 = "linear";   // Maybe special structure should be here (aka fs_type)
     const int             sizeof_fs               = 1073741824; // Sizeof file system in bytes, 1 Gb
     const int             max_sizeof_file         = 104857600;  // Maximum available file size, 1 Mb
