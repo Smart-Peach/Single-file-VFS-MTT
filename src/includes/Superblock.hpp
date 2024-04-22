@@ -5,6 +5,7 @@
 #include <bitset>
 #include "../includes/Inode.hpp"
 #include "../exceptions/SuperblockException.hpp"
+#include "../includes/AwesomeFileSystem.hpp"
 
 using namespace std;
 
@@ -49,4 +50,5 @@ public:
     bool check_free_blocks();
     bool check_free_inodes();
 
+    friend void FileSystem::load_superblock_into_memory();
 };

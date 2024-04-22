@@ -15,9 +15,15 @@ int main() {
         return 0;
     }
     Superblock superblock;
-    superblock.load_into_memory(file);
-    superblock.load_from_memory(file);
-    superblock.print();
+    InodeMap map;
+
+    AwesomeFileSystem fs(superblock, map, "tests/test.bin");
+
+    fs.load_superblock_into_memory();
+    // superblock.load_into_memory(file);
+    // superblock.load_from_memory(file);
+
+    // superblock.print();
 
 
     // file << "3333345";
