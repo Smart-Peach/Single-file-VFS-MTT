@@ -15,30 +15,26 @@ endif
 
 all: interpreter clean 
 
+
 interpreter:
 	$(CXX) -c interpreter/Parser.cpp  interpreter/Interpreter.cpp src/vfs_mtt_main.cpp $(STD)
 	$(CXX) vfs_mtt_main.o Parser.o Interpreter.o -o main.out $(STD)
 	rm *.o
 	./main.out
 
-test: 
-	$(CXX) -c interpreter/Parser.cpp src/vfs_mtt_main.cpp interpreter/Interpreter.cpp $(STD)
-	$(CXX) vfs_mtt_main.o Parser.o Interpreter.o -o main.out $(STD)
+interpreter-san:
+	$(CXX) -c interpreter/Parser.cpp  interpreter/Interpreter.cpp src/vfs_mtt_main.cpp $(SAN) $(STD)
+	$(CXX) vfs_mtt_main.o Parser.o Interpreter.o -o main.out $(TEST_FLAGS) $(SAN) $(STD)
 	rm *.o
-	./main.out $(TEST_COMMANDS)
+	./main.out
 
-run-interpreter-gtest: 
-	$(CXX) -c interpreter/Parser.cpp tests/interpreter_gtest.cpp interpreter/Interpreter.cpp $(SAN) $(STD)
-	$(CXX) interpreter_gtest.o Parser.o Interpreter.o -o tests/test.out $(TEST_FLAGS) $(SAN) $(STD)
-	rm *.o
+test-interpreter: 
+	$(CXX) -c interpreter/Parser.cpp tests/test_interpreter.cpp interpreter/Interpreter.cpp $(STD)
+	$(CXX) test_interpreter.o Parser.o Interpreter.o -o tests/test.out $(STD)
 	./tests/test.out
+	rm *.o 
 
-run-interpreter-test: 
-	$(CXX) -c interpreter/Parser.cpp tests/interpreter_test.cpp interpreter/Interpreter.cpp $(STD)
-	$(CXX) interpreter_test.o Parser.o Interpreter.o -o tests/test.out $(STD)
-	rm *.o
-	clear
-	./tests/test.out
+
 
 test-binary:
 	$(CXX) tests/test_main_binary.cpp -o test_bin.out

@@ -4,12 +4,12 @@
 
 class Exit: public Command {
 public:
-    Exit(Context* ctx): Command(ctx) { }
+    Exit() { }
     Exit(const Exit& other) = default;
     Exit& operator=(const Exit& other) = default;
     ~Exit() = default;
 
-    void apply() override {
+    void apply(Context* context) override {
         context->finished();
     }
 };

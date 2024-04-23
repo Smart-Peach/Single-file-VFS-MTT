@@ -4,7 +4,7 @@
 #include <map>
 #include <vector>
 #include "../commands/Command.hpp"
-#include "context/Context.hpp"
+#include "Context.hpp"
 #include "../commands/file_commands/CreateFile.hpp"
 #include "../commands/file_commands/DeleteFile.hpp"
 #include "../commands/file_commands/EditFile.hpp"

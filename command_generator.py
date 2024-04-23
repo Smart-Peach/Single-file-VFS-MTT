@@ -14,17 +14,17 @@ if __name__ == "__main__":
         with open(path + HPP, "w") as file:
             input = f"""
 #include "../Command.hpp"
-#include "../../includes/context/Context.hpp"
+#include "../../includes/Context.hpp"
 
 class {name}: public Command {{
 public:
-    {name}(Context* ctx): Command(ctx) {{ }}
+    {name}() {{ }}
     {name}(const {name}& other) = default;
     {name}& operator=(const {name}& other) = default;
     ~{name}() = default;
 
-    void apply() override {{
-        std::cout << "{cmd + DIR} command applied to \\"" << context->get_basic_src_name() << "\\"" << std::endl;
+    void apply(Context* context) override {{
+        std::cout << "{cmd + DIR} command was applied to \\"" << context->get_basic_src_name() << "\\"" << std::endl;
         return;
     }}
 }};"""
@@ -38,17 +38,17 @@ public:
         with open(path + HPP, "w") as file:
             input = f"""
 #include "../Command.hpp"
-#include "../../includes/context/Context.hpp"
+#include "../../includes/Context.hpp"
 
 class {name}: public Command {{
 public:
-    {name}(Context* ctx): Command(ctx) {{ }}
+    {name}() {{ }}
     {name}(const {name}& other) = default;
     {name}& operator=(const {name}& other) = default;
     ~{name}() = default;
 
-    void apply() override {{
-        std::cout << "{cmd + FILE} command applied to \\"" << context->get_basic_src_name() << "\\"" << std::endl;
+    void apply(Context* context) override {{
+        std::cout << "{cmd + FILE} command was applied to \\"" << context->get_basic_src_name() << "\\"" << std::endl;
         return;
     }}
 }};"""
