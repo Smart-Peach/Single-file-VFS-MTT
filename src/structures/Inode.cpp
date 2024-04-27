@@ -7,6 +7,10 @@ const std::vector<size_t>& Inode::get_storage_blocks() {
     return storage_blocks;
 }
 
+size_t Inode::get_last_block(){
+    return storage_blocks[-1];
+}
+
 // Print all fields of inode 
 void Inode::print_fields() { 
     std::cout << "Magic number of inode = " << magic_number << std::endl;
@@ -36,3 +40,14 @@ int Inode::get_blocks_amount() {
     return blocks_amount;
 }
 
+void Inode::increase_blocks_amount(){
+    blocks_amount += 1;
+}
+
+void Inode::add_size_to_sizeof_file(int add_size){
+    sizeof_file += add_size;
+}
+
+void Inode::update_storage_blocks(size_t address){
+    storage_blocks.push_back(address);
+}

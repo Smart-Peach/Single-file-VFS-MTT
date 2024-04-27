@@ -6,7 +6,8 @@
 #include "Superblock.hpp"
 
 // TODO: replace with real num of blocks
-static const size_t BLOCKS_AMOUNT = 10000;      
+static const size_t BLOCKS_AMOUNT = 10000;
+static const size_t BLOCK_SIZE = 256;      
 typedef std::bitset<BLOCKS_AMOUNT> bitset_t;
 
 // Class representing our awesome filesystem
@@ -34,7 +35,7 @@ public:
     virtual void load_superblock_into_memory() = 0;
 
     virtual void write_to_file(string src_name, string data) = 0;
-    virtual void open_file(string src_name) = 0;
+    virtual Inode open_file(string src_name) = 0;
     virtual void read_file(string src_name) = 0;
     virtual void close_file(string src_name) = 0;
     virtual void upload_to_file(string src_name) = 0;

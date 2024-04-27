@@ -6,6 +6,7 @@
 
 typedef std::string str_t;
 typedef std::time_t time_t;
+//TODO:Add a bit structure for optional bits
 
 // describes exact file or directory
 class Inode {
@@ -13,8 +14,8 @@ class Inode {
 // TODO: add destructor, overload constructor (?)
 private:
     int                 magic_number;          // Unique number of inode (aka hash) 
-    int                 optional_bit1 = 0;     // | bits for permissions (optional)
-    int                 optional_bit2 = 0;     // |
+    bool                optional_bit1 = 0;     // | bits for permissions (optional) // ???
+    bool                optional_bit2 = 0;     // |
     int                 number_references;     // Number of references to file
     str_t               identifier;            // Identificator of owner/user and group-owner (Maybe another type)
     int                 sizeof_file;           // Current sizeof file
@@ -22,7 +23,7 @@ private:
     time_t              last_file_modif_time;  // |
     time_t              last_inode_modif_time; // | 
     int                 blocks_amount;         // Сurrent sizeof the array with storage block addresses
-    std::vector<size_t>    storage_blocks;        // Array of storage block addresses
+    std::vector<size_t> storage_blocks;        // Array of storage block addresses
     
     // TODO: Should storage_block be a linked-list?
     // tmp:  changed to vector type due to conflicts in constructor
@@ -47,10 +48,14 @@ public:
             };
 
 
-    const std::vector<size_t>& get_storage_blocks();   
+    const std::vector<size_t>& get_storage_blocks();
+    size_t get_last_block();   
     void print_fields();                                      
     int get_sizeof_file();                             
     int get_magic_number();
     int get_blocks_amount();
+    void increase_blocks_amount();
+    void add_size_to_sizeof_file(int add_size);
+    void update_storage_blocks(size_t address);
     
 };

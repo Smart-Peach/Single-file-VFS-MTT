@@ -128,6 +128,11 @@ bool Superblock::check_free_inodes() {
     return number_available_inodes > 0;
 }
 
+//Checks whether there are the required number of free blocks. 
+bool Superblock::check_num_free_blocks(int count){
+    return number_free_blocks >= count;
+}
+
 int Superblock::get_max_sizeof_file() {
     return max_sizeof_file;
 }

@@ -48,5 +48,6 @@ public:
     void print();
     bool check_free_blocks();
     bool check_free_inodes();
+    bool check_num_free_blocks(int count);
 
 };
