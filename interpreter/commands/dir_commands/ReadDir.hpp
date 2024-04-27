@@ -1,16 +1,16 @@
 
 #include "../Command.hpp"
-#include "../../includes/context/Context.hpp"
+#include "../../includes/Context.hpp"
 
 class ReadDir: public Command {
 public:
-    ReadDir(Context* ctx): Command(ctx) { }
+    ReadDir() { }
     ReadDir(const ReadDir& other) = default;
     ReadDir& operator=(const ReadDir& other) = default;
     ~ReadDir() = default;
 
-    void apply() override {
-        std::cout << "ReadDir command applied to \"" << context->get_basic_src_name() << "\"" << std::endl;
+    void apply(Context* context) override {
+        std::cout << "ReadDir command was applied to \"" << context->get_basic_src_name() << "\"" << std::endl;
         return;
     }
 };

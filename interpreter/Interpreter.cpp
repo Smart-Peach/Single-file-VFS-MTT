@@ -13,7 +13,7 @@ bool Interpreter::interpret(std::string input_line){
         {
             break;
         }
-        next_cmd->apply();
+        next_cmd->apply(context);
         delete next_cmd;
     }
 

@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "../../src/includes/FileSystem.hpp"
-#include "context/Context.hpp"
+#include "Context.hpp"
 
 class Interpreter {
     Context* context;

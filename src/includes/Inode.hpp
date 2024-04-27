@@ -6,6 +6,7 @@
 
 typedef std::string str_t;
 typedef std::time_t time_t;
+//TODO:Add a bit structure for optional bits
 
 // describes exact file or directory
 class Inode {
@@ -13,8 +14,8 @@ class Inode {
 // TODO: add destructor, overload constructor (?)
 private:
     int                 magic_number;          // Unique number of inode (aka hash) 
-    int                 optional_bit1 = 0;     // | bits for permissions (optional)
-    int                 optional_bit2 = 0;     // |
+    bool                optional_bit1 = 0;     // | bits for permissions (optional) // ???
+    bool                optional_bit2 = 0;     // |
     int                 number_references;     // Number of references to file
     str_t               identifier;            // Identificator of owner/user and group-owner (Maybe another type)
     int                 sizeof_file;           // Current sizeof file
@@ -48,10 +49,14 @@ public:
             };
 
 
-    const std::vector<size_t>& get_storage_blocks();   
+    const std::vector<size_t>& get_storage_blocks();
+    size_t get_last_block();   
     void print_fields();                                      
     int get_sizeof_file();                             
     int get_magic_number();
     int get_blocks_amount();
+    void increase_blocks_amount();
+    void add_size_to_sizeof_file(int add_size);
+    void update_storage_blocks(size_t address);
     
 };

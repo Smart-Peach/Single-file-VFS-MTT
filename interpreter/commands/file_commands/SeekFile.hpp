@@ -1,16 +1,16 @@
 
 #include "../Command.hpp"
-#include "../../includes/context/Context.hpp"
+#include "../../includes/Context.hpp"
 
 class SeekFile: public Command {
 public:
-    SeekFile(Context* ctx): Command(ctx) { }
+    SeekFile() { }
     SeekFile(const SeekFile& other) = default;
     SeekFile& operator=(const SeekFile& other) = default;
     ~SeekFile() = default;
 
-    void apply() override {
-        std::cout << "SeekFile command applied to \"" << context->get_basic_src_name() << "\"" << std::endl;
+    void apply(Context* context) override {
+        std::cout << "SeekFile command was applied to \"" << context->get_basic_src_name() << "\"" << std::endl;
         return;
     }
 };

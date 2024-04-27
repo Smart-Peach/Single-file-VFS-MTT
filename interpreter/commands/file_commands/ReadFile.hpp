@@ -1,16 +1,16 @@
 
 #include "../Command.hpp"
-#include "../../includes/context/Context.hpp"
+#include "../../includes/Context.hpp"
 
 class ReadFile: public Command {
 public:
-    ReadFile(Context* ctx): Command(ctx) { }
+    ReadFile() { }
     ReadFile(const ReadFile& other) = default;
     ReadFile& operator=(const ReadFile& other) = default;
     ~ReadFile() = default;
 
-    void apply() override {
-        std::cout << "ReadFile command applied to \"" << context->get_basic_src_name() << "\"" << std::endl;
+    void apply(Context* context) override {
+        std::cout << "ReadFile command was applied to \"" << context->get_basic_src_name() << "\"" << std::endl;
         return;
     }
 };

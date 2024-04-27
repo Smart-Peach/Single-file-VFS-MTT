@@ -1,17 +1,17 @@
 
 #include "../Command.hpp"
-#include "../../includes/context/Context.hpp"
+#include "../../includes/Context.hpp"
 
 class WriteFile: public Command {
 public:
-    WriteFile(Context* ctx): Command(ctx) { }
+    WriteFile() { }
     WriteFile(const WriteFile& other) = default;
     WriteFile& operator=(const WriteFile& other) = default;
     ~WriteFile() = default;
 
-    void apply() override {
-        std::cout << "WriteFile command applied to \"" << context->get_basic_src_name() << "\"" << std::endl;
-        std::cout << "Input text: " << context->get_text() << std::endl;
+    void apply(Context* context) override {
+        std::cout << "WriteFile command was applied to \"" << context->get_basic_src_name() << "\"\n"
+                  << "Text: " << context->get_text() << std::endl;
         return;
     }
 };

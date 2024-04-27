@@ -12,7 +12,8 @@
 
 
 int main(int argc, char* argv[]){
-    Interpreter interpreter = Interpreter( new AwesomeFileSystem(Superblock(), InodeMap(), std::string("AFS.bin")));
+    FileSystem* AFS = new AwesomeFileSystem(Superblock(), InodeMap(), std::string("AFS.bin"));
+    Interpreter interpreter = Interpreter(AFS);
     std::string input_line;
     while (std::getline(std::cin, input_line)) {
         try {
@@ -21,5 +22,6 @@ int main(int argc, char* argv[]){
             std::cerr << e.what() << std::endl;
         }   
     }
+    delete AFS;
     return 0;
 }
