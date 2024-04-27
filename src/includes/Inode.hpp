@@ -33,7 +33,7 @@ public:
     Inode() = default;  // tmp: only for test InodeMap funcs, should be removed lately
     ~Inode() = default;
     Inode& operator=(const Inode& other) = default;
-    Inode(str_t src_name, size_t free_block);
+    Inode(size_t free_block);
     Inode(int magic_number, int sizeof_file, str_t identifier,
           int block_amount, std::vector<size_t> storage_blocks):
                                             magic_number(magic_number),

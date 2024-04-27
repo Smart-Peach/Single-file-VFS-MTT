@@ -19,8 +19,10 @@ typedef std::unordered_map<size_t, Inode> inode_hashmap_t;
 class InodeMap {
 
 public:
-    std::optional<Inode> get_inode(str_t src_name);
+    // std::optional<Inode> get_inode(str_t src_name);
+    Inode get_inode(str_t src_name);
     void  add_inode(str_t src_name);
+    void  add_inode(str_t src_name, int address_block);
     void  delete_inode(str_t src_name);
     void  update_inode(Inode updated_inode);
     bool  is_file_in_directory(str_t src_name);

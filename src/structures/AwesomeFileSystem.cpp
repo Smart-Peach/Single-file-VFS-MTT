@@ -30,12 +30,14 @@ void AwesomeFileSystem::load_superblock_into_memory() {
     fs_file << superblock.free_blocks.to_string();
     fs_file.seekg(0);
 }
+
 void AwesomeFileSystem::loop_for_write(int start, int end, string data, int address, int index = 0){
     fs_file.seekg(address);
     for(int i = start; i < end; i++){
         fs_file.put(data[i + index]);
     }
 };
+
 void AwesomeFileSystem::update_inode(Inode& inode, int size, int new_address){
     inode.increase_blocks_amount();
     inode.add_size_to_sizeof_file(size);
@@ -64,17 +66,20 @@ void AwesomeFileSystem::load_superblock_from_memory() {
 }
 
 void AwesomeFileSystem::create_file(string src_name) {
-    int free_block = superblock.get_free_block();
-    Inode file_inode = Inode(src_name, free_block);
-    superblock.update_fields_after_inode_addition(file_inode);
-    inode_map.add_inode(file_inode);
-    load_all_into_memory();
+    if (!inode_map.is_file_in_directory(src_name)) {
+        int free_block = superblock.get_free_block();
+        Inode file_inode = Inode(free_block);
+        superblock.update_fields_after_inode_addition(file_inode);
+        inode_map.add_inode(src_name, free_block);
+        load_all_into_memory();
+    } else throw IOException("File " + src_name + "already exists!");
 };
 
 void AwesomeFileSystem::delete_file(string src_name) {
     if (inode_map.is_file_in_directory(src_name)) {
+        Inode deleted_inode = inode_map.get_inode(src_name);
         inode_map.delete_inode(src_name);
-        superblock.update_fields_after_inode_deletion();
+        superblock.update_fields_after_inode_deletion(deleted_inode);
         load_all_into_memory();
     } else throw IOException("No such file in directory!");
 };
