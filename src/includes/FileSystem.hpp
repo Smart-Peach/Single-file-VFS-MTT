@@ -30,12 +30,19 @@ public:
     FileSystem(const FileSystem& other) = delete;
     virtual ~FileSystem() { };
 
+    // Memory functions:
     virtual void load_all_into_memory() = 0;
     virtual void load_superblock_into_memory() = 0;
+    virtual void load_superblock_from_memory() = 0;
 
-    virtual void write_to_file(string src_name, string data) = 0;
+    // File operations:
+    virtual void create_file(string src_name) = 0;
+    virtual void delete_file(string src_name) = 0;
     virtual void open_file(string src_name) = 0;
-    virtual void read_file(string src_name) = 0;
     virtual void close_file(string src_name) = 0;
+    virtual void read_file(string src_name) = 0;
+    virtual void write_to_file(string src_name, string data) = 0;
     virtual void upload_to_file(string src_name) = 0;
+
+    // Directories operations:
 };

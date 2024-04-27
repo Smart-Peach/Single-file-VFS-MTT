@@ -6,6 +6,7 @@
 #include "../includes/Inode.hpp"
 #include "../exceptions/SuperblockException.hpp"
 #include "../includes/AwesomeFileSystem.hpp"
+#include "../includes/FileSystem.hpp"
 
 using namespace std;
 
@@ -50,5 +51,8 @@ public:
     bool check_free_blocks();
     bool check_free_inodes();
 
-    friend void FileSystem::load_superblock_into_memory();
+    // friend void AwesomeFileSystem::load_superblock_into_memory();
+    // friend void AwesomeFileSystem::load_superblock_into_memory();
+    // friend void AwesomeFileSystem::print();
+    friend class AwesomeFileSystem;
 };

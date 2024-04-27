@@ -22,7 +22,7 @@ private:
     time_t              last_file_modif_time;  // |
     time_t              last_inode_modif_time; // | 
     int                 blocks_amount;         // Сurrent sizeof the array with storage block addresses
-    std::vector<size_t>    storage_blocks;        // Array of storage block addresses
+    std::vector<size_t> storage_blocks;        // Array of storage block addresses
     
     // TODO: Should storage_block be a linked-list?
     // tmp:  changed to vector type due to conflicts in constructor
@@ -32,6 +32,7 @@ public:
     Inode() = default;  // tmp: only for test InodeMap funcs, should be removed lately
     ~Inode() = default;
     Inode& operator=(const Inode& other) = default;
+    Inode(str_t src_name, size_t free_block);
     Inode(int magic_number, int sizeof_file, str_t identifier,
           int block_amount, std::vector<size_t> storage_blocks):
                                             magic_number(magic_number),
