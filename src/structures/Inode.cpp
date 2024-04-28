@@ -4,7 +4,7 @@
 
 
 Inode::Inode(size_t address_block): number_references(0), sizeof_file(0), last_access_time(time(nullptr)), last_file_modif_time(time(nullptr)), last_inode_modif_time(time(nullptr)), blocks_amount(1) {
-    storage_blocks.push_back(address_block);
+    blocks_storage.push_back(address_block);
 }
 
 // Maybe another type
@@ -53,6 +53,6 @@ void Inode::add_size_to_sizeof_file(int add_size){
     sizeof_file += add_size;
 }
 
-void Inode::update_storage_blocks(size_t address){
+void Inode::update_blocks_storage(size_t address){
     blocks_storage.push_back(address);
 }

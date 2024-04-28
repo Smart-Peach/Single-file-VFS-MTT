@@ -57,6 +57,6 @@ public:
     int get_blocks_amount();
     void increase_blocks_amount();
     void add_size_to_sizeof_file(int add_size);
-    void update_storage_blocks(size_t address);
+    void update_blocks_storage(size_t address);
     
 };

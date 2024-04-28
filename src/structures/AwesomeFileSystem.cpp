@@ -46,7 +46,7 @@ void AwesomeFileSystem::write_to_file_with_specified_boundaries(int start, int e
 void AwesomeFileSystem::update_inode(Inode& inode, int size, int new_address){
     inode.increase_blocks_amount();
     inode.add_size_to_sizeof_file(size);
-    inode.update_storage_blocks(new_address);
+    inode.update_blocks_storage(new_address);
 };
 
 //Reads data from second 1024 bytes and loads it to Superblock
