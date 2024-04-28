@@ -25,6 +25,6 @@ public:
     void close_file(std::string src_name) override;
     void upload_to_file(std::string src_name) override;
 private:
-    void write_to_file_with_specified_boundaries(int start, int end, std::string data, int address);
+    void write_to_file_with_specified_boundaries(int start, int num_of_char, std::string data, int address);
     void update_inode(Inode& inode, int size, int new_address);
 };

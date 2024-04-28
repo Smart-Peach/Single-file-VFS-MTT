@@ -1,7 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
- 
+#include "../src/includes/AwesomeFileSystem.hpp"
 
 
 int main() {
@@ -13,10 +13,15 @@ int main() {
         return 0;
     }
     std::string myStr = "This string is written to the binary file.";
+    Superblock superblock;
+    InodeMap map;
 
+    AwesomeFileSystem fs(superblock, map, "tests/test-file.bin");
+    fs.create_file("test-file1.txt");
+    fs.write_to_file("test-file1.txt", "Hello!!!!!!");
     // << : redirects input to file
     // >> : redirects output from file to ...
-    file << myStr;
+    //file << myStr;
 
     // Set position in input sequence
     file.seekg(0);
