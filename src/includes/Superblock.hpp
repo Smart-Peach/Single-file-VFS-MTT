@@ -5,6 +5,7 @@
 #include <bitset>
 #include "../includes/Inode.hpp"
 #include "../exceptions/SuperblockException.hpp"
+#include "../includes/AwesomeFileSystem.hpp"
 
 using namespace std;
 
@@ -33,21 +34,25 @@ public:
     void update_fields_after_inode_addition(Inode inode);
     void update_fields_after_inode_deletion(Inode inode);
 
-    int get_number_of_blocks();
+    // int get_number_of_blocks();
 
     //Returns address of ONE free block
     int get_free_block();
-    int get_max_sizeof_file();
-    int get_sizeof_block();
-    int get_sizeof_fs();
-    int get_sizeof_ilist_bytes();
-    int get_number_of_freeblocks();
-    int get_number_available_inodes();
-    int get_sizeof_rootdir();
-    bitset<Superblock::number_blocks> get_free_blocks();
+    // int get_max_sizeof_file();
+    // int get_sizeof_block();
+    // int get_sizeof_fs();
+    // int get_sizeof_ilist_bytes();
+    // int get_number_of_freeblocks();
+    // int get_number_available_inodes();
+    // int get_sizeof_rootdir();
+    // bitset<Superblock::number_blocks> get_free_blocks();
     void print();
     bool check_free_blocks();
     bool check_free_inodes();
     bool check_num_free_blocks(int count);
 
+    // friend void AwesomeFileSystem::load_superblock_into_memory();
+    // friend void AwesomeFileSystem::load_superblock_into_memory();
+    // friend void AwesomeFileSystem::print();
+    friend class AwesomeFileSystem;
 };

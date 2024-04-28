@@ -8,9 +8,16 @@ int InodeMap::get_inode_hash(str_t name) {
 // Get inode from InodeMap by the file/dir name
 // Return optional<Inode> - like in Java (smth like box for null-able value)
 // ATTENTION: compile with -std=c++20 (or c++17) flag !!
-std::optional<Inode> InodeMap::get_inode(str_t src_name){
-    int magic_number = get_inode_hash(src_name);
-    return { inode_map.at(magic_number) };      
+// std::optional<Inode> InodeMap::get_inode(str_t src_name){
+//     int magic_number = get_inode_hash(src_name);
+//     return { inode_map.at(magic_number) };      
+// };
+
+Inode InodeMap::get_inode(str_t src_name){
+    try {
+        int magic_number = get_inode_hash(src_name);
+        return inode_map.at(magic_number);      
+    } catch (std::out_of_range) { throw InodeMapException("There's no inode with name " + src_name); }
 };
 
 
@@ -25,6 +32,15 @@ void InodeMap::add_inode(str_t src_name) {
     inode_map[magic_number] = Inode();
 };
 
+void InodeMap::add_inode(str_t src_name, int address_block) {
+    int magic_number = get_inode_hash(src_name);
+
+    if(inode_map.find(magic_number) != inode_map.end()) {
+        throw InodeMapException("Impossible to add Inode with name '" + src_name + "' because it already exists");
+    }
+
+    inode_map[magic_number] = Inode(address_block);
+};
 
 // Delete inode from InodeMap, update FS bin file
 void InodeMap::delete_inode(str_t src_name) {
@@ -47,7 +63,8 @@ void InodeMap::update_inode(Inode updated_inode) {
 // Check whether file is in directory 
 bool InodeMap::is_file_in_directory(str_t src_name) {
     int magic_number = get_inode_hash(src_name);
-    if (get_inode(src_name)) return false;
+    // TODO: fix  
+    // if (get_inode(src_name)) return false;
     return true;
 };
 
