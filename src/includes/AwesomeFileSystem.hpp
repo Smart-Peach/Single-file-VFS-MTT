@@ -27,4 +27,15 @@ public:
 private:
     void write_to_file_with_specified_boundaries(int start, int end, std::string data, int address);
     void update_inode(Inode& inode, int size, int new_address);
+
+
+    // Directory operations:
+    void create_dir(std::string src_name) override;
+    void delete_dir(std::string src_name) override;
+    void add_file_to_dir(std::string file_name, std::string dir_name) override;
+    void delete_file_in_dir(std::string file_name, std::string dir_name) override;
+    Inode open_dir(std::string src_name) override;
+    void close_dir(std::string src_name) override;
+    void link_dir(std::string src_name) override;
+    void unlink_dir(std::string src_name) override;
 };

@@ -13,8 +13,9 @@ class Inode {
 
 // TODO: add destructor, overload constructor (?)
 private:
+    bool                src_type;           // Type of source: directory - 1, file - 0
     int                 magic_number;          // Unique number of inode (aka hash) 
-    bool                optional_bit1 = 0;     // | bits for permissions (optional) // ???
+    bool                optional_bit1 = 0;     // Bits for permissions (optional) // ???
     bool                optional_bit2 = 0;     // |
     int                 number_references;     // Number of references to file
     str_t               identifier;            // Identificator of owner/user and group-owner (Maybe another type)
@@ -30,12 +31,12 @@ private:
 
 
 public:
-    Inode() = default;  // tmp: only for test InodeMap funcs, should be removed lately
-    ~Inode() = default;
-    Inode& operator=(const Inode& other) = default;
-    Inode(size_t free_block);
-    Inode(int magic_number, int sizeof_file, str_t identifier,
+    Inode() = default;
+    Inode(bool src_type);
+    Inode(bool src_type, size_t free_block);
+    Inode(bool src_type, int magic_number, int sizeof_file, str_t identifier,
           int block_amount, std::vector<size_t> storage_blocks):
+                                            src_type(src_type),
                                             magic_number(magic_number),
                                             number_references(0),
                                             identifier(identifier), 
@@ -47,7 +48,8 @@ public:
                 last_file_modif_time = current_time;
                 last_inode_modif_time = current_time;
             };
-
+    Inode& operator=(const Inode& other) = default;
+    ~Inode() = default;
 
     const std::vector<size_t>& get_blocks_storage();
     size_t get_last_block();   
@@ -58,5 +60,7 @@ public:
     void increase_blocks_amount();
     void add_size_to_sizeof_file(int add_size);
     void update_blocks_storage(size_t address);
+    void increase_references_amount();
+    void decrease_references_amount();
     
 };

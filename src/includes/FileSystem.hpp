@@ -5,6 +5,8 @@
 #include "InodeMap.hpp"
 #include "Superblock.hpp"
 
+class Dentry;
+
 // TODO: replace with real num of blocks
 static const size_t BLOCKS_AMOUNT = 10000;   
 typedef std::bitset<BLOCKS_AMOUNT> bitset_t;
@@ -12,7 +14,7 @@ typedef std::bitset<BLOCKS_AMOUNT> bitset_t;
 // Class representing our awesome filesystem
 // Considered as kind of abstraction for working with our future VFS
 class FileSystem {
-
+    friend Dentry;
 protected:
     Superblock          superblock;     // file system metadata
     InodeMap            inode_map;      // contains all inodes
@@ -45,4 +47,13 @@ public:
     virtual void upload_to_file(std::string src_name) = 0;
 
     // Directories operations:
+    
+    virtual void create_dir(std::string src_name) = 0;
+    virtual void delete_dir(std::string src_name) = 0;
+    virtual void add_file_to_dir(std::string file_name, std::string dir_name) = 0;
+    virtual void delete_file_in_dir(std::string file_name, std::string dir_name) = 0;
+    virtual Inode open_dir(std::string src_name) = 0;
+    virtual void close_dir(std::string src_name) = 0;
+    virtual void link_dir(std::string src_name) = 0;
+    virtual void unlink_dir(std::string src_name) = 0;
 };
