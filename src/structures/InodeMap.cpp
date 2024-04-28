@@ -20,7 +20,6 @@ Inode InodeMap::get_inode(str_t src_name){
     } catch (std::out_of_range) { throw InodeMapException("There's no inode with name " + src_name); }
 };
 
-
 // Add inode to InodeMap, write to FS bin file
 void InodeMap::add_inode(str_t src_name) {
     int magic_number = get_inode_hash(src_name);
@@ -47,7 +46,6 @@ void InodeMap::delete_inode(str_t src_name) {
     int inode_hash = get_inode_hash(src_name);
     inode_map.erase(inode_hash);
 };
-
 
 // Update inode in InodeMap and in FS bin file
 void InodeMap::update_inode(Inode updated_inode) {
