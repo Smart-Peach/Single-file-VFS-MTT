@@ -1,6 +1,5 @@
 #pragma once
 
-#include <iostream>
 
 #include "../../src/includes/FileSystem.hpp"
 #include "Context.hpp"

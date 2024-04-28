@@ -2,6 +2,11 @@
 #include <vector>
 #include "../includes/Inode.hpp"
 
+
+Inode::Inode(size_t address_block): number_references(0), sizeof_file(0), last_access_time(time(nullptr)), last_file_modif_time(time(nullptr)), last_inode_modif_time(time(nullptr)), blocks_amount(1) {
+    storage_blocks.push_back(address_block);
+}
+
 // Maybe another type
 const std::vector<size_t>& Inode::get_blocks_storage() {  
     return blocks_storage;
