@@ -1,7 +1,6 @@
 #pragma once
 
 #include "FileSystem.hpp"
-// #include "Superblock.hpp"
 
 
 class AwesomeFileSystem: public FileSystem {
@@ -25,8 +24,8 @@ public:
     void close_file(std::string src_name) override;
     void upload_to_file(std::string src_name) override;
 private:
-    void write_to_file_with_specified_boundaries(int start, int end, std::string data, int address);
-    void update_inode(Inode& inode, int size, int new_address);
+    void write_to_file_with_specified_boundaries(int start, int end, std::string data, int address) override;
+    void update_inode(Inode& inode, int size, int new_address) override;
 
 
     // Directory operations:

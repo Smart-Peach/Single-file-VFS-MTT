@@ -12,7 +12,6 @@
 #include "../commands/file_commands/MoveFile.hpp"
 #include "../commands/file_commands/ReadFile.hpp"
 #include "../commands/file_commands/RenameFile.hpp"
-#include "../commands/file_commands/SeekFile.hpp"
 #include "../commands/file_commands/WriteFile.hpp"
 #include "../commands/file_commands/AppendToFile.hpp"
 #include "../commands/dir_commands/CreateDir.hpp"

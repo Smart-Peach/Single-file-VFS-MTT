@@ -91,35 +91,3 @@ bool Superblock::check_free_inodes() {
 bool Superblock::check_needed_number_of_free_blocks(int count){
     return number_free_blocks >= count;
 }
-
-// int Superblock::get_max_sizeof_file() {
-//     return max_sizeof_file;
-// }
-
-// int Superblock::get_sizeof_block() {
-//     return sizeof_block;
-// }
-
-// int Superblock::get_sizeof_fs() {
-//     return sizeof_fs;
-// }
-
-// int Superblock::get_sizeof_ilist_bytes() {
-//     return sizeof_ilist_bytes;
-// }
-
-// int Superblock::get_number_of_freeblocks() {
-//     return number_free_blocks;
-// }
-
-// int Superblock::get_number_available_inodes() {
-//     return number_available_inodes;
-// }
-
-// int Superblock::get_sizeof_rootdir() {
-//     return size_of_rootdir;
-// }
-
-// bitset<Superblock::number_blocks> Superblock::get_free_blocks() {
-//     return free_blocks;
-// }

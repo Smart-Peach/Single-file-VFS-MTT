@@ -34,7 +34,7 @@ void CommandTest(FileSystem* AFS, size_t test_number, std::string input_line, st
 
 int main(int argc, char* argv[]) {
 
-    FileSystem* AFS =  new AwesomeFileSystem(Superblock(), InodeMap(), std::string("AFS.bin"));
+    FileSystem* AFS =  new AwesomeFileSystem(Superblock(), InodeMap(), std::string("tests/test.bin"));
 
     std::cout << "\n=================Start test running=================" << std::endl;
     CommandTest(AFS, 1, "write ajjajaj.a", "Missed text for command!");
@@ -42,6 +42,7 @@ int main(int argc, char* argv[]) {
     CommandTest(AFS, 3, "uldir", "Missed argument for command!");
     CommandTest(AFS, 4,"odir nicedir", "Unknown command 'odir'!");
     CommandTest(AFS, 5, "rndir nicedir baddir", "RenameDir command was applied to \"nicedir\"");
+
 
     std::cout << "=================End test running=================" << std::endl;
 

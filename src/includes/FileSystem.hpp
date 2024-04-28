@@ -45,6 +45,8 @@ public:
     virtual void read_file(std::string src_name) = 0;
     virtual void close_file(std::string src_name) = 0;
     virtual void upload_to_file(std::string src_name) = 0;
+    virtual void write_to_file_with_specified_boundaries(int start, int end, std::string data, int address) = 0;
+    virtual void update_inode(Inode& inode, int size, int new_address) = 0;
 
     // Directories operations:
     

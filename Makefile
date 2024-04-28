@@ -37,6 +37,11 @@ test-interpreter:
 	rm *.o 
 
 
+test-hash-function:
+	$(CXX) tests/test_hash_function.cpp -o test_bin.out $(STD)
+	./test_bin.out
+	rm *.out
+
 
 test-binary:
 	$(CXX) tests/test_main_binary.cpp -o test_bin.out $(STD)

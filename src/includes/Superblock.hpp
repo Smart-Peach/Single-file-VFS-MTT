@@ -1,11 +1,9 @@
 #pragma once
 
-#include <iostream>
 #include <fstream>
 #include <bitset>
 #include "../includes/Inode.hpp"
 #include "../exceptions/SuperblockException.hpp"
-// #include "../includes/AwesomeFileSystem.hpp"
 
 using namespace std;
 
@@ -35,21 +33,10 @@ public:
 
     //Returns address of ONE free block
     int get_free_block();
-    // int get_max_sizeof_file();
-    // int get_sizeof_block();
-    // int get_sizeof_fs();
-    // int get_sizeof_ilist_bytes();
-    // int get_number_of_freeblocks();
-    // int get_number_available_inodes();
-    // int get_sizeof_rootdir();
-    // bitset<Superblock::number_blocks> get_free_blocks();
     void print();
     bool check_free_blocks();
     bool check_free_inodes();
     bool check_needed_number_of_free_blocks(int count);
 
-    // friend void AwesomeFileSystem::load_superblock_into_memory();
-    // friend void AwesomeFileSystem::load_superblock_into_memory();
-    // friend void AwesomeFileSystem::print();
     friend class AwesomeFileSystem;
 };
