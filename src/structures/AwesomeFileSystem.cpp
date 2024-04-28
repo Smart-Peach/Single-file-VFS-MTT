@@ -31,13 +31,14 @@ void AwesomeFileSystem::load_superblock_into_memory() {
     fs_file.seekg(0);
 }
 
-void AwesomeFileSystem::loop_for_write(int start, int end, std::string data, int address, int index = 0){
+//Goes to the specified address and writes data to the specified boundaries
+void AwesomeFileSystem::write_to_file_with_specified_boundaries(int start, int end, std::string data, int address){
     fs_file.seekg(address);
     for(int i = start; i < end; i++){
-        fs_file.put(data[i + index]);
+        fs_file.put(data[i]);
     }
 };
-
+//Update info in file's inode after adding one block
 void AwesomeFileSystem::update_inode(Inode& inode, int size, int new_address){
     inode.increase_blocks_amount();
     inode.add_size_to_sizeof_file(size);
@@ -88,31 +89,34 @@ void AwesomeFileSystem::write_to_file(std::string src_name, std::string data) {
     Inode inode = open_file(src_name);
     int sizeof_file = inode.get_sizeof_file();
     int blocks_amount = inode.get_blocks_amount();
-    int block_size = superblock.get_sizeof_block();
+    int block_size = superblock.sizeof_block;
 
     int new_size = sizeof_file + data.size(); //new size for file
     int available_memory = blocks_amount * block_size; //for file on the current time
-    int difference = new_size - available_memory; // check who is bigger
 
-    if(difference <= 0){ //if we can write all data into last block
-        int free_memory_in_last_block = available_memory - sizeof_file;
-        int shift = block_size - free_memory_in_last_block; // shift for address from start of the last block
-        size_t address = inode.get_last_block() + shift;
-        loop_for_write(0, data.size(), data, address);
+    int free_memory_in_last_block = available_memory - sizeof_file;
+    int shift = block_size - free_memory_in_last_block; // shift for address from start of the last block
+    size_t address = inode.get_last_block() + shift;
+
+    if(new_size <= available_memory){ //if we can write all data into last block
+        write_to_file_with_specified_boundaries(0, data.size(), data, address);
         fs_file.seekg(0);
         //update info in inode
         inode.add_size_to_sizeof_file(data.size());
         //TODO: update time_t fields in inode
     } else{
-        int extra_blocks = difference/block_size; //the integer part of the number (extra blocks for data)
-        if(difference % block_size > 0){
+        write_to_file_with_specified_boundaries(0, free_memory_in_last_block, data, address); //fill in the last block to the end
+        inode.add_size_to_sizeof_file(free_memory_in_last_block);
+
+        int extra_blocks = (new_size - available_memory)/block_size; //the integer part of the number (extra blocks for data)
+        if((new_size - available_memory) % block_size > 0){
             extra_blocks ++;  //+ 1 block for data
         }
-        if(superblock.check_num_free_blocks(extra_blocks)){
+        if(superblock.check_needed_number_of_free_blocks(extra_blocks)){
             int index = 0;
             while (extra_blocks > 1){
                 int new_address = superblock.get_free_block();
-                loop_for_write(0, block_size, data, new_address, index);
+                write_to_file_with_specified_boundaries(index, block_size + index, data, new_address);
                 index += block_size;
                 
                 //update info in inode
@@ -122,7 +126,7 @@ void AwesomeFileSystem::write_to_file(std::string src_name, std::string data) {
             extra_blocks --;
             }
             int new_address = superblock.get_free_block();
-            loop_for_write(0, data.size(), data, new_address, index);
+            write_to_file_with_specified_boundaries(index, data.size(), data, new_address);
             fs_file.seekg(0);
         } else throw SuperblockException("Not enough memory");
     }
@@ -138,9 +142,9 @@ Inode AwesomeFileSystem::open_file(std::string src_name) {
 
 void AwesomeFileSystem::read_file(std::string src_name) {
     Inode inode = open_file(src_name);
-    std::vector<size_t> storage = inode.get_storage_blocks();
+    std::vector<size_t> storage = inode.get_blocks_storage();
     int num_of_available_char = inode.get_sizeof_file();
-    int block_size = superblock.get_sizeof_block();
+    const int block_size = superblock.sizeof_block;
 
     for(int i = 0; i < storage.size(); i++){
         char c;

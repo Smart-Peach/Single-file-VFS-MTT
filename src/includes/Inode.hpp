@@ -23,7 +23,7 @@ private:
     time_t              last_file_modif_time;  // |
     time_t              last_inode_modif_time; // | 
     int                 blocks_amount;         // Сurrent sizeof the array with storage block addresses
-    std::vector<size_t> storage_blocks;        // Array of storage block addresses
+    std::vector<size_t> blocks_storage;        // Array of storage block addresses
     
     // TODO: Should storage_block be a linked-list?
     // tmp:  changed to vector type due to conflicts in constructor
@@ -40,7 +40,7 @@ public:
                                             number_references(0),
                                             identifier(identifier), 
                                             blocks_amount(block_amount), 
-                                            storage_blocks(storage_blocks) 
+                                            blocks_storage(storage_blocks) 
             {
                 time_t current_time = time(nullptr);
                 last_access_time = current_time;
@@ -49,7 +49,7 @@ public:
             };
 
 
-    const std::vector<size_t>& get_storage_blocks();
+    const std::vector<size_t>& get_blocks_storage();
     size_t get_last_block();   
     void print_fields();                                      
     int get_sizeof_file();                             

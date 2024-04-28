@@ -3,12 +3,12 @@
 #include "../includes/Inode.hpp"
 
 // Maybe another type
-const std::vector<size_t>& Inode::get_storage_blocks() {  
-    return storage_blocks;
+const std::vector<size_t>& Inode::get_blocks_storage() {  
+    return blocks_storage;
 }
 
 size_t Inode::get_last_block(){
-    return storage_blocks[-1];
+    return blocks_storage[-1];
 }
 
 // Print all fields of inode 
@@ -24,7 +24,7 @@ void Inode::print_fields() {
     std::cout << "Time of the last inode modification = " << last_inode_modif_time << std::endl;
     std::cout << "Current sizeof array with storage block addresses = " << blocks_amount << std::endl;
     std::cout << "Array of storage block addresses: ";
-    for(int i = 0; i < blocks_amount; i++) std::cout << storage_blocks[i] << " ";
+    for(int i = 0; i < blocks_amount; i++) std::cout << blocks_storage[i] << " ";
 }
 
 
@@ -49,5 +49,5 @@ void Inode::add_size_to_sizeof_file(int add_size){
 }
 
 void Inode::update_storage_blocks(size_t address){
-    storage_blocks.push_back(address);
+    blocks_storage.push_back(address);
 }

@@ -49,7 +49,7 @@ public:
     void print();
     bool check_free_blocks();
     bool check_free_inodes();
-    bool check_num_free_blocks(int count);
+    bool check_needed_number_of_free_blocks(int count);
 
     // friend void AwesomeFileSystem::load_superblock_into_memory();
     // friend void AwesomeFileSystem::load_superblock_into_memory();

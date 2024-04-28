@@ -18,7 +18,7 @@ void Superblock::update_fields_after_inode_addition(Inode inode) {
     number_available_inodes--;
     number_free_blocks -= inode.get_blocks_amount();
 
-    for (int block_address : inode.get_storage_blocks()) {
+    for (int block_address : inode.get_blocks_storage()) {
         int block_ind = (block_address - 2048 - free_blocks.size() - sizeof_ilist_bytes - size_of_rootdir) / sizeof_block;
         if (free_blocks.test(block_ind)) {
             throw SuperblockException("Superblock: block with index " + std::to_string(block_ind) + " and actual address " + std::to_string(block_address) + " is already busy! Adding an Inode was failed!");
@@ -33,7 +33,7 @@ void Superblock::update_fields_after_inode_deletion(Inode inode) {
     number_available_inodes++;
     number_free_blocks += inode.get_blocks_amount();
 
-    for (int block_address : inode.get_storage_blocks()) {
+    for (int block_address : inode.get_blocks_storage()) {
         int block_ind = (block_address - 2048 - free_blocks.size() - sizeof_ilist_bytes - size_of_rootdir) / sizeof_block;
         free_blocks[block_ind] = 0;
     }
@@ -88,7 +88,7 @@ bool Superblock::check_free_inodes() {
 }
 
 //Checks whether there are the required number of free blocks. 
-bool Superblock::check_num_free_blocks(int count){
+bool Superblock::check_needed_number_of_free_blocks(int count){
     return number_free_blocks >= count;
 }
 
