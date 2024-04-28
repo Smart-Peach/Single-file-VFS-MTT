@@ -31,7 +31,7 @@ void AwesomeFileSystem::load_superblock_into_memory() {
     fs_file.seekg(0);
 }
 
-void AwesomeFileSystem::loop_for_write(int start, int end, string data, int address, int index = 0){
+void AwesomeFileSystem::loop_for_write(int start, int end, std::string data, int address, int index = 0){
     fs_file.seekg(address);
     for(int i = start; i < end; i++){
         fs_file.put(data[i + index]);
@@ -65,7 +65,7 @@ void AwesomeFileSystem::load_superblock_from_memory() {
     fs_file.seekg(0);
 }
 
-void AwesomeFileSystem::create_file(string src_name) {
+void AwesomeFileSystem::create_file(std::string src_name) {
     if (!inode_map.is_file_in_directory(src_name)) {
         int free_block = superblock.get_free_block();
         Inode file_inode = Inode(free_block);
@@ -75,7 +75,7 @@ void AwesomeFileSystem::create_file(string src_name) {
     } else throw IOException("File " + src_name + "already exists!");
 };
 
-void AwesomeFileSystem::delete_file(string src_name) {
+void AwesomeFileSystem::delete_file(std::string src_name) {
     if (inode_map.is_file_in_directory(src_name)) {
         Inode deleted_inode = inode_map.get_inode(src_name);
         inode_map.delete_inode(src_name);
@@ -84,7 +84,7 @@ void AwesomeFileSystem::delete_file(string src_name) {
     } else throw IOException("No such file in directory!");
 };
 
-void AwesomeFileSystem::write_to_file(string src_name, string data) { 
+void AwesomeFileSystem::write_to_file(std::string src_name, std::string data) { 
     Inode inode = open_file(src_name);
     int sizeof_file = inode.get_sizeof_file();
     int blocks_amount = inode.get_blocks_amount();
@@ -128,14 +128,14 @@ void AwesomeFileSystem::write_to_file(string src_name, string data) {
 };
 
 //Returns the file's inode
-Inode AwesomeFileSystem::open_file(string src_name) {
+Inode AwesomeFileSystem::open_file(std::string src_name) {
     if (inode_map.is_file_in_directory(src_name)){
-        Inode inode = inode_map.get_inode(src_name).value();
+        Inode inode = inode_map.get_inode(src_name);
         return inode;
     } else throw IOException("No such file in directory!");
 };
 
-void AwesomeFileSystem::read_file(string src_name) {
+void AwesomeFileSystem::read_file(std::string src_name) {
     Inode inode = open_file(src_name);
     std::vector<size_t> storage = inode.get_storage_blocks();
     int num_of_available_char = inode.get_sizeof_file();
@@ -152,6 +152,6 @@ void AwesomeFileSystem::read_file(string src_name) {
     fs_file.seekg(0);
 }
 
-void AwesomeFileSystem::close_file(string src_name) { }
+void AwesomeFileSystem::close_file(std::string src_name) { }
 
-void AwesomeFileSystem::upload_to_file(string src_name){ }
+void AwesomeFileSystem::upload_to_file(std::string src_name){ }

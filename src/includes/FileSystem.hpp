@@ -37,13 +37,13 @@ public:
     virtual void load_superblock_from_memory() = 0;
 
     // File operations:
-    virtual void create_file(string src_name) = 0;
-    virtual void delete_file(string src_name) = 0;
-    virtual void write_to_file(string src_name, string data) = 0;
-    virtual Inode open_file(string src_name) = 0;
-    virtual void read_file(string src_name) = 0;
-    virtual void close_file(string src_name) = 0;
-    virtual void upload_to_file(string src_name) = 0;
+    virtual void create_file(std::string src_name) = 0;
+    virtual void delete_file(std::string src_name) = 0;
+    virtual void write_to_file(std::string src_name, std::string data) = 0;
+    virtual Inode open_file(std::string src_name) = 0;
+    virtual void read_file(std::string src_name) = 0;
+    virtual void close_file(std::string src_name) = 0;
+    virtual void upload_to_file(std::string src_name) = 0;
 
     // Directories operations:
 };
