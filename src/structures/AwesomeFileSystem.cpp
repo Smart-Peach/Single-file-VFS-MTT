@@ -73,7 +73,7 @@ void AwesomeFileSystem::create_file(std::string src_name) {
         int free_block = superblock.get_free_block();
         Inode file_inode = Inode(free_block);
         superblock.update_fields_after_inode_addition(file_inode);
-        inode_map.add_inode(src_name, free_block);
+        inode_map.add_inode(0, src_name, free_block);  // pass zero - type of src for inode
         load_all_into_memory();
     } else throw IOException("File " + src_name + "already exists!");
 };
@@ -164,3 +164,15 @@ void AwesomeFileSystem::read_file(std::string src_name) {
 void AwesomeFileSystem::close_file(std::string src_name) { }
 
 void AwesomeFileSystem::upload_to_file(std::string src_name){ }
+
+// Directory's operations:
+void AwesomeFileSystem::create_dir(std::string src_name) {
+    Inode dir_inode = open_file(src_name);
+ }
+void AwesomeFileSystem::delete_dir(std::string src_name) { }
+void AwesomeFileSystem::add_file_to_dir(std::string file_name, std::string dir_name) { }
+void AwesomeFileSystem::delete_file_in_dir(std::string file_name, std::string dir_name) { }
+Inode AwesomeFileSystem::open_dir(std::string src_name) { return Inode(1);}
+void AwesomeFileSystem::close_dir(std::string src_name) { }
+void AwesomeFileSystem::link_dir(std::string src_name) { }
+void AwesomeFileSystem::unlink_dir(std::string src_name) { }

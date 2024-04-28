@@ -11,9 +11,7 @@ using namespace std;
 
 // Contains information about file system in general
 class Superblock {
-
-private:
-// TODO: add constructor 
+// TODO: add field for root directory
     const char*           fs_type                 = "linear";   // Maybe special structure should be here (aka fs_type)
     const int             sizeof_fs               = 1073741824; // Sizeof file system in bytes, 1 Gb
     const int             max_sizeof_file         = 104857600;  // Maximum available file size, 1 Mb
@@ -24,7 +22,6 @@ private:
     const int             sizeof_block            = 1024;       // Sizeof one block
     const int             size_of_rootdir         = 512;        // Size of root directory
     bitset<number_blocks> free_blocks;                          // May be faster in case array of bool --> in beginning 838776 0's 
-
 
 public:
 

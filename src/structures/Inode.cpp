@@ -2,8 +2,25 @@
 #include <vector>
 #include "../includes/Inode.hpp"
 
+Inode::Inode(bool src_type):
+            src_type(src_type),
+            number_references(0),
+            sizeof_file(0),
+            last_access_time(time(nullptr)),
+            last_file_modif_time(time(nullptr)),
+            last_inode_modif_time(time(nullptr)),
+            blocks_amount(1) { }
 
-Inode::Inode(size_t address_block): number_references(0), sizeof_file(0), last_access_time(time(nullptr)), last_file_modif_time(time(nullptr)), last_inode_modif_time(time(nullptr)), blocks_amount(1) {
+
+Inode::Inode(bool src_type, size_t address_block):
+            src_type(src_type),
+            number_references(0),
+            sizeof_file(0),
+            last_access_time(time(nullptr)),
+            last_file_modif_time(time(nullptr)),
+            last_inode_modif_time(time(nullptr)),
+            blocks_amount(1)
+{
     blocks_storage.push_back(address_block);
 }
 
@@ -55,4 +72,12 @@ void Inode::add_size_to_sizeof_file(int add_size){
 
 void Inode::update_blocks_storage(size_t address){
     blocks_storage.push_back(address);
+}
+
+void Inode::increase_references_amount() {
+    number_references++;
+}
+
+void Inode::decrease_references_amount(){
+    number_references--;
 }
