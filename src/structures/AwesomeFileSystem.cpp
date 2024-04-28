@@ -36,11 +36,9 @@ void AwesomeFileSystem::load_all_into_memory() {
 }
 
 //Goes to the specified address and writes data to the specified boundaries
-void AwesomeFileSystem::write_to_file_with_specified_boundaries(int start, int end, std::string data, int address){
+void AwesomeFileSystem::write_to_file_with_specified_boundaries(int start, int num_of_char, std::string data, int address){
     fs_file.seekg(address);
-    for(int i = start; i < end; i++){
-        fs_file.put(data[i]);
-    }
+    fs_file << data.substr(start, num_of_char);
 };
 //Update info in file's inode after adding one block
 void AwesomeFileSystem::update_inode(Inode& inode, int size, int new_address){
@@ -120,7 +118,7 @@ void AwesomeFileSystem::write_to_file(std::string src_name, std::string data) {
             int index = 0;
             while (extra_blocks > 1){
                 int new_address = superblock.get_free_block();
-                write_to_file_with_specified_boundaries(index, block_size + index, data, new_address);
+                write_to_file_with_specified_boundaries(index, block_size, data, new_address);
                 index += block_size;
                 
                 //update info in inode
@@ -130,7 +128,7 @@ void AwesomeFileSystem::write_to_file(std::string src_name, std::string data) {
             extra_blocks --;
             }
             int new_address = superblock.get_free_block();
-            write_to_file_with_specified_boundaries(index, data.size(), data, new_address);
+            write_to_file_with_specified_boundaries(index, data.size() - index, data, new_address);
             fs_file.seekg(0);
         } else throw SuperblockException("Not enough memory");
     }
