@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <functional>
 #include <map>
 #include <vector>
@@ -21,3 +22,8 @@
 #include "../commands/dir_commands/LinkDir.hpp"
 #include "../commands/dir_commands/UnlinkDir.hpp"
 #include "../commands/basic_commands/Exit.hpp"
+
+#include "../../src/exceptions/InterpreterException.hpp"
+
+typedef std::string str_t;
+static char SEPARATOR = ' ';

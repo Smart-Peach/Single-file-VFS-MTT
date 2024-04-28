@@ -1,6 +1,7 @@
 #pragma once 
+
 #include "includes.hpp"
-#include <string> 
+#include "Lexer.hpp"
 
 
 //TODO: add context as arg / or impl some derived classes of ctx
@@ -9,9 +10,10 @@ typedef std::vector<std::string> str_vector_t;
 typedef std::string str_t;
 
 
-
 class Parser {
+    Lexer lexer;
     Context* context;
+
     bool exit_flag;
     str_t input_line;
     size_t curr_pos;
@@ -42,6 +44,7 @@ class Parser {
 
 public:
     Parser(Context* context, str_t input_line):
+                            lexer(Lexer(input_line)),
                             context(context),
                             input_line(input_line),
                             curr_pos(-1),
@@ -51,10 +54,5 @@ public:
     Command* next_command();
 
 private:
-    static bool contains(const str_t& str, char symbol);
-    str_t next_token(size_t sym_pos);
-    str_t parse_text(size_t sym_pos);
     Command* parse(str_t token);
-    Command* line_parse(str_t token);
-    bool is_next_file();
 };
