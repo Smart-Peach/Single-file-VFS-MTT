@@ -31,6 +31,10 @@ void AwesomeFileSystem::load_superblock_into_memory() {
     fs_file.seekg(0);
 }
 
+void AwesomeFileSystem::load_all_into_memory() {
+    load_superblock_into_memory();
+}
+
 void AwesomeFileSystem::loop_for_write(int start, int end, std::string data, int address, int index = 0){
     fs_file.seekg(address);
     for(int i = start; i < end; i++){
@@ -55,7 +59,7 @@ void AwesomeFileSystem::load_superblock_from_memory() {
     fs_file.read((char*)(&superblock.sizeof_fs), sizeof(superblock.sizeof_fs));
     fs_file.read((char*)(&superblock.max_sizeof_file), sizeof(superblock.max_sizeof_file));
     fs_file.read((char*)(&superblock.sizeof_ilist_bytes), sizeof(superblock.sizeof_ilist_bytes));
-    fs_file.read((char*)(&Superblock::number_blocks), sizeof(superblock.number_blocks));
+    // fs_file.read((char*)(&Superblock::number_blocks), sizeof(superblock.number_blocks));
     fs_file.read((char*)(&superblock.number_free_blocks), sizeof(superblock.number_free_blocks));
     fs_file.read((char*)(&superblock.number_available_inodes), sizeof(superblock.number_available_inodes));
     fs_file.read((char*)(&superblock.sizeof_block), sizeof(superblock.sizeof_block));
