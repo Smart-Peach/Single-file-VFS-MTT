@@ -17,6 +17,7 @@ public:
     void read_file(string src_name) override { };
     void close_file(string src_name) override { };
     void upload_to_file(string src_name) override { };
+private:
     void loop_for_write(int start, int end, string data, int address, int index);
     void update_inode(Inode& inode, int size, int new_address);
 };

@@ -44,14 +44,15 @@ void AwesomeFileSystem::write_to_file(string src_name, string data) {
     Inode inode = open_file(src_name);
     int sizeof_file = inode.get_sizeof_file();
     int blocks_amount = inode.get_blocks_amount();
+    int block_size = superblock.get_sizeof_block();
 
     int new_size = sizeof_file + data.size(); //new size for file
-    int available_memory = blocks_amount * BLOCK_SIZE; //for file on the current time
+    int available_memory = blocks_amount * block_size; //for file on the current time
     int difference = new_size - available_memory; // check who is bigger
 
     if(difference <= 0){ //if we can write all data into last block
         int free_memory_in_last_block = available_memory - sizeof_file;
-        int shift = BLOCK_SIZE - free_memory_in_last_block; // shift for address from start of the last block
+        int shift = block_size - free_memory_in_last_block; // shift for address from start of the last block
         size_t address = inode.get_last_block() + shift;
         loop_for_write(0, data.size(), data, address);
         fs_file.seekg(0);
@@ -59,19 +60,19 @@ void AwesomeFileSystem::write_to_file(string src_name, string data) {
         inode.add_size_to_sizeof_file(data.size());
         //TODO: update time_t fields in inode
     } else{
-        int extra_blocks = difference/BLOCK_SIZE; //the integer part of the number (extra blocks for data)
-        if(difference % BLOCK_SIZE > 0){
+        int extra_blocks = difference/block_size; //the integer part of the number (extra blocks for data)
+        if(difference % block_size > 0){
             extra_blocks ++;  //+ 1 block for data
         }
         if(superblock.check_num_free_blocks(extra_blocks)){
             int index = 0;
             while (extra_blocks > 1){
                 int new_address = superblock.get_free_block();
-                loop_for_write(0, BLOCK_SIZE, data, new_address, index);
-                index += BLOCK_SIZE;
+                loop_for_write(0, block_size, data, new_address, index);
+                index += block_size;
                 
                 //update info in inode
-                update_inode(inode, BLOCK_SIZE, new_address);
+                update_inode(inode, block_size, new_address);
                 //TODO: update time_t fields in inode
 
             extra_blocks --;
@@ -95,14 +96,16 @@ void AwesomeFileSystem::read_file(string src_name) {
     Inode inode = open_file(src_name);
     std::vector<size_t> storage = inode.get_storage_blocks();
     int num_of_available_char = inode.get_sizeof_file();
+    int block_size = superblock.get_sizeof_block();
 
     for(int i = 0; i < storage.size(); i++){
         char c;
         fs_file.seekg(storage[i]); //change location to start of current block
-        while (fs_file.get(c) && i < BLOCK_SIZE && num_of_available_char > 0){
+        int count = 0;
+        while (fs_file.get(c) && count < block_size && num_of_available_char > 0){
             std::cout << c;
-            i++;
-            num_of_available_char --;
+            count++;
+            num_of_available_char--;
         }
     }
     fs_file.seekg(0);

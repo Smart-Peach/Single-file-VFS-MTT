@@ -6,8 +6,7 @@
 #include "Superblock.hpp"
 
 // TODO: replace with real num of blocks
-static const size_t BLOCKS_AMOUNT = 10000;
-static const size_t BLOCK_SIZE = 256;      
+static const size_t BLOCKS_AMOUNT = 10000;   
 typedef std::bitset<BLOCKS_AMOUNT> bitset_t;
 
 // Class representing our awesome filesystem
