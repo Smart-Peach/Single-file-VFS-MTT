@@ -50,8 +50,10 @@ int Superblock::get_free_block() {
     for (int i=0;i<free_blocks.size();i++) {
         if (free_blocks.test(i)) {
             block_ind = i;
+            break;
         }
     }
+
 
     int block_address = 1024 + 1024 + free_blocks.size() + sizeof_ilist_bytes + size_of_rootdir + block_ind * sizeof_block;
 
@@ -59,6 +61,7 @@ int Superblock::get_free_block() {
         throw SuperblockException("Superblock: CORE DUMPED! Block is beyond file system boundaries!");
     }
 
+    std::cout << block_address << std::endl;
     return block_address; 
 }
 

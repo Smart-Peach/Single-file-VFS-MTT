@@ -30,7 +30,7 @@ const std::vector<size_t>& Inode::get_blocks_storage() {
 }
 
 size_t Inode::get_last_block(){
-    return blocks_storage[-1];
+    return blocks_storage.back();
 }
 
 // Print all fields of inode 

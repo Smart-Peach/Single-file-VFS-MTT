@@ -69,13 +69,13 @@ void AwesomeFileSystem::load_superblock_from_memory() {
 }
 
 void AwesomeFileSystem::create_file(std::string src_name) {
-    if (!inode_map.is_file_in_directory(src_name)) {
+    if (inode_map.is_file_in_directory(src_name)) {
         int free_block = superblock.get_free_block();
-        Inode file_inode = Inode(free_block);
+        Inode file_inode = Inode(0, free_block);
         superblock.update_fields_after_inode_addition(file_inode);
         inode_map.add_inode(0, src_name, free_block);  // pass zero - type of src for inode
         load_all_into_memory();
-    } else throw IOException("File " + src_name + "already exists!");
+    } else throw IOException("File " + src_name + " already exists!");
 };
 
 void AwesomeFileSystem::delete_file(std::string src_name) {

@@ -44,9 +44,10 @@ test-hash-function:
 
 
 test-binary:
-	$(CXX) tests/test_main_binary.cpp -o test_bin.out $(STD)
-	./test_bin.out
-	rm *.out
+	$(CXX) -c interpreter/Lexer.cpp interpreter/Parser.cpp  tests/test_main_binary.cpp src/structures/AwesomeFileSystem.cpp src/structures/Superblock.cpp src/structures/Inode.cpp src/structures/InodeMap.cpp interpreter/Interpreter.cpp $(STD)
+	$(CXX) test_main_binary.o Lexer.o Superblock.o Inode.o InodeMap.o Parser.o AwesomeFileSystem.o Interpreter.o -o test.out $(STD)
+	./test.out
+	rm *.out *.o
 
 test-superblock:
 	$(CXX) tests/test_superblock_func.cpp src/structures/AwesomeFileSystem.cpp src/structures/Inode.cpp src/structures/Superblock.cpp  -o test_bin.out
