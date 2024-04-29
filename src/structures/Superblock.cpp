@@ -60,8 +60,6 @@ int Superblock::get_free_block() {
     if (block_address + sizeof_block >= sizeof_fs) {
         throw SuperblockException("Superblock: CORE DUMPED! Block is beyond file system boundaries!");
     }
-
-    std::cout << block_address << std::endl;
     return block_address; 
 }
 

@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
     CommandTest(AFS, 2, "write", "Missed argument for command!");
     CommandTest(AFS, 3, "uldir", "Missed argument for command!");
     CommandTest(AFS, 4,"odir nicedir", "Unknown command 'odir'!");
-    CommandTest(AFS, 5, "rndir nicedir baddir", "RenameDir command was applied to \"nicedir\"");
+    CommandTest(AFS, 5,"create file.txt write file.txt \"nice message\"", "CreateFile command was applied to \"file.txt\"\nWriteFile command was applied to \"file.txt\"\nText: nice message");
 
 
     std::cout << "=================End test running=================" << std::endl;

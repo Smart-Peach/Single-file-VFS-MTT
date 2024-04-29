@@ -24,7 +24,7 @@ str_t Lexer::next_token(size_t& curr_pos) {
         if ((next_sym == SEPARATOR && !next_token.empty())) break;
     }
     if (next_token.empty()) throw InterpreterException("Missed argument for command!");
-    curr_pos = next_pos;
+    curr_pos = next_pos - 1;
     return next_token;
 
 }
@@ -49,6 +49,6 @@ str_t Lexer::next_text_token(size_t& curr_pos) {
             parsed_content.append(1, next_sym);
         }
     }
-    curr_pos = next_pos;
+    curr_pos = next_pos - 1;
     return parsed_content;
 }
