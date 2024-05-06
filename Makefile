@@ -58,7 +58,7 @@ test-binary:
 	rm *.out *.o
 
 test-superblock:
-	$(CXX) tests/test_superblock_func.cpp src/structures/AwesomeFileSystem.cpp src/structures/Inode.cpp src/structures/Superblock.cpp  -o test_bin.out
+	$(CXX) tests/test_superblock_func.cpp src/structures/Superblock.cpp src/structures/Inode.cpp src/structures/InodeMap.cpp src/structures/AwesomeFileSystem.cpp -o test_bin.out
 	./test_bin.out
 	rm *.out
 

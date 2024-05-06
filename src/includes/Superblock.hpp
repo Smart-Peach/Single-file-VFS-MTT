@@ -23,6 +23,17 @@ class Superblock {
 
 public:
 
+    // Superblock(const char* fs_type, int sizeof_fs, int max_sizeof_file, int sizeof_ilist_bytes, int number_blocks, int number_free_blocks, int number_available_inodes, int sizeof_block, int size_of_rootdir )
+    // : fs_type(fs_type),
+    //   sizeof_fs(sizeof_fs),
+    //   max_sizeof_file(max_sizeof_file),
+    //   sizeof_ilist_bytes(sizeof_ilist_bytes),
+    //   number_blocks(number_blocks),
+    //   number_free_blocks(number_free_blocks),
+    //   number_available_inodes(number_available_inodes),
+    //   sizeof_block(sizeof_block),
+    //   size_of_rootdir(size_of_rootdir) {}
+
     //Loads Superblock's fields into second 1024 bytes
     void load_into_memory(fstream& address_space);
     void load_from_memory(fstream& address_space);
@@ -39,4 +50,5 @@ public:
     bool check_needed_number_of_free_blocks(int count);
 
     friend class AwesomeFileSystem;
+    friend class TestSuperblock;
 };
