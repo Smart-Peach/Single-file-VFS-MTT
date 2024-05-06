@@ -18,6 +18,12 @@ endif
 all: interpreter clean 
 
 
+gen-bin-file:
+	$(CXX) -c tests/generate_file.cpp $(SAN) $(STD)
+	$(CXX) generate_file.o -o test.out $(TEST_FLAGS) $(SAN) $(STD)
+	./test.out
+	rm *.out
+
 interpreter:
 	$(CXX) -c interpreter/Lexer.cpp interpreter/Parser.cpp  interpreter/Interpreter.cpp src/vfs_mtt_main.cpp $(STD)
 	$(CXX) vfs_mtt_main.o Lexer.o  Parser.o Interpreter.o -o main.out $(STD)
@@ -41,6 +47,8 @@ test-hash-function:
 	$(CXX) tests/test_hash_function.cpp -o test_bin.out $(STD)
 	./test_bin.out
 	rm *.out
+
+
 
 
 test-binary:
