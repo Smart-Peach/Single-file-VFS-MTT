@@ -22,7 +22,7 @@
 #include "../commands/dir_commands/UnlinkDir.hpp"
 #include "../commands/basic_commands/Exit.hpp"
 
-#include "../../src/exceptions/InterpreterException.hpp"
+#include "../../exceptions/InterpreterException.hpp"
 
 typedef std::string str_t;
 static char SEPARATOR = ' ';

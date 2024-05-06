@@ -1,5 +1,5 @@
 #include "includes/Lexer.hpp"
-#include "../src/exceptions/InterpreterException.hpp"
+#include "../exceptions/InterpreterException.hpp"
 
 // TODO: - goto InodeMap
 //       - check in inodes by hash of the name of file

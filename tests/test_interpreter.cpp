@@ -2,7 +2,7 @@
 #include <sstream> 
 #include <cassert>
 
-#include "../interpreter/includes/Interpreter.hpp"
+#include "../src/interpreter/includes/Interpreter.hpp"
 #include "../src/includes/AwesomeFileSystem.hpp"
 #include "../src/exceptions/InterpreterException.hpp"
 

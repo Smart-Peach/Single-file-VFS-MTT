@@ -2,7 +2,7 @@
 #include <sstream>
 #include <string> 
 #include <iostream>  
-#include "../interpreter/includes/Interpreter.hpp"
+#include "interpreter/includes/Interpreter.hpp"
 #include "exceptions/InterpreterException.hpp"
 #include "includes/AwesomeFileSystem.hpp"
 #include "includes/Superblock.hpp"
