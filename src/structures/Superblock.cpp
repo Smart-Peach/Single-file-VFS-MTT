@@ -49,7 +49,7 @@ int Superblock::get_free_block() {
     }
 
     int block_ind = 0;
-    for (int i=0;i<free_blocks.size();i++) {
+    for (int i=0; i<free_blocks.size(); i++) {
         if (free_blocks.test(i)) {
             block_ind = i;
             break;
