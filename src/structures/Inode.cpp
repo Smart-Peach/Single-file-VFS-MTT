@@ -2,18 +2,35 @@
 #include <vector>
 #include "../includes/Inode.hpp"
 
+Inode::Inode(bool src_type):
+            src_type(src_type),
+            number_references(0),
+            sizeof_file(0),
+            last_access_time(time(nullptr)),
+            last_file_modif_time(time(nullptr)),
+            last_inode_modif_time(time(nullptr)),
+            blocks_amount(1) { }
 
-Inode::Inode(size_t address_block): number_references(0), sizeof_file(0), last_access_time(time(nullptr)), last_file_modif_time(time(nullptr)), last_inode_modif_time(time(nullptr)), blocks_amount(1) {
-    storage_blocks.push_back(address_block);
+
+Inode::Inode(bool src_type, size_t address_block):
+            src_type(src_type),
+            number_references(0),
+            sizeof_file(0),
+            last_access_time(time(nullptr)),
+            last_file_modif_time(time(nullptr)),
+            last_inode_modif_time(time(nullptr)),
+            blocks_amount(1)
+{
+    blocks_storage.push_back(address_block);
 }
 
 // Maybe another type
-const std::vector<size_t>& Inode::get_storage_blocks() {  
-    return storage_blocks;
+const std::vector<size_t>& Inode::get_blocks_storage() {  
+    return blocks_storage;
 }
 
 size_t Inode::get_last_block(){
-    return storage_blocks[-1];
+    return blocks_storage.back();
 }
 
 // Print all fields of inode 
@@ -29,7 +46,7 @@ void Inode::print_fields() {
     std::cout << "Time of the last inode modification = " << last_inode_modif_time << std::endl;
     std::cout << "Current sizeof array with storage block addresses = " << blocks_amount << std::endl;
     std::cout << "Array of storage block addresses: ";
-    for(int i = 0; i < blocks_amount; i++) std::cout << storage_blocks[i] << " ";
+    for(int i = 0; i < blocks_amount; i++) std::cout << blocks_storage[i] << " ";
 }
 
 
@@ -53,6 +70,14 @@ void Inode::add_size_to_sizeof_file(int add_size){
     sizeof_file += add_size;
 }
 
-void Inode::update_storage_blocks(size_t address){
-    storage_blocks.push_back(address);
+void Inode::update_blocks_storage(size_t address){
+    blocks_storage.push_back(address);
+}
+
+void Inode::increase_references_amount() {
+    number_references++;
+}
+
+void Inode::decrease_references_amount(){
+    number_references--;
 }

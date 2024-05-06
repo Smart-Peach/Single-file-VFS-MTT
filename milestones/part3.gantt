@@ -1,4 +1,11 @@
 Part 3 ,2024-04-30,2024-05-27
-Navigating and retrieving mechanisms,2024-04-30,2024-05-08
-OPTIONAL,2024-05-09,2024-05-27
-Documentation,2024-05-09,2024-05-27
+Buffer for data (Tasya P) ,2024-04-30,2024-05-10
+Hash and rehash functions for inode magic number (Masha),2024-04-30,2024-05-10
+Directories (Tasya K,2024-04-30,2024-05-10
+Implement functions in AFS(for directories) (Tasya K),2024-05-11,2024-05-21
+Modifiers for file(like "r" "w" "rw") (Tasya P),2024-05-11,2024-05-26
+Tests (Masha),2024-04-30,2024-05-27
+Debug,2024-05-06,2024-05-27
+Documentation (Masha),2024-05-18,2024-05-27
+Encode and decode data to write (all),2024-05-11,2024-05-27
+OPTIONAL (all),2024-05-17,2024-05-27
