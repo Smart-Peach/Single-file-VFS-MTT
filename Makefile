@@ -25,8 +25,8 @@ gen-bin-file:
 	rm *.out
 
 interpreter:
-	$(CXX) -c interpreter/Lexer.cpp interpreter/Parser.cpp  interpreter/Interpreter.cpp src/vfs_mtt_main.cpp $(STD)
-	$(CXX) vfs_mtt_main.o Lexer.o  Parser.o Interpreter.o -o main.out $(STD)
+	$(CXX) -c interpreter/Lexer.cpp interpreter/Parser.cpp src/structures/AwesomeFileSystem.cpp src/structures/Superblock.cpp src/structures/Inode.cpp src/structures/InodeMap.cpp interpreter/Interpreter.cpp  src/vfs_mtt_main.cpp $(STD)
+	$(CXX) vfs_mtt_main.o Lexer.o Superblock.o Inode.o InodeMap.o Parser.o AwesomeFileSystem.o Interpreter.o -o main.out $(STD)
 	rm *.o
 	./main.out
 
@@ -37,8 +37,8 @@ interpreter-san:
 	./main.out
 
 test-interpreter: 
-	$(CXX) -c interpreter/Lexer.cpp interpreter/Parser.cpp  tests/test_interpreter.cpp src/structures/AwesomeFileSystem.cpp src/structures/Superblock.cpp src/structures/Inode.cpp src/structures/InodeMap.cpp interpreter/Interpreter.cpp $(STD)
-	$(CXX) test_interpreter.o Lexer.o Superblock.o Inode.o InodeMap.o Parser.o AwesomeFileSystem.o Interpreter.o -o tests/test.out $(STD)
+	$(CXX) -c interpreter/Lexer.cpp interpreter/Parser.cpp  tests/test_interpreter.cpp src/structures/AwesomeFileSystem.cpp src/structures/Superblock.cpp src/structures/Inode.cpp src/structures/InodeMap.cpp interpreter/Interpreter.cpp $(SAN) $(STD)
+	$(CXX) test_interpreter.o Lexer.o Superblock.o Inode.o InodeMap.o Parser.o AwesomeFileSystem.o Interpreter.o -o tests/test.out $(TEST_FLAGS) $(SAN) $(STD)
 	./tests/test.out
 	rm *.o 
 
@@ -47,8 +47,6 @@ test-hash-function:
 	$(CXX) tests/test_hash_function.cpp -o test_bin.out $(STD)
 	./test_bin.out
 	rm *.out
-
-
 
 
 test-binary:
