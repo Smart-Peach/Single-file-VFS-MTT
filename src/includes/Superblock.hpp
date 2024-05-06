@@ -50,4 +50,5 @@ public:
     bool check_needed_number_of_free_blocks(int count);
 
     friend class AwesomeFileSystem;
+    friend class TestSuperblock;
 };

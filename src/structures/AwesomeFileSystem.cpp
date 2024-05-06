@@ -165,6 +165,14 @@ void AwesomeFileSystem::close_file(std::string src_name) { }
 
 void AwesomeFileSystem::upload_to_file(std::string src_name){ }
 
+void AwesomeFileSystem::change_superblock(int new_item) {
+    superblock.number_free_blocks = new_item;
+}
+
+int AwesomeFileSystem::get_for_test(){
+    return superblock.sizeof_ilist_bytes;
+}
+
 // Directory's operations:
 void AwesomeFileSystem::create_dir(std::string src_name) {
     Inode dir_inode = open_file(src_name);
