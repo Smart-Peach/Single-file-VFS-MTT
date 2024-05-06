@@ -1,8 +1,8 @@
 #include "includes/Interpreter.hpp"
 #include "includes/Parser.hpp"
-#include <string>
+// #include <string>
 
-bool Interpreter::interpret(std::string input_line){
+bool Interpreter::interpret(str_t input_line){
     
     if (context->get_exit_flag()) return false;
     Parser parser = Parser(context, input_line);

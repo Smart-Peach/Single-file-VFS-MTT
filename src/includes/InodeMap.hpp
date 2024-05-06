@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include "Inode.hpp"
 #include "../exceptions/InodeMapException.hpp"
-
+#include "types.hpp"
 
 // Key   - magic_number (name hash)
 // Value - instance of Inode

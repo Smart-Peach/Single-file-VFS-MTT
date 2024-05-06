@@ -36,7 +36,7 @@ void AwesomeFileSystem::load_all_into_memory() {
 }
 
 //Goes to the specified address and writes data to the specified boundaries
-void AwesomeFileSystem::write_to_file_with_specified_boundaries(int start, int num_of_char, std::string data, int address){
+void AwesomeFileSystem::write_to_file_with_specified_boundaries(int start, int num_of_char, str_t data, int address){
     fs_file.seekg(address);
     fs_file << data.substr(start, num_of_char);
 };
@@ -68,7 +68,7 @@ void AwesomeFileSystem::load_superblock_from_memory() {
     fs_file.seekg(0);
 }
 
-void AwesomeFileSystem::create_file(std::string src_name) {
+void AwesomeFileSystem::create_file(str_t src_name) {
     // std::cout << "\nCreate file: " << src_name << "\n" << std::endl;
     if (inode_map.is_file_in_directory(src_name)) {
         int free_block = superblock.get_free_block();
@@ -80,7 +80,7 @@ void AwesomeFileSystem::create_file(std::string src_name) {
     } else throw IOException("File " + src_name + " already exists!");
 };
 
-void AwesomeFileSystem::delete_file(std::string src_name) {
+void AwesomeFileSystem::delete_file(str_t src_name) {
     if (inode_map.is_file_in_directory(src_name)) {
         Inode deleted_inode = inode_map.get_inode(src_name);
         inode_map.delete_inode(src_name);
@@ -89,7 +89,7 @@ void AwesomeFileSystem::delete_file(std::string src_name) {
     } else throw IOException("No such file in directory!");
 };
 
-void AwesomeFileSystem::write_to_file(std::string src_name, std::string data) { 
+void AwesomeFileSystem::write_to_file(str_t src_name, str_t data) { 
     // std::cout << "\nWrite to file: " << src_name << "\n" << std::endl;
     Inode inode = open_file(src_name);
     int sizeof_file = inode.get_sizeof_file();
@@ -138,16 +138,16 @@ void AwesomeFileSystem::write_to_file(std::string src_name, std::string data) {
 };
 
 //Returns the file's inode
-Inode AwesomeFileSystem::open_file(std::string src_name) {
+Inode AwesomeFileSystem::open_file(str_t src_name) {
     if (inode_map.is_file_in_directory(src_name)){
         Inode inode = inode_map.get_inode(src_name);
         return inode;
     } else throw IOException("No such file in directory!");
 };
 
-void AwesomeFileSystem::read_file(std::string src_name) {
+void AwesomeFileSystem::read_file(str_t src_name) {
     Inode inode = open_file(src_name);
-    std::vector<size_t> storage = inode.get_blocks_storage();
+    vector_size_t storage = inode.get_blocks_storage();
     int num_of_available_char = inode.get_sizeof_file();
     const int block_size = superblock.sizeof_block;
 
@@ -164,9 +164,9 @@ void AwesomeFileSystem::read_file(std::string src_name) {
     fs_file.seekg(0);
 }
 
-void AwesomeFileSystem::close_file(std::string src_name) { }
+void AwesomeFileSystem::close_file(str_t src_name) { }
 
-void AwesomeFileSystem::upload_to_file(std::string src_name){ }
+void AwesomeFileSystem::upload_to_file(str_t src_name){ }
 
 void AwesomeFileSystem::change_superblock(int new_item) {
     superblock.number_free_blocks = new_item;
@@ -177,13 +177,13 @@ int AwesomeFileSystem::get_for_test(){
 }
 
 // Directory's operations:
-void AwesomeFileSystem::create_dir(std::string src_name) {
+void AwesomeFileSystem::create_dir(str_t src_name) {
     Inode dir_inode = open_file(src_name);
  }
-void AwesomeFileSystem::delete_dir(std::string src_name) { }
-void AwesomeFileSystem::add_file_to_dir(std::string file_name, std::string dir_name) { }
-void AwesomeFileSystem::delete_file_in_dir(std::string file_name, std::string dir_name) { }
-Inode AwesomeFileSystem::open_dir(std::string src_name) { return Inode(1);}
-void AwesomeFileSystem::close_dir(std::string src_name) { }
-void AwesomeFileSystem::link_dir(std::string src_name) { }
-void AwesomeFileSystem::unlink_dir(std::string src_name) { }
+void AwesomeFileSystem::delete_dir(str_t src_name) { }
+void AwesomeFileSystem::add_file_to_dir(str_t file_name, str_t dir_name) { }
+void AwesomeFileSystem::delete_file_in_dir(str_t file_name, str_t dir_name) { }
+Inode AwesomeFileSystem::open_dir(str_t src_name) { return Inode(1);}
+void AwesomeFileSystem::close_dir(str_t src_name) { }
+void AwesomeFileSystem::link_dir(str_t src_name) { }
+void AwesomeFileSystem::unlink_dir(str_t src_name) { }

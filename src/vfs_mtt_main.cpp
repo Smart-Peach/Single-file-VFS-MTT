@@ -7,14 +7,15 @@
 #include "includes/AwesomeFileSystem.hpp"
 #include "includes/Superblock.hpp"
 #include "includes/InodeMap.hpp"
+#include "includes/types.hpp"
 
 
 
 
 int main(int argc, char* argv[]){
-    FileSystem* AFS = new AwesomeFileSystem(Superblock(), InodeMap(), std::string("AFS.bin"));
+    FileSystem* AFS = new AwesomeFileSystem(Superblock(), InodeMap(), str_t("AFS.bin"));
     Interpreter interpreter = Interpreter(AFS);
-    std::string input_line;
+    str_t input_line;
     while (std::getline(std::cin, input_line)) {
         try {
             if (!interpreter.interpret(input_line)) break;

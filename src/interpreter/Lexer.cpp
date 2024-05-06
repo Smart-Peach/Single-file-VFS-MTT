@@ -14,7 +14,7 @@ bool Lexer::contains(const str_t& str, char symbol) {
 
 str_t Lexer::next_token(size_t& curr_pos) {
     int next_pos = curr_pos;
-    std::string next_token = std::string();
+    str_t next_token;
 
     while (++next_pos < input_line.length()) {
         char next_sym = input_line.at(next_pos);
@@ -30,7 +30,7 @@ str_t Lexer::next_token(size_t& curr_pos) {
 }
 
 str_t Lexer::next_text_token(size_t& curr_pos) {
-    std::string parsed_content = std::string();
+    str_t parsed_content;
     size_t next_pos = curr_pos;
     
     // skip spaces

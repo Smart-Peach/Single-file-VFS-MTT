@@ -2,12 +2,12 @@
 
 #include "includes.hpp"
 #include "Lexer.hpp"
+#include "../../includes/types.hpp" 
 
 
 //TODO: add context as arg / or impl some derived classes of ctx
 typedef std::function<Command*()> cmd_cstr_t;
-typedef std::vector<std::string> str_vector_t;
-typedef std::string str_t;
+typedef std::vector<str_t> str_vector_t;
 
 
 class Parser {

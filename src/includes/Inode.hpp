@@ -4,8 +4,7 @@
 #include <vector>
 #include <ctime>
 
-typedef std::string str_t;
-typedef std::time_t time_t;
+#include "types.hpp" 
 //TODO:Add a bit structure for optional bits
 
 // describes exact file or directory
@@ -15,8 +14,8 @@ class Inode {
 private:
     bool                src_type;           // Type of source: directory - 1, file - 0
     int                 magic_number;          // Unique number of inode (aka hash) 
-    bool                optional_bit1 = 0;     // Bits for permissions (optional) // ???
-    bool                optional_bit2 = 0;     // |
+    bit                 optional_bit1 = 0;     // Bits for permissions (optional) // ???
+    bit                 optional_bit2 = 0;     // |
     int                 number_references;     // Number of references to file
     str_t               identifier;            // Identificator of owner/user and group-owner (Maybe another type)
     int                 sizeof_file;           // Current sizeof file
@@ -24,7 +23,7 @@ private:
     time_t              last_file_modif_time;  // |
     time_t              last_inode_modif_time; // | 
     int                 blocks_amount;         // Сurrent sizeof the array with storage block addresses
-    std::vector<size_t> blocks_storage;        // Array of storage block addresses
+    vector_size_t blocks_storage;        // Array of storage block addresses
     
     // TODO: Should storage_block be a linked-list?
     // tmp:  changed to vector type due to conflicts in constructor
@@ -35,7 +34,7 @@ public:
     Inode(bool src_type);
     Inode(bool src_type, size_t free_block);
     Inode(bool src_type, int magic_number, int sizeof_file, str_t identifier,
-          int block_amount, std::vector<size_t> storage_blocks):
+          int block_amount, vector_size_t storage_blocks):
                                             src_type(src_type),
                                             magic_number(magic_number),
                                             number_references(0),
@@ -51,7 +50,7 @@ public:
     Inode& operator=(const Inode& other) = default;
     ~Inode() = default;
 
-    const std::vector<size_t>& get_blocks_storage();
+    const vector_size_t& get_blocks_storage();
     size_t get_last_block();   
     void print_fields();                                      
     int get_sizeof_file();                             
@@ -62,5 +61,4 @@ public:
     void update_blocks_storage(size_t address);
     void increase_references_amount();
     void decrease_references_amount();
-    
 };

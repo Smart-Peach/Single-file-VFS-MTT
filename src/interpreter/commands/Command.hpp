@@ -1,8 +1,7 @@
 #pragma once
 
 #include "../includes/Context.hpp"
-
-typedef std::string str_t;
+#include "../../includes/types.hpp" 
 
 class Command {
 protected:

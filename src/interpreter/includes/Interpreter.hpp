@@ -2,6 +2,7 @@
 
 
 #include "../../includes/FileSystem.hpp"
+#include "../../includes/types.hpp" 
 #include "Context.hpp"
 
 class Interpreter {
@@ -13,5 +14,5 @@ public:
     Interpreter& operator=(const Interpreter& other) = default;
     ~Interpreter() { delete context; }
 
-    bool interpret(std::string input_line);
+    bool interpret(str_t input_line);
 };

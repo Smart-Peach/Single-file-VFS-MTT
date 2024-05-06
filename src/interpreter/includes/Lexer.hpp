@@ -1,13 +1,11 @@
 #pragma once 
 
 // #include "includes.hpp"
+#include "../../includes/types.hpp" 
 
 #include <iostream>
 
 class Parser;
-typedef std::string str_t;
-
-
 
 class Lexer {
     

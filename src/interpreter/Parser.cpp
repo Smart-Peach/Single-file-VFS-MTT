@@ -4,7 +4,7 @@
 // Returns pointer of Command (after parsing)
 Command* Parser::next_command() {
     int next_pos = this->curr_pos;
-    std::string token = std::string();
+    str_t token;
 
     while (++next_pos < input_line.length()){
         char next_sym = input_line.at(next_pos);

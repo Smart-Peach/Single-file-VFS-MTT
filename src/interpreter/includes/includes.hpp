@@ -24,5 +24,4 @@
 
 #include "../../exceptions/InterpreterException.hpp"
 
-typedef std::string str_t;
 static char SEPARATOR = ' ';
