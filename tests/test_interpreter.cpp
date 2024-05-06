@@ -23,6 +23,7 @@ void CommandTest(FileSystem* AFS, size_t test_number, std::string input_line, st
 
     std::cout.rdbuf(coutbuf); // reset to standard output again
 
+
     std::string actual = ss.str();
     std::cout << "Command line: " << input_line << std::endl;
     std::cout << "Excpected: " << excpected << std::endl;

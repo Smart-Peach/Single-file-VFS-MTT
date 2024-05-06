@@ -69,8 +69,10 @@ void AwesomeFileSystem::load_superblock_from_memory() {
 }
 
 void AwesomeFileSystem::create_file(std::string src_name) {
+    // std::cout << "\nCreate file: " << src_name << "\n" << std::endl;
     if (inode_map.is_file_in_directory(src_name)) {
         int free_block = superblock.get_free_block();
+        // std::cout << free_block << src_name << std::endl;
         Inode file_inode = Inode(0, free_block);
         superblock.update_fields_after_inode_addition(file_inode);
         inode_map.add_inode(0, src_name, free_block);  // pass zero - type of src for inode
@@ -88,6 +90,7 @@ void AwesomeFileSystem::delete_file(std::string src_name) {
 };
 
 void AwesomeFileSystem::write_to_file(std::string src_name, std::string data) { 
+    // std::cout << "\nWrite to file: " << src_name << "\n" << std::endl;
     Inode inode = open_file(src_name);
     int sizeof_file = inode.get_sizeof_file();
     int blocks_amount = inode.get_blocks_amount();
