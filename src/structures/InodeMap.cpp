@@ -5,7 +5,7 @@ int InodeMap::get_inode_hash(str_t name) {
     return std::hash<str_t>{} (name);   // TODO: use our own hash func
 }
 
-Inode InodeMap::get_inode(str_t src_name){
+Inode& InodeMap::get_inode(str_t src_name){
     try {
         int magic_number = get_inode_hash(src_name);
         return inode_map.at(magic_number);      
@@ -36,7 +36,7 @@ void InodeMap::delete_inode(str_t src_name) {
 };
 
 // Update inode in InodeMap and in FS bin file
-void InodeMap::update_inode(Inode updated_inode) {
+void InodeMap::update_inode(Inode& updated_inode) {
     int inode_hash = updated_inode.get_magic_number();
     if(inode_map.find(inode_hash) == inode_map.end()) {
         throw InodeMapException("Impossible to update Inode with hash '" + std::to_string(inode_hash) + "' because it doesn't exist");

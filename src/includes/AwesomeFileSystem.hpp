@@ -20,7 +20,7 @@ public:
     void create_file(str_t src_name) override;
     void delete_file(str_t src_name) override;
     void write_to_file(str_t src_name, str_t data) override;
-    Inode open_file(str_t src_name) override;
+    Inode& open_file(str_t src_name) override;
     void read_file(str_t src_name) override;
     void close_file(str_t src_name) override;
     void upload_to_file(str_t src_name) override;

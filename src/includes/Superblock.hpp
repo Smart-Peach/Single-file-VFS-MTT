@@ -37,8 +37,8 @@ public:
     //Loads Superblock's fields into second 1024 bytes
     void load_into_memory(fstream& address_space);
     void load_from_memory(fstream& address_space);
-    void update_fields_after_inode_addition(Inode inode);
-    void update_fields_after_inode_deletion(Inode inode);
+    void update_fields_after_inode_addition(Inode& inode);
+    void update_fields_after_inode_deletion(Inode& inode);
 
     // int get_number_of_blocks();
 

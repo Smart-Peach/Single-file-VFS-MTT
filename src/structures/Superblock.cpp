@@ -6,7 +6,7 @@
 // }
 
 // Updates fields after creating new Inode
-void Superblock::update_fields_after_inode_addition(Inode inode) {
+void Superblock::update_fields_after_inode_addition(Inode& inode) {
     if (!Superblock::check_free_blocks()) {
         throw SuperblockException("Superblock, update_fields_after_inode_addition: no free inodes left! Addition of inode was failed.");
     }
@@ -28,7 +28,7 @@ void Superblock::update_fields_after_inode_addition(Inode inode) {
 }
 
 // Updates fields after deleting new Inode
-void Superblock::update_fields_after_inode_deletion(Inode inode) {
+void Superblock::update_fields_after_inode_deletion(Inode& inode) {
     number_available_inodes++;
     number_free_blocks += inode.get_blocks_amount();
 
