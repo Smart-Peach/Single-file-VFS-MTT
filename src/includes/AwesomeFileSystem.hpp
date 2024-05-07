@@ -3,7 +3,6 @@
 #include "FileSystem.hpp"
 #include "types.hpp"
 
-
 class AwesomeFileSystem: public FileSystem {
 public:
     AwesomeFileSystem(Superblock superblock, InodeMap inode_map, str_t fs_name):

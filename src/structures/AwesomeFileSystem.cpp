@@ -152,21 +152,12 @@ void AwesomeFileSystem::read_file(str_t src_name) {
 
     for(int i = 0; i < storage.size(); i++){
         int index = storage[i];
-        std::cout<<fs_file.tellg()<<std::endl;
         fs_file.seekg(index); //change location to start of current block
         int count = 0;
         while (count < block_size && num_of_available_char > 0){
-            std::cout<< fs_file.tellg() << std::endl;
-            // char* c = new char[1];
             char y;
-            fs_file.get(y);
-            fs_file.seekg(0);
-            std::cout<<index+count<<std::endl;
-            fs_file.seekg(index + count);
-            // fs_file.read(&y,sizeof(char));
-            // fs_file.read(c, 1);
+            fs_file.read((char*)&y,sizeof(y));
             std::cout << y;
-            // std::cout<< fs_file.tellg() << std::endl;
             count++;
             num_of_available_char--;
         }

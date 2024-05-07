@@ -28,7 +28,7 @@ public:
                                 superblock(superblock),
                                 inode_map(inode_map) 
     {
-        fs_file.open(fs_name, std::ios_base::out | std::ios_base::binary);
+        fs_file.open(fs_name, std::ios_base::in | std::ios_base::out | std::ios_base::binary);
         
     }
     FileSystem(const FileSystem& other) = delete;
