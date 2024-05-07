@@ -156,7 +156,7 @@ void AwesomeFileSystem::read_file(str_t src_name) {
         int count = 0;
         while (count < block_size && num_of_available_char > 0){
             char y;
-            fs_file.read((char*)&y,sizeof(y));
+            fs_file >> y;
             std::cout << y;
             count++;
             num_of_available_char--;
