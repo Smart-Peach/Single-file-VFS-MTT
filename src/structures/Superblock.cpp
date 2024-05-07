@@ -55,8 +55,6 @@ int Superblock::get_free_block() {
             break;
         }
     }
-    // int block_address = 1024 + 1024 + free_blocks.size() + sizeof_ilist_bytes + size_of_rootdir + block_ind * sizeof_block;
-
     int block_address = get_block_address_by_bit_ind(block_ind);
 
     if (block_address + sizeof_block >= sizeof_fs) {
