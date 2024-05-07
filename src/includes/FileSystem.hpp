@@ -43,7 +43,7 @@ public:
     virtual void create_file(str_t src_name) = 0;
     virtual void delete_file(str_t src_name) = 0;
     virtual void write_to_file(str_t src_name, str_t data) = 0;
-    virtual Inode open_file(str_t src_name) = 0;
+    virtual Inode& open_file(str_t src_name) = 0;
     virtual void read_file(str_t src_name) = 0;
     virtual void close_file(str_t src_name) = 0;
     virtual void upload_to_file(str_t src_name) = 0;

@@ -80,7 +80,7 @@ void AwesomeFileSystem::create_file(str_t src_name) {
 
 void AwesomeFileSystem::delete_file(str_t src_name) {
     if (inode_map.is_file_in_directory(src_name)) {
-        Inode deleted_inode = inode_map.get_inode(src_name);
+        Inode& deleted_inode = inode_map.get_inode(src_name);
         inode_map.delete_inode(src_name);
         superblock.update_fields_after_inode_deletion(deleted_inode);
         load_all_into_memory();
@@ -89,7 +89,7 @@ void AwesomeFileSystem::delete_file(str_t src_name) {
 
 void AwesomeFileSystem::write_to_file(str_t src_name, str_t data) { 
     // std::cout << "\nWrite to file: " << src_name << "\n" << std::endl;
-    Inode inode = open_file(src_name);
+    Inode& inode = open_file(src_name);
     int sizeof_file = inode.get_sizeof_file();
     int blocks_amount = inode.get_blocks_amount();
     int block_size = superblock.sizeof_block;
@@ -136,25 +136,35 @@ void AwesomeFileSystem::write_to_file(str_t src_name, str_t data) {
 };
 
 //Returns the file's inode
-Inode AwesomeFileSystem::open_file(str_t src_name) {
+Inode& AwesomeFileSystem::open_file(str_t src_name) {
     if (inode_map.is_file_in_directory(src_name)){
-        Inode inode = inode_map.get_inode(src_name);
-        return inode;
+        return inode_map.get_inode(src_name);
     } else throw IOException("No such file in directory!");
 };
 
 void AwesomeFileSystem::read_file(str_t src_name) {
-    Inode inode = open_file(src_name);
+    Inode& inode = open_file(src_name);
     vector_size_t storage = inode.get_blocks_storage();
     int num_of_available_char = inode.get_sizeof_file();
     const int block_size = superblock.sizeof_block;
 
     for(int i = 0; i < storage.size(); i++){
-        char c;
-        fs_file.seekg(storage[i]); //change location to start of current block
+        int index = storage[i];
+        std::cout<<fs_file.tellg()<<std::endl;
+        fs_file.seekg(index); //change location to start of current block
         int count = 0;
-        while (fs_file.get(c) && count < block_size && num_of_available_char > 0){
-            std::cout << c;
+        while (count < block_size && num_of_available_char > 0){
+            std::cout<< fs_file.tellg() << std::endl;
+            // char* c = new char[1];
+            char y;
+            fs_file.get(y);
+            fs_file.seekg(0);
+            std::cout<<index+count<<std::endl;
+            fs_file.seekg(index + count);
+            // fs_file.read(&y,sizeof(char));
+            // fs_file.read(c, 1);
+            std::cout << y;
+            // std::cout<< fs_file.tellg() << std::endl;
             count++;
             num_of_available_char--;
         }

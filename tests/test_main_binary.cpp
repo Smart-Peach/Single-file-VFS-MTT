@@ -19,6 +19,11 @@ int main() {
     AwesomeFileSystem fs(superblock, map, "tests/test-file.bin");
     fs.create_file("test-file1.txt");
     fs.write_to_file("test-file1.txt", "Hello!!!!!!");
+    fs.create_file("test-file2.txt");
+    fs.write_to_file("test-file2.txt", "World))))))");
+    fs.create_file("test-file3.txt");
+    fs.write_to_file("test-file3.txt", "Oh yeah ******");
+    fs.read_file("test-file2.txt");
     // fs.create_file(std::string src_name);
     // // << : redirects input to file
     // // >> : redirects output from file to ...
