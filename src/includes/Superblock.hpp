@@ -4,6 +4,7 @@
 #include <bitset>
 #include "../includes/Inode.hpp"
 #include "../exceptions/SuperblockException.hpp"
+#include "types.hpp"
 
 using namespace std;
 
@@ -20,6 +21,9 @@ class Superblock {
     const int             sizeof_block            = 1024;       // Sizeof one block
     const int             size_of_rootdir         = 512;        // Size of root directory
     bitset<number_blocks> free_blocks;                          // May be faster in case array of bool --> in beginning 838776 0's 
+
+    int get_block_address_by_bit_ind(int bit_ind);
+    int get_block_bit_ind_by_address(int block_address);
 
 public:
 
