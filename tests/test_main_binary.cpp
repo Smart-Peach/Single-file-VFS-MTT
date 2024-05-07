@@ -24,6 +24,12 @@ int main() {
     fs.create_file("test-file3.txt");
     fs.write_to_file("test-file3.txt", "Oh yeah ******");
     fs.read_file("test-file2.txt");
+
+    std::string str = "";
+    for(int i = 0; i < 1024; ++i){
+        str += "d";
+    }
+    fs.write_to_file("test-file2.txt", str);
     // fs.create_file(std::string src_name);
     // // << : redirects input to file
     // // >> : redirects output from file to ...
