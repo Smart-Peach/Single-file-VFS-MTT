@@ -9,10 +9,6 @@
 
 class Dentry;
 
-// TODO: replace with real num of blocks
-// static const size_t BLOCKS_AMOUNT = 10000;   
-// typedef std::bitset<BLOCKS_AMOUNT> bitset_t;
-
 // Class representing our awesome filesystem
 // Considered as kind of abstraction for working with our future VFS
 class FileSystem {
