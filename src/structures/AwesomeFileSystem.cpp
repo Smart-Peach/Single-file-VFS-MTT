@@ -1,5 +1,6 @@
 #include "../includes/AwesomeFileSystem.hpp"
 #include "../exceptions/IOException.hpp"
+#include "../exceptions/OutOfMemoryException.hpp"
 
 /* TODO: EXTENDS FileSystem.cpp
 Create file:
@@ -126,7 +127,7 @@ void AwesomeFileSystem::write_to_file(str_t src_name, str_t data) {
             int new_address = superblock.get_free_block();
             write_to_file_with_specified_boundaries(index, data.size() - index, data, new_address);
             fs_file.seekg(0);
-        } else throw SuperblockException("Not enough memory");
+        } else throw OutOfMemoryException("Not enough memory");
     }
 };
 
