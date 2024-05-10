@@ -48,7 +48,6 @@ public:
     virtual void close_file(str_t src_name) = 0;
     virtual void upload_to_file(str_t src_name) = 0;
     virtual void write_to_file_with_specified_boundaries(int start, int end, str_t data, int address) = 0;
-    virtual void update_inode(Inode& inode, int size, int new_address) = 0;
 
     // Directories operations:
     
@@ -56,7 +55,7 @@ public:
     virtual void delete_dir(str_t src_name) = 0;
     virtual void add_file_to_dir(str_t file_name, str_t dir_name) = 0;
     virtual void delete_file_in_dir(str_t file_name, str_t dir_name) = 0;
-    virtual Inode open_dir(str_t src_name) = 0;
+    virtual Inode& open_dir(str_t src_name) = 0;
     virtual void close_dir(str_t src_name) = 0;
     virtual void link_dir(str_t src_name) = 0;
     virtual void unlink_dir(str_t src_name) = 0;

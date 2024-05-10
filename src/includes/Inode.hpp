@@ -5,14 +5,13 @@
 #include <ctime>
 
 #include "types.hpp" 
-//TODO:Add a bit structure for optional bits
 
 // describes exact file or directory
 class Inode {
 
 // TODO: add destructor, overload constructor (?)
 private:
-    bool                src_type;           // Type of source: directory - 1, file - 0
+    bool                is_directory;           // Type of source: directory - 1, file - 0
     int                 magic_number;          // Unique number of inode (aka hash) 
     bit                 optional_bit1 = 0;     // Bits for permissions (optional) // ???
     bit                 optional_bit2 = 0;     // |
@@ -35,7 +34,7 @@ public:
     Inode(bool src_type, size_t free_block);
     Inode(bool src_type, int magic_number, int sizeof_file, str_t identifier,
           int block_amount, vector_size_t storage_blocks):
-                                            src_type(src_type),
+                                            is_directory(src_type),
                                             magic_number(magic_number),
                                             number_references(0),
                                             identifier(identifier), 
@@ -59,6 +58,9 @@ public:
     void increase_blocks_amount();
     void add_size_to_sizeof_file(int add_size);
     void update_blocks_storage(size_t address);
+    void update_inode(int size, int new_address);
+    void update_last_access_time();
+    void update_last_file_and_inode_modif_fields();
     void increase_references_amount();
     void decrease_references_amount();
 };

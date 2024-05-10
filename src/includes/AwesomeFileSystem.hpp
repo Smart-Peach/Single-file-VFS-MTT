@@ -28,7 +28,6 @@ public:
     int get_for_test();
 private:
     void write_to_file_with_specified_boundaries(int start, int end, str_t data, int address) override;
-    void update_inode(Inode& inode, int size, int new_address) override;
 
 
     // Directory operations:
@@ -36,7 +35,7 @@ private:
     void delete_dir(str_t src_name) override;
     void add_file_to_dir(str_t file_name, str_t dir_name) override;
     void delete_file_in_dir(str_t file_name, str_t dir_name) override;
-    Inode open_dir(str_t src_name) override;
+    Inode& open_dir(str_t src_name) override;
     void close_dir(str_t src_name) override;
     void link_dir(str_t src_name) override;
     void unlink_dir(str_t src_name) override;

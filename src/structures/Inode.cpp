@@ -3,7 +3,7 @@
 #include "../includes/Inode.hpp"
 
 Inode::Inode(bool src_type):
-            src_type(src_type),
+            is_directory(src_type),
             number_references(0),
             sizeof_file(0),
             last_access_time(time(nullptr)),
@@ -13,7 +13,7 @@ Inode::Inode(bool src_type):
 
 
 Inode::Inode(bool src_type, size_t address_block):
-            src_type(src_type),
+            is_directory(src_type),
             number_references(0),
             sizeof_file(0),
             last_access_time(time(nullptr)),
@@ -80,4 +80,20 @@ void Inode::increase_references_amount() {
 
 void Inode::decrease_references_amount(){
     number_references--;
+}
+
+//Update info in file's inode after adding one block
+void Inode::update_inode(int size, int new_address){
+    increase_blocks_amount();
+    add_size_to_sizeof_file(size);
+    update_blocks_storage(new_address);
+}
+
+void Inode::update_last_access_time(){
+    time(&last_access_time);
+}
+
+void Inode::update_last_file_and_inode_modif_fields(){
+    time(&last_file_modif_time);
+    time(&last_inode_modif_time);
 }
