@@ -13,14 +13,6 @@ Inode& InodeMap::get_inode(str_t src_name){
 };
 
 // Add inode to InodeMap, write to FS bin file
-void InodeMap::add_inode(bool src_type, str_t src_name) {
-    int magic_number = get_inode_hash(src_name);
-    if(inode_map.find(magic_number) != inode_map.end()) {
-        throw InodeMapException("Impossible to add Inode with name '" + src_name + "' because it already exists");
-    }
-    inode_map[magic_number] = Inode(src_type);
-};
-
 void InodeMap::add_inode(bool src_type, str_t src_name, int address_block) {
     int magic_number = get_inode_hash(src_name);
     if(inode_map.find(magic_number) != inode_map.end()) {

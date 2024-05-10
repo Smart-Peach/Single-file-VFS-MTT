@@ -21,7 +21,6 @@ class InodeMap {
 public:
     // std::optional<Inode> get_inode(str_t src_name);
     Inode& get_inode(str_t src_name);
-    void  add_inode(bool src_type, str_t src_name);
     void  add_inode(bool src_type, str_t src_name, int address_block);
     void  delete_inode(str_t src_name);
     void  update_inode(Inode& updated_inode);
@@ -29,7 +28,7 @@ public:
     
 private:
     inode_hashmap_t inode_map;
-    
+
     const inode_hashmap_t dump_inode_map();
     int   get_inode_hash(str_t name);
 };
