@@ -1,5 +1,6 @@
 #include "../includes/AwesomeFileSystem.hpp"
 #include "../exceptions/IOException.hpp"
+#include "../exceptions/OutOfMemoryException.hpp"
 
 /* TODO: EXTENDS FileSystem.cpp
 Create file:
@@ -63,8 +64,10 @@ void AwesomeFileSystem::load_superblock_from_memory() {
 }
 
 void AwesomeFileSystem::create_file(str_t src_name) {
+    // std::cout << "\nCreate file: " << src_name << "\n" << std::endl;
     if (!inode_map.is_file_in_directory(src_name)) {
         int free_block = superblock.get_free_block();
+        // std::cout << free_block << src_name << std::endl;
         Inode file_inode = Inode(0, free_block);
         superblock.update_fields_after_inode_addition(file_inode);
         inode_map.add_inode(0, src_name, free_block);  // pass zero - type of src for inode
@@ -108,7 +111,6 @@ void AwesomeFileSystem::write_to_file(str_t src_name, str_t data) {
         if((new_size - available_memory) % block_size > 0){
             extra_blocks ++;  //+ 1 block for data
         }
-        
         if(superblock.check_needed_number_of_free_blocks(extra_blocks)){
             int index = 0;
             while (extra_blocks > 1){
@@ -125,7 +127,7 @@ void AwesomeFileSystem::write_to_file(str_t src_name, str_t data) {
             int new_address = superblock.get_free_block();
             write_to_file_with_specified_boundaries(index, data.size() - index, data, new_address);
             fs_file.seekg(0);
-        } else throw SuperblockException("Not enough memory");
+        } else throw OutOfMemoryException("Not enough memory");
     }
 };
 
@@ -150,7 +152,7 @@ void AwesomeFileSystem::read_file(str_t src_name) {
         int count = 0;
         while (count < block_size && num_of_available_char > 0){
             char y;
-            fs_file >> y;
+            fs_file.read((char*)&y,sizeof(y));
             std::cout << y;
             count++;
             num_of_available_char--;
