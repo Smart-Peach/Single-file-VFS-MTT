@@ -47,9 +47,7 @@ void InodeMap::update_inode(Inode& updated_inode) {
 // Check whether file is in directory 
 bool InodeMap::is_file_in_directory(str_t src_name) {
     int magic_number = get_inode_hash(src_name);
-    // TODO: fix  
-    // if (get_inode(src_name)) return false;
-    return true;
+    return inode_map.find(magic_number) != inode_map.end();
 };
 
 // Pass all inodes directly to FileSystem

@@ -4,8 +4,8 @@
 #include <bitset>
 #include "../includes/Inode.hpp"
 #include "../exceptions/SuperblockException.hpp"
+#include "types.hpp"
 
-using namespace std;
 
 // Contains information about file system in general
 class Superblock {
@@ -19,7 +19,10 @@ class Superblock {
     int                   number_available_inodes = 800000;     // Number of inodes available for storage
     const int             sizeof_block            = 1024;       // Sizeof one block
     const int             size_of_rootdir         = 512;        // Size of root directory
-    bitset<number_blocks> free_blocks;                          // May be faster in case array of bool --> in beginning 838776 0's 
+    std::bitset<number_blocks> free_blocks;                          // May be faster in case array of bool --> in beginning 838776 0's 
+
+    int get_block_address_by_bit_ind(int bit_ind);
+    int get_block_bit_ind_by_address(int block_address);
 
 public:
 
@@ -35,8 +38,8 @@ public:
     //   size_of_rootdir(size_of_rootdir) {}
 
     //Loads Superblock's fields into second 1024 bytes
-    void load_into_memory(fstream& address_space);
-    void load_from_memory(fstream& address_space);
+    void load_into_memory(std::fstream& address_space);
+    void load_from_memory(std::fstream& address_space);
     void update_fields_after_inode_addition(Inode& inode);
     void update_fields_after_inode_deletion(Inode& inode);
 

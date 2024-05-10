@@ -9,7 +9,6 @@
 // describes exact file or directory
 class Inode {
 
-// TODO: add destructor, overload constructor (?)
 private:
     bool                is_directory;           // Type of source: directory - 1, file - 0
     int                 magic_number;          // Unique number of inode (aka hash) 
@@ -22,10 +21,8 @@ private:
     time_t              last_file_modif_time;  // |
     time_t              last_inode_modif_time; // | 
     int                 blocks_amount;         // Сurrent sizeof the array with storage block addresses
-    vector_size_t blocks_storage;        // Array of storage block addresses
+    vector_size_t       blocks_storage;        // Array of storage block addresses
     
-    // TODO: Should storage_block be a linked-list?
-    // tmp:  changed to vector type due to conflicts in constructor
 
 
 public:
