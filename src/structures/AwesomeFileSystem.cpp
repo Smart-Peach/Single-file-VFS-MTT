@@ -18,7 +18,7 @@ void AwesomeFileSystem::load_superblock_into_memory() {
         throw SuperblockException("Superblock: It's impossible to load, because file is closed");
     }
 
-    fs_file.seekg(1024);
+    fs_file.seekg(SIZEOF_BOOT_SECTOR);
     fs_file << superblock.fs_type;
     fs_file << superblock.sizeof_fs;
     fs_file << superblock.max_sizeof_file;
@@ -49,7 +49,7 @@ void AwesomeFileSystem::load_superblock_from_memory() {
         throw SuperblockException("Superblock: It's impossible to load, because file is closed");
     }
 
-    fs_file.seekg(1024);
+    fs_file.seekg(SIZEOF_BOOT_SECTOR);
     fs_file.read((char*)(&superblock.sizeof_fs), sizeof(superblock.sizeof_fs));
     fs_file.read((char*)(&superblock.max_sizeof_file), sizeof(superblock.max_sizeof_file));
     fs_file.read((char*)(&superblock.sizeof_ilist_bytes), sizeof(superblock.sizeof_ilist_bytes));
@@ -58,7 +58,8 @@ void AwesomeFileSystem::load_superblock_from_memory() {
     fs_file.read((char*)(&superblock.number_available_inodes), sizeof(superblock.number_available_inodes));
     fs_file.read((char*)(&superblock.sizeof_block), sizeof(superblock.sizeof_block));
     fs_file.read((char*)(&superblock.size_of_rootdir), sizeof(superblock.size_of_rootdir));
-    fs_file.seekg(2048);
+    
+    fs_file.seekg(SIZEOF_BOOT_SECTOR + SIZEOF_SUPERBLOCK);
     fs_file.read((char*)(&superblock.free_blocks), sizeof(superblock.free_blocks));
     fs_file.seekg(0);
 }
