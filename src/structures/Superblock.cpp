@@ -66,7 +66,7 @@ void Superblock::print() {
                 << "\nAmount of free blocks: "       << number_free_blocks
                 << "\nAmount of available i-nodes: " << number_available_inodes
                 << "\nSizeof block in bytes: "       << sizeof_block
-                << "\nMax file size: "               << max_sizeof_file << endl;
+                << "\nMax file size: "               << max_sizeof_file << std::endl;
     
 }
 

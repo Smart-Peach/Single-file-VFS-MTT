@@ -40,12 +40,6 @@ void AwesomeFileSystem::write_to_file_with_specified_boundaries(int start, int n
     fs_file.seekg(address);
     fs_file << data.substr(start, num_of_char);
 };
-//Update info in file's inode after adding one block
-void AwesomeFileSystem::update_inode(Inode& inode, int size, int new_address){
-    inode.increase_blocks_amount();
-    inode.add_size_to_sizeof_file(size);
-    inode.update_blocks_storage(new_address);
-};
 
 //Reads data from second 1024 bytes and loads it to Superblock
 void AwesomeFileSystem::load_superblock_from_memory() {
@@ -88,7 +82,6 @@ void AwesomeFileSystem::delete_file(str_t src_name) {
 };
 
 void AwesomeFileSystem::write_to_file(str_t src_name, str_t data) { 
-    // std::cout << "\nWrite to file: " << src_name << "\n" << std::endl;
     Inode& inode = open_file(src_name);
     int sizeof_file = inode.get_sizeof_file();
     int blocks_amount = inode.get_blocks_amount();
@@ -106,7 +99,7 @@ void AwesomeFileSystem::write_to_file(str_t src_name, str_t data) {
         fs_file.seekg(0);
         //update info in inode
         inode.add_size_to_sizeof_file(data.size());
-        //TODO: update time_t fields in inode
+        inode.update_last_file_and_inode_modif_fields();
     } else{
         write_to_file_with_specified_boundaries(0, free_memory_in_last_block, data, address); //fill in the last block to the end
         inode.add_size_to_sizeof_file(free_memory_in_last_block);
@@ -124,8 +117,8 @@ void AwesomeFileSystem::write_to_file(str_t src_name, str_t data) {
                 index += block_size;
                 
                 //update info in inode
-                update_inode(inode, block_size, new_address);
-                //TODO: update time_t fields in inode
+                inode.update_inode(block_size, new_address);
+                inode.update_last_file_and_inode_modif_fields();
 
             extra_blocks --;
             }
@@ -139,7 +132,9 @@ void AwesomeFileSystem::write_to_file(str_t src_name, str_t data) {
 //Returns the file's inode
 Inode& AwesomeFileSystem::open_file(str_t src_name) {
     if (inode_map.is_file_in_directory(src_name)){
-        return inode_map.get_inode(src_name);
+        Inode& inode = inode_map.get_inode(src_name);
+        inode.update_last_access_time();
+        return inode;
     } else throw IOException("No such file in directory!");
 };
 

@@ -5,12 +5,10 @@
 #include <ctime>
 
 #include "types.hpp" 
-//TODO:Add a bit structure for optional bits
 
 // describes exact file or directory
 class Inode {
 
-// TODO: add destructor, overload constructor (?)
 private:
     bool                is_directory;           // Type of source: directory - 1, file - 0
     int                 magic_number;          // Unique number of inode (aka hash) 
@@ -23,10 +21,8 @@ private:
     time_t              last_file_modif_time;  // |
     time_t              last_inode_modif_time; // | 
     int                 blocks_amount;         // Сurrent sizeof the array with storage block addresses
-    vector_size_t blocks_storage;        // Array of storage block addresses
+    vector_size_t       blocks_storage;        // Array of storage block addresses
     
-    // TODO: Should storage_block be a linked-list?
-    // tmp:  changed to vector type due to conflicts in constructor
 
 
 public:
@@ -59,6 +55,9 @@ public:
     void increase_blocks_amount();
     void add_size_to_sizeof_file(int add_size);
     void update_blocks_storage(size_t address);
+    void update_inode(int size, int new_address);
+    void update_last_access_time();
+    void update_last_file_and_inode_modif_fields();
     void increase_references_amount();
     void decrease_references_amount();
 };
