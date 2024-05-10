@@ -69,7 +69,7 @@ void AwesomeFileSystem::load_superblock_from_memory() {
 }
 
 void AwesomeFileSystem::create_file(str_t src_name) {
-    if (inode_map.is_file_in_directory(src_name)) {
+    if (!inode_map.is_file_in_directory(src_name)) {
         int free_block = superblock.get_free_block();
         Inode file_inode = Inode(0, free_block);
         superblock.update_fields_after_inode_addition(file_inode);
@@ -115,6 +115,7 @@ void AwesomeFileSystem::write_to_file(str_t src_name, str_t data) {
         if((new_size - available_memory) % block_size > 0){
             extra_blocks ++;  //+ 1 block for data
         }
+        
         if(superblock.check_needed_number_of_free_blocks(extra_blocks)){
             int index = 0;
             while (extra_blocks > 1){

@@ -29,6 +29,7 @@ public:
     
 private:
     inode_hashmap_t inode_map;
+    
     const inode_hashmap_t dump_inode_map();
     int   get_inode_hash(str_t name);
 };

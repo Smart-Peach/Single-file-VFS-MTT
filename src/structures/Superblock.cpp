@@ -1,18 +1,10 @@
 #include "../includes/Superblock.hpp"
 
 
-// int Superblock::get_number_of_blocks() {
-//     return number_blocks;
-// }
-
 // Updates fields after creating new Inode
 void Superblock::update_fields_after_inode_addition(Inode& inode) {
     if (!Superblock::check_free_blocks()) {
         throw SuperblockException("Superblock, update_fields_after_inode_addition: no free inodes left! Addition of inode was failed.");
-    }
-
-    if (!Superblock::check_free_blocks()){
-        throw SuperblockException("Superblock, update_fields_after_inode_addition: no free blocks left! Addition of Inode was failed.");
     }
 
     number_available_inodes--;

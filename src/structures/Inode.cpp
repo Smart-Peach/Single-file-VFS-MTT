@@ -3,7 +3,7 @@
 #include "../includes/Inode.hpp"
 
 Inode::Inode(bool src_type):
-            src_type(src_type),
+            is_directory(src_type),
             number_references(0),
             sizeof_file(0),
             last_access_time(time(nullptr)),
@@ -13,7 +13,7 @@ Inode::Inode(bool src_type):
 
 
 Inode::Inode(bool src_type, size_t address_block):
-            src_type(src_type),
+            is_directory(src_type),
             number_references(0),
             sizeof_file(0),
             last_access_time(time(nullptr)),
