@@ -182,7 +182,7 @@ void AwesomeFileSystem::create_dir(str_t src_name) {
 void AwesomeFileSystem::delete_dir(str_t src_name) { }
 void AwesomeFileSystem::add_file_to_dir(str_t file_name, str_t dir_name) { }
 void AwesomeFileSystem::delete_file_in_dir(str_t file_name, str_t dir_name) { }
-void AwesomeFileSystem::open_dir(str_t src_name) { }
+Inode& AwesomeFileSystem::open_dir(str_t src_name) { return open_file(src_name);}
 void AwesomeFileSystem::close_dir(str_t src_name) { }
 void AwesomeFileSystem::link_dir(str_t src_name) { }
 void AwesomeFileSystem::unlink_dir(str_t src_name) { }
