@@ -6,17 +6,18 @@
 #include "types.hpp" 
 #include "InodeMap.hpp"
 #include "Superblock.hpp"
+#include "Loader.hpp"
 
 class Dentry;
 
 // Class representing our awesome filesystem
-// Considered as kind of abstraction for working with our future VFS
 class FileSystem {
     friend Dentry;
 protected:
     Superblock          superblock;     // file system metadata
     InodeMap            inode_map;      // contains all inodes
     std::fstream        fs_file;        // opened file
+    // Loader*             loader;             
 
 public:
 

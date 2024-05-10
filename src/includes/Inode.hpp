@@ -10,7 +10,7 @@
 class Inode {
 
 private:
-    bool                src_type;           // Type of source: directory - 1, file - 0
+    bool                is_directory;           // Type of source: directory - 1, file - 0
     int                 magic_number;          // Unique number of inode (aka hash) 
     bit                 optional_bit1 = 0;     // Bits for permissions (optional) // ???
     bit                 optional_bit2 = 0;     // |
@@ -31,7 +31,7 @@ public:
     Inode(bool src_type, size_t free_block);
     Inode(bool src_type, int magic_number, int sizeof_file, str_t identifier,
           int block_amount, vector_size_t storage_blocks):
-                                            src_type(src_type),
+                                            is_directory(src_type),
                                             magic_number(magic_number),
                                             number_references(0),
                                             identifier(identifier), 
