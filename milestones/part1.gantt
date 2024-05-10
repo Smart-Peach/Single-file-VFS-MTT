@@ -1,7 +1,10 @@
 Part 1 ,2024-03-04,2024-04-01
-Interpretor (Maria),2024-03-04,2024-03-18
-FS Registration (Tasya K.),2024-03-06,2024-03-15
-Structures (Tasya P.),2024-03-11,2024-03-18
-File Descriptors (Tasya K.),2024-03-11,2024-03-20
-Master File Table (Maria & Tasya P.),2024-03-19,2024-03-27
-Merge and debug and log (all),2024-03-25,2024-04-01
+
+
+Interpreter (Masha),2024-03-04,2024-03-18
+Architecture discussing (all), 2024-03-18, 2024-03-20
+Superblock (Tasya K.), 2024-03-21, 2024-03-27
+Inode (Tasya P.), 2024-03-21, 2024-03-25
+InodeMap (Masha), 2024-03-21, 2024-03-25
+FileSystem/AwesomeFileSystem  (Tasya P.), 2024-03-26, 2024-03-29
+Merge and debug and log,2024-03-26,2024-04-01

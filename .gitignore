@@ -1,1 +1,6 @@
 /.vs
+/.vscode
+*.out
+
+# binary files
+*.bin
