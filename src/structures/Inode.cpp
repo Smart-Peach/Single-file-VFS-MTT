@@ -2,15 +2,6 @@
 #include <vector>
 #include "../includes/Inode.hpp"
 
-Inode::Inode(bool src_type):
-            is_directory(src_type),
-            number_references(0),
-            sizeof_file(0),
-            last_access_time(time(nullptr)),
-            last_file_modif_time(time(nullptr)),
-            last_inode_modif_time(time(nullptr)),
-            blocks_amount(1) { }
-
 
 Inode::Inode(bool src_type, size_t address_block):
             is_directory(src_type),

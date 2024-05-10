@@ -26,6 +26,7 @@ public:
     void change_superblock(int new_item);
 
     int get_for_test();
+    
 private:
     void write_to_file_with_specified_boundaries(int start, int end, str_t data, int address) override;
     void update_inode(Inode& inode, int size, int new_address) override;

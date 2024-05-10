@@ -48,7 +48,6 @@ public:
     virtual void update_inode(Inode& inode, int size, int new_address) = 0;
 
     // Directories operations:
-    
     virtual void create_dir(str_t src_name) = 0;
     virtual void delete_dir(str_t src_name) = 0;
     virtual void add_file_to_dir(str_t file_name, str_t dir_name) = 0;

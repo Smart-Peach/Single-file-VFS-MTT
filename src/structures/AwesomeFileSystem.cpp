@@ -179,11 +179,12 @@ int AwesomeFileSystem::get_for_test(){
 // Directory's operations:
 void AwesomeFileSystem::create_dir(str_t src_name) {
     Inode dir_inode = open_file(src_name);
- }
+}
+
 void AwesomeFileSystem::delete_dir(str_t src_name) { }
 void AwesomeFileSystem::add_file_to_dir(str_t file_name, str_t dir_name) { }
 void AwesomeFileSystem::delete_file_in_dir(str_t file_name, str_t dir_name) { }
-Inode AwesomeFileSystem::open_dir(str_t src_name) { return Inode(1);}
+void AwesomeFileSystem::open_dir(str_t src_name) { }
 void AwesomeFileSystem::close_dir(str_t src_name) { }
 void AwesomeFileSystem::link_dir(str_t src_name) { }
 void AwesomeFileSystem::unlink_dir(str_t src_name) { }
