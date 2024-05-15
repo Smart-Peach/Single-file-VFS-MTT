@@ -60,5 +60,10 @@ test-superblock:
 	./test_bin.out
 	rm *.out
 
+test-seek:
+	$(CXX) tests/test_seekg.cpp -o test_seek.out $(STD)
+	./test_seek.out
+	rm *.out
+
 clean: 
 	rm *.out 

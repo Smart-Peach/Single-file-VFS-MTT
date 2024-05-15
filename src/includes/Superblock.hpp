@@ -54,4 +54,5 @@ public:
 
     friend class AwesomeFileSystem;
     friend class TestSuperblock;
+    friend class LoaderBinFile;
 };

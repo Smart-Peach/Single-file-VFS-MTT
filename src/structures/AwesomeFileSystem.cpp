@@ -2,15 +2,6 @@
 #include "../exceptions/IOException.hpp"
 #include "../exceptions/OutOfMemoryException.hpp"
 
-/* TODO: EXTENDS FileSystem.cpp
-Create file:
-    - Create Inode
-    - Add Inode to i-list
-    - Add Inode to Superblock (update fields in Superblock --> it will be in Superblock.cpp)
-    (I guess we don't need to open bin file here, because in description of "AddInode" in InodeMap it should write to bin file)
-
-*/
-
 
 //Loads Superblock's fields into second 1024 bytes
 void AwesomeFileSystem::load_superblock_into_memory() {
@@ -168,10 +159,6 @@ void AwesomeFileSystem::upload_to_file(str_t src_name){ }
 
 void AwesomeFileSystem::change_superblock(int new_item) {
     superblock.number_free_blocks = new_item;
-}
-
-int AwesomeFileSystem::get_for_test(){
-    return superblock.sizeof_ilist_bytes;
 }
 
 // Directory's operations:
