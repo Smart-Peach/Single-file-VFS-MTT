@@ -16,6 +16,7 @@ class Context {
     str_t basic_src_name;
     str_t extra_src_name;
     str_t text;
+    str_t mode;
 
 public:
     Context(FileSystem* fs): fs(fs),
@@ -25,6 +26,7 @@ public:
     bool get_exit_flag() { return exit_flag; }
     str_t get_basic_src_name() { return basic_src_name; }
     str_t get_extra_src_name() { return extra_src_name; }
+    str_t get_mode() { return mode; }
     str_t get_text() { return text; }
     FileSystem* get_fs() { return fs; }
     void finished() { exit_flag = true; }

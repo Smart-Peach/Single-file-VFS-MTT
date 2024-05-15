@@ -30,6 +30,12 @@ Command* Parser::next_command() {
 
 // Returns pointer of created Command object (gets cstr from hashmap of commands cstrs)
 Command* Parser::parse(str_t token) {
+    
+    if (token == "create") {
+        context->basic_src_name = lexer.next_token(curr_pos);
+        context->mode = lexer.next_token(curr_pos);
+        return two_args_funcs["create"]();
+    }
 
     if (one_arg_funcs[token]) {
         context->basic_src_name = lexer.next_token(curr_pos);

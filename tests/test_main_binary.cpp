@@ -17,12 +17,13 @@ int main() {
     InodeMap map;
 
     AwesomeFileSystem fs(superblock, map, "tests/test-file.bin");
-    fs.create_file("test-file1.txt");
+    fs.create_file("test-file1.txt", "rw");
     fs.write_to_file("test-file1.txt", "Hello!!!!!!");
-    fs.create_file("test-file2.txt");
+    fs.create_file("test-file2.txt", "rw");
     fs.write_to_file("test-file2.txt", "World))))))");
-    fs.create_file("test-file3.txt");
+    fs.create_file("test-file3.txt", "rw");
     fs.write_to_file("test-file3.txt", "Oh yeah ******");
+    fs.read_file("test-file1.txt");
     fs.read_file("test-file2.txt");
 
     std::string str = "";

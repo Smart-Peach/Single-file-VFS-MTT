@@ -20,7 +20,7 @@ class InodeMap {
 public:
     // std::optional<Inode> get_inode(str_t src_name);
     Inode& get_inode(str_t src_name);
-    void  add_inode(bool src_type, str_t src_name, int address_block);
+    void  add_inode(bool src_type, str_t src_name, int address_block, str_t mode);
     void  delete_inode(str_t src_name);
     void  update_inode(Inode& updated_inode);
     bool  is_file_in_directory(str_t src_name);

@@ -16,7 +16,7 @@ public:
     void load_all_into_memory() override;
 
     // File operations:
-    void create_file(str_t src_name) override;
+    void create_file(str_t src_name, str_t mode) override;
     void delete_file(str_t src_name) override;
     void write_to_file(str_t src_name, str_t data) override;
     Inode& open_file(str_t src_name) override;

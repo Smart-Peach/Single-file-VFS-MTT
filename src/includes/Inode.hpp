@@ -58,6 +58,8 @@ public:
     void update_inode(int size, int new_address);
     void update_last_access_time();
     void update_last_file_and_inode_modif_fields();
+    void update_optional_bits(str_t mode);
     void increase_references_amount();
     void decrease_references_amount();
+    void check_file_modifier(str_t mode);
 };

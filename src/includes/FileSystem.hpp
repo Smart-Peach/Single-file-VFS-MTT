@@ -37,7 +37,7 @@ public:
     virtual void load_superblock_from_memory() = 0;
 
     // File operations:
-    virtual void create_file(str_t src_name) = 0;
+    virtual void create_file(str_t src_name, str_t mode) = 0;
     virtual void delete_file(str_t src_name) = 0;
     virtual void write_to_file(str_t src_name, str_t data) = 0;
     virtual Inode& open_file(str_t src_name) = 0;

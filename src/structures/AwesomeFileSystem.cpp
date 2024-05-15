@@ -64,14 +64,14 @@ void AwesomeFileSystem::load_superblock_from_memory() {
     fs_file.seekg(0);
 }
 
-void AwesomeFileSystem::create_file(str_t src_name) {
+void AwesomeFileSystem::create_file(str_t src_name, str_t mode) {
     // std::cout << "\nCreate file: " << src_name << "\n" << std::endl;
     if (!inode_map.is_file_in_directory(src_name)) {
         int free_block = superblock.get_free_block();
         // std::cout << free_block << src_name << std::endl;
         Inode file_inode = Inode(0, free_block);
         superblock.update_fields_after_inode_addition(file_inode);
-        inode_map.add_inode(0, src_name, free_block);  // pass zero - type of src for inode
+        inode_map.add_inode(0, src_name, free_block, mode);  // pass zero - type of src for inode
         load_all_into_memory();
     } else throw IOException("File " + src_name + " already exists!");
 };
@@ -87,6 +87,7 @@ void AwesomeFileSystem::delete_file(str_t src_name) {
 
 void AwesomeFileSystem::write_to_file(str_t src_name, str_t data) { 
     Inode& inode = open_file(src_name);
+    inode.check_file_modifier("w");
     int sizeof_file = inode.get_sizeof_file();
     int blocks_amount = inode.get_blocks_amount();
     int block_size = superblock.sizeof_block;
@@ -143,6 +144,7 @@ Inode& AwesomeFileSystem::open_file(str_t src_name) {
 
 void AwesomeFileSystem::read_file(str_t src_name) {
     Inode& inode = open_file(src_name);
+    inode.check_file_modifier("r");
     vector_size_t storage = inode.get_blocks_storage();
     int num_of_available_char = inode.get_sizeof_file();
     const int block_size = superblock.sizeof_block;

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "../includes/Inode.hpp"
+#include "../exceptions/IOException.hpp"
 
 
 Inode::Inode(bool src_type, size_t address_block):
@@ -87,4 +88,28 @@ void Inode::update_last_access_time(){
 void Inode::update_last_file_and_inode_modif_fields(){
     time(&last_file_modif_time);
     time(&last_inode_modif_time);
+}
+
+//Update optional bits like: "w" - 01, "r" - 10, "rw" - 11
+void Inode::update_optional_bits(str_t mode){
+    if(mode[0] == 'r'){ //only "r" and "rw" modifiers are suitable
+        optional_bit1 = 1;
+        if(mode.size() == 2){ // "rw" mode
+            optional_bit2 = 1;
+        }
+    } else{
+        optional_bit2 = 1;//for "w" modifier
+    }
+}
+
+void Inode::check_file_modifier(str_t mode){
+    if(mode[0] == 'r'){
+        if(optional_bit1 == 0){
+            throw IOException("Incorrect access modifier \"r\"");
+        }
+    } else{
+        if(optional_bit2 == 0){
+            throw IOException("Incorrect access modifier \"w\"");
+        }
+    }
 }
