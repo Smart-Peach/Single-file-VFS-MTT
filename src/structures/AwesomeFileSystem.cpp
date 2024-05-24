@@ -65,21 +65,26 @@ void AwesomeFileSystem::load_superblock_from_memory() {
 }
 
 void AwesomeFileSystem::create_file(str_t src_name) {
-    // std::cout << "\nCreate file: " << src_name << "\n" << std::endl;
-    if (!inode_map.is_file_in_directory(src_name)) {
+    if (!current_dir->is_file_in_directory(src_name)) {
         int free_block = superblock.get_free_block();
-        // std::cout << free_block << src_name << std::endl;
         Inode file_inode = Inode(0, free_block);
+
+        inode_map.add_inode(0, get_abs_path(src_name), free_block);  // pass zero - type of src for inode
+        current_dir->d_add_file(src_name);
+
         superblock.update_fields_after_inode_addition(file_inode);
-        inode_map.add_inode(0, src_name, free_block);  // pass zero - type of src for inode
         load_all_into_memory();
-    } else throw IOException("File " + src_name + " already exists!");
+    } else throw IOException("File " + src_name + " already exists!"); // 🐱‍👤
 };
 
 void AwesomeFileSystem::delete_file(str_t src_name) {
     if (inode_map.is_file_in_directory(src_name)) {
-        Inode& deleted_inode = inode_map.get_inode(src_name);
-        inode_map.delete_inode(src_name);
+        str_t abs_path = get_abs_path(src_name);
+
+        Inode& deleted_inode = inode_map.get_inode(abs_path);
+        inode_map.delete_inode(abs_path);
+        current_dir->d_delete_src(src_name);
+
         superblock.update_fields_after_inode_deletion(deleted_inode);
         load_all_into_memory();
     } else throw IOException("No such file in directory!");
@@ -184,5 +189,5 @@ void AwesomeFileSystem::add_file_to_dir(str_t file_name, str_t dir_name) { }
 void AwesomeFileSystem::delete_file_in_dir(str_t file_name, str_t dir_name) { }
 Inode& AwesomeFileSystem::open_dir(str_t src_name) { return open_file(src_name);}
 void AwesomeFileSystem::close_dir(str_t src_name) { }
-void AwesomeFileSystem::link_dir(str_t src_name) { }
-void AwesomeFileSystem::unlink_dir(str_t src_name) { }
+// void AwesomeFileSystem::link_dir(str_t src_name) { }
+// void AwesomeFileSystem::unlink_dir(str_t src_name) { }

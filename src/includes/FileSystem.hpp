@@ -12,25 +12,26 @@
 
 // Class representing our awesome filesystem
 class FileSystem {
-    friend Dentry;
 protected:
-    Superblock          superblock;     // file system metadata
-    InodeMap            inode_map;      // contains all inodes
-    std::fstream        fs_file;        // opened file
-    const Dentry*       root_dir;       // root directory
-    Dentry*             current_dir;    // current directory
+    Superblock                           superblock;     // file system metadata
+    InodeMap                             inode_map;      // contains all inodes
+    std::fstream                         fs_file;        // opened file
+    const Dentry*                        root_dir;       // root directory
+    Dentry*                              current_dir;    // current directory
+    std::unordered_map<str_t, Dentry*>   dentry_map;     // stores an abs path for dentries. Key - path, Val - dentry
     // Loader*             loader;             
 
 public:
 
-
     // TODO: add initialization for root and curent directories
-    FileSystem(Superblock superblock, InodeMap inode_map, str_t fs_name):
+    FileSystem(Superblock superblock, InodeMap inode_map, str_t fs_name, Dentry* root_dir):
+                                root_dir(root_dir),
+                                current_dir(root_dir),
                                 superblock(superblock),
                                 inode_map(inode_map)
-    {
+    {   
+        dentry_map[root_dir->d_name] = root_dir;
         fs_file.open(fs_name, std::ios_base::in | std::ios_base::out | std::ios_base::binary);
-        
     }
     FileSystem(const FileSystem& other) = delete;
     virtual ~FileSystem() { };
@@ -57,7 +58,7 @@ public:
     virtual void delete_file_in_dir(str_t file_name, str_t dir_name) = 0;
     virtual Inode& open_dir(str_t src_name) = 0;
     virtual void close_dir(str_t src_name) = 0;
-    virtual void link_dir(str_t src_name) = 0;
-    virtual void unlink_dir(str_t src_name) = 0;
+    // virtual void link_dir(str_t src_name) = 0;
+    // virtual void unlink_dir(str_t src_name) = 0;
     virtual void change_dir(str_t src_name) = 0;
 };

@@ -15,7 +15,10 @@ typedef std::unordered_map<size_t, Inode> inode_hashmap_t;
 * Class for containing file inode instances.
 * Implemented via unordered_map (aka hash map).
 */
+
+class Dentry;
 class InodeMap {
+    friend Dentry;
 
 public:
     // std::optional<Inode> get_inode(str_t src_name);
@@ -27,7 +30,6 @@ public:
     
 private:
     inode_hashmap_t inode_map;
-
     const inode_hashmap_t dump_inode_map();
-    int   get_inode_hash(str_t name);
+    static int get_inode_hash(str_t name);
 };

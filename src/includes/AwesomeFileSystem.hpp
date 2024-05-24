@@ -5,8 +5,8 @@
 
 class AwesomeFileSystem: public FileSystem {
 public:
-    AwesomeFileSystem(Superblock superblock, InodeMap inode_map, str_t fs_name):
-                FileSystem(superblock, inode_map, fs_name) { }
+    AwesomeFileSystem(Superblock superblock, InodeMap inode_map, str_t fs_name, Dentry* root_dir):
+                FileSystem(superblock, inode_map, fs_name, root_dir) { }
     AwesomeFileSystem(const AwesomeFileSystem& other) = delete;
     ~AwesomeFileSystem() { fs_file.close(); };
 
@@ -38,7 +38,11 @@ private:
     void delete_file_in_dir(str_t file_name, str_t dir_name) override;
     Inode& open_dir(str_t src_name) override;
     void close_dir(str_t src_name) override;
-    void link_dir(str_t src_name) override;
+    void link_dir(str_t src_name) override; 
     void unlink_dir(str_t src_name) override;
+    void change_dir(str_t src_name) override {};
+
+     // Utils
+    str_t get_abs_path( str_t src_name) { return current_dir->get_d_name() + "/" + src_name; }
 
 };

@@ -1,5 +1,7 @@
 #pragma once
 
+
+#include <boost/dynamic_bitset.hpp>
 #include <fstream>
 #include <bitset>
 #include "../includes/Inode.hpp"
@@ -15,7 +17,7 @@ class Superblock {
     const int                  sizeof_fs               = 1073741824; // Sizeof file system in bytes, 1 Gb
     const int                  max_sizeof_file         = 104857600;  // Maximum available file size, 1 Mb
     int                        sizeof_ilist_bytes      = 214726656;  // Sizeof ilist in bytes (in memory) 
-    static const int           number_blocks           = 800000;     // Number of all blocks (occupied and free)
+    constexpr static int       number_blocks           = 800000;     // Number of all blocks (occupied and free)
     int                        number_free_blocks      = 800000;     // Number of blocks available for data storage
     int                        number_available_inodes = 800000;     // Number of inodes available for storage
     const int                  sizeof_block            = 1024;       // Sizeof one block
