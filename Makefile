@@ -60,9 +60,10 @@ test-superblock:
 	./test_bin.out
 	rm *.out
 
-test-seek:
-	$(CXX) tests/test_seekg.cpp -o test_seek.out $(STD)
-	./test_seek.out
+test-loader:
+	$(CXX) -c tests/test_loader.cpp src/structures/LoaderBinFile.cpp src/structures/Superblock.cpp src/structures/Inode.cpp src/structures/InodeMap.cpp $(SAN) $(STD)
+	$(CXX) test_loader.o LoaderBinFile.o Superblock.o Inode.o InodeMap.o -o test.out $(TEST_FLAGS) $(SAN) $(STD)
+	./test.out
 	rm *.out
 
 clean: 

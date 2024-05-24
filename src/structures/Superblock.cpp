@@ -12,10 +12,10 @@ void Superblock::update_fields_after_inode_addition(Inode& inode) {
 
     for (int block_address : inode.get_blocks_storage()) {
         int block_ind = get_block_bit_ind_by_address(block_address);
-        if (free_blocks.test(block_ind)) {
+        if (free_blocks[block_ind]) {
             throw SuperblockException("Superblock, update_fields_after_inode_addition: block with index " + std::to_string(block_ind) + " and actual address " + std::to_string(block_address) + " is already busy! Adding an Inode was failed!");
         }
-        free_blocks.set(block_ind);
+        free_blocks[block_ind] = true;
     }
 }
 
@@ -26,10 +26,10 @@ void Superblock::update_fields_after_inode_deletion(Inode& inode) {
 
     for (int block_address : inode.get_blocks_storage()) {
         int block_ind = get_block_bit_ind_by_address(block_address);
-        if (!free_blocks.test(block_ind)) {
+        if (!free_blocks[block_ind]) {
             throw SuperblockException("Superblock, update_fields_after_inode_deletion: block with index " + std::to_string(block_ind) + " and actual address " + std::to_string(block_address) + " isn't busy! Deleting an Inode was failed!");
         }
-        free_blocks.set(block_ind, false);
+        free_blocks[block_ind] = false;
     }
 }
 
@@ -42,7 +42,7 @@ int Superblock::get_free_block() {
 
     int block_ind = 0;
     for (int i=0; i<free_blocks.size(); i++) {
-        if (!free_blocks.test(i)) {
+        if (!free_blocks[i]) {
             block_ind = i;
             break;
         }

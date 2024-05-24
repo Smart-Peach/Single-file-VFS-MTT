@@ -30,7 +30,9 @@ public:
     }
     FileSystem(const FileSystem& other) = delete;
     virtual ~FileSystem() { };
-
+    
+    virtual void init() = 0;
+    
     // Memory functions:
     virtual void load_all_into_memory() = 0;
     virtual void load_superblock_into_memory() = 0;

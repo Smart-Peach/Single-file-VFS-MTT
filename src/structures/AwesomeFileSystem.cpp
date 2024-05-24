@@ -3,6 +3,11 @@
 #include "../exceptions/OutOfMemoryException.hpp"
 
 
+// Loads all information about file system from memory
+void AwesomeFileSystem::init() {
+
+}
+
 //Loads Superblock's fields into second 1024 bytes
 void AwesomeFileSystem::load_superblock_into_memory() {
     if (!fs_file.is_open()) {

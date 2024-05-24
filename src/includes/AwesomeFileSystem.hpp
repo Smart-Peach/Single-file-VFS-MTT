@@ -10,6 +10,8 @@ public:
     AwesomeFileSystem(const AwesomeFileSystem& other) = delete;
     ~AwesomeFileSystem() { fs_file.close(); };
 
+    void init() override;
+    
     // Memory functions:
     void load_superblock_into_memory() override;
     void load_superblock_from_memory() override;
