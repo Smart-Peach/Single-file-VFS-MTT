@@ -49,5 +49,6 @@ private:
      // Utils
     str_t get_abs_path( str_t src_name) { return current_dir->get_d_name() + "/" + src_name; }
     bool is_dir_existing(str_t src_name) override;
+    const std::unordered_map<str_t, Dentry*> get_list_of_objects_in_cur_dir() override;
 
 };

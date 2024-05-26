@@ -67,4 +67,5 @@ public:
     virtual void change_dir(str_t src_name) = 0;
     virtual void change_to_parent_dir() = 0;
     virtual bool is_dir_existing(str_t src_name) = 0;
+    virtual const std::unordered_map<str_t, Dentry*> get_list_of_objects_in_cur_dir() = 0;
 };
