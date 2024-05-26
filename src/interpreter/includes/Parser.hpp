@@ -19,7 +19,8 @@ class Parser {
     size_t curr_pos;
 
     std::map<const str_t, cmd_cstr_t> zero_args_funcs = {
-    {"exit", []() { return new Exit(); }}};
+    {"exit", []() { return new Exit(); }},
+    {"pwd", []() { return new Pwd(); }}};
 
     std::map<const str_t, cmd_cstr_t> one_arg_funcs {
     {"create", []() { return new CreateFile(); }},

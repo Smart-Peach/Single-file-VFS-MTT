@@ -27,7 +27,37 @@ public:
                                                                     d_inode(inode),
                                                                     d_records_amount(records_amount),
                                                                     d_magic_numbers_map(d_map) { }
-    ~Dentry() { delete d_parent; }
+
+    Dentry(const Dentry& other):
+                d_name(other.d_name),
+                d_inode(other.d_inode), 
+                d_parent(other.d_parent),
+                d_records_amount(other.d_records_amount),
+                d_magic_numbers_map(other.d_magic_numbers_map) {}
+
+    Dentry(Dentry&& other):
+                d_name(other.d_name),
+                d_inode(other.d_inode),
+                d_parent(other.d_parent),
+                d_records_amount(other.d_records_amount),
+                d_magic_numbers_map(other.d_magic_numbers_map){
+                    other.d_inode = nullptr;
+                    other.d_parent = nullptr;
+                    other.d_magic_numbers_map = {};
+                }
+
+    Dentry& operator=(Dentry other) {
+        std::swap(d_name, other.d_name);
+        std::swap(d_inode, other.d_inode);
+        std::swap(d_parent, other.d_parent);
+        std::swap(d_records_amount, other.d_records_amount);
+        std::swap(d_magic_numbers_map, other.d_magic_numbers_map);
+        return *this;
+    }
+    ~Dentry() { 
+        if (d_parent) delete d_parent; 
+        delete d_inode;
+    }
 
     // // Allocates the root dentry. 
     // // It is generally used in the function that is called to read
@@ -46,4 +76,5 @@ public:
     void d_add_src(str_t src_name) { d_magic_numbers_map[src_name] = InodeMap::get_inode_hash(src_name); }
     bool is_src_in_directory(str_t src_name) { return d_magic_numbers_map.find(src_name) != d_magic_numbers_map.end(); }
     str_t get_d_name() { return d_name; }
+    Dentry* get_parent_dir() { return d_parent; }
 };

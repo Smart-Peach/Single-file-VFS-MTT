@@ -12,10 +12,7 @@
 
 
 int main(int argc, char* argv[]){
-     
-
-    Inode* root_inode("root");
-    FileSystem* AFS = new AwesomeFileSystem(Superblock(), InodeMap(), str_t("AFS.bin", Dentry()));
+    FileSystem* AFS = new AwesomeFileSystem(Superblock(), InodeMap(), str_t("AFS.bin"));
     Interpreter interpreter = Interpreter(AFS);
     str_t input_line;
     while (std::getline(std::cin, input_line)) {
