@@ -13,7 +13,8 @@ void Superblock::update_fields_after_inode_addition(Inode& inode) {
     for (int block_address : inode.get_blocks_storage()) {
         int block_ind = get_block_bit_ind_by_address(block_address);
         if (free_blocks.test(block_ind)) {
-            throw SuperblockException("Superblock, update_fields_after_inode_addition: block with index " + std::to_string(block_ind) + " and actual address " + std::to_string(block_address) + " is already busy! Adding an Inode was failed!");
+            throw SuperblockException("Superblock, update_fields_after_inode_addition: block with index " + std::to_string(block_ind) +
+            " and actual address " + std::to_string(block_address) + " is already busy! Adding an Inode was failed!");
         }
         free_blocks.set(block_ind);
     }
@@ -27,7 +28,8 @@ void Superblock::update_fields_after_inode_deletion(Inode& inode) {
     for (int block_address : inode.get_blocks_storage()) {
         int block_ind = get_block_bit_ind_by_address(block_address);
         if (!free_blocks.test(block_ind)) {
-            throw SuperblockException("Superblock, update_fields_after_inode_deletion: block with index " + std::to_string(block_ind) + " and actual address " + std::to_string(block_address) + " isn't busy! Deleting an Inode was failed!");
+            throw SuperblockException("Superblock, update_fields_after_inode_deletion: block with index " + std::to_string(block_ind) +
+            " and actual address " + std::to_string(block_address) + " isn't busy! Deleting an Inode was failed!");
         }
         free_blocks.set(block_ind, false);
     }
@@ -86,9 +88,11 @@ bool Superblock::check_needed_number_of_free_blocks(int count){
 }
 
 int Superblock::get_block_address_by_bit_ind(int bit_ind) {
-    return SIZEOF_BOOT_SECTOR + SIZEOF_SUPERBLOCK + free_blocks.size() + sizeof_ilist_bytes + size_of_rootdir + bit_ind * sizeof_block;
+    return SIZEOF_BOOT_SECTOR + SIZEOF_SUPERBLOCK + free_blocks.size() + sizeof_ilist_bytes +
+           size_of_rootdir + bit_ind * sizeof_block;
 }
 
 int Superblock::get_block_bit_ind_by_address(int block_address) {
-    return (block_address - SIZEOF_BOOT_SECTOR - SIZEOF_SUPERBLOCK - free_blocks.size() - sizeof_ilist_bytes - size_of_rootdir) / sizeof_block;
+    return (block_address - SIZEOF_BOOT_SECTOR - SIZEOF_SUPERBLOCK - free_blocks.size() -
+            sizeof_ilist_bytes - size_of_rootdir) / sizeof_block;
 }

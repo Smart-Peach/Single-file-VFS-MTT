@@ -65,12 +65,12 @@ void AwesomeFileSystem::load_superblock_from_memory() {
 }
 
 void AwesomeFileSystem::create_file(str_t src_name) {
-    if (!current_dir->is_file_in_directory(src_name)) {
+    if (!current_dir->is_src_in_directory(src_name)) {
         int free_block = superblock.get_free_block();
         Inode file_inode = Inode(0, free_block);
 
         inode_map.add_inode(0, get_abs_path(src_name), free_block);  // pass zero - type of src for inode
-        current_dir->d_add_file(src_name);
+        current_dir->d_add_src(src_name);
 
         superblock.update_fields_after_inode_addition(file_inode);
         load_all_into_memory();
@@ -181,7 +181,16 @@ int AwesomeFileSystem::get_for_test(){
 
 // Directory's operations:
 void AwesomeFileSystem::create_dir(str_t src_name) {
-    Inode dir_inode = open_file(src_name);
+    if (!current_dir->is_src_in_directory(src_name)) {
+        int free_block = superblock.get_free_block();
+        Inode file_inode = Inode(1, free_block);
+
+        inode_map.add_inode(1, get_abs_path(src_name), free_block);  // pass zero - type of src for inode
+        current_dir->d_add_src(src_name);
+
+        superblock.update_fields_after_inode_addition(file_inode);
+        load_all_into_memory();
+    } else throw IOException("File " + src_name + " already exists!"); // 🐱‍👤
 }
 
 void AwesomeFileSystem::delete_dir(str_t src_name) { }

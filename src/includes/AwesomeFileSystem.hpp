@@ -38,8 +38,8 @@ private:
     void delete_file_in_dir(str_t file_name, str_t dir_name) override;
     Inode& open_dir(str_t src_name) override;
     void close_dir(str_t src_name) override;
-    void link_dir(str_t src_name) override; 
-    void unlink_dir(str_t src_name) override;
+    // void link_dir(str_t src_name) override; 
+    // void unlink_dir(str_t src_name) override;
     void change_dir(str_t src_name) override {};
 
      // Utils
