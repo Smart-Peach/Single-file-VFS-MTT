@@ -21,6 +21,7 @@
 #include "../commands/dir_commands/LinkDir.hpp"
 #include "../commands/dir_commands/UnlinkDir.hpp"
 #include "../commands/basic_commands/Exit.hpp"
+#include "../commands/basic_commands/Pwd.hpp"
 
 #include "../../exceptions/InterpreterException.hpp"
 
