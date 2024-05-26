@@ -65,7 +65,8 @@ void AwesomeFileSystem::load_superblock_from_memory() {
 }
 
 void AwesomeFileSystem::create_file(str_t src_name) {
-    if (!current_dir->is_src_in_directory(src_name)) {
+    // if (!current_dir->is_src_in_directory(src_name)) {
+    if(!current_dir->is_src_in_directory(src_name)){
         int free_block = superblock.get_free_block();
         Inode file_inode = Inode(0, free_block);
 
@@ -139,8 +140,9 @@ void AwesomeFileSystem::write_to_file(str_t src_name, str_t data) {
 
 //Returns the file's inode
 Inode& AwesomeFileSystem::open_file(str_t src_name) {
-    if (inode_map.is_file_in_directory(src_name)){
-        Inode& inode = inode_map.get_inode(src_name);
+    str_t abs_path = get_abs_path(src_name);
+    if (inode_map.is_file_in_directory(abs_path)){
+        Inode& inode = inode_map.get_inode(abs_path);
         inode.update_last_access_time();
         return inode;
     } else throw IOException("No such file in directory!");
@@ -167,7 +169,10 @@ void AwesomeFileSystem::read_file(str_t src_name) {
     fs_file.seekg(0);
 }
 
-void AwesomeFileSystem::close_file(str_t src_name) { }
+void AwesomeFileSystem::close_file(str_t src_name) { 
+    Inode& inode = inode_map.get_inode(src_name);
+    inode.set_optional_bits_to_zeroes();
+}
 
 void AwesomeFileSystem::upload_to_file(str_t src_name){ }
 

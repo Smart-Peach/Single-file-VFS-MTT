@@ -27,7 +27,6 @@ private:
 
 public:
     Inode() = default;
-    Inode(bool src_type);
     Inode(bool src_type, size_t free_block);
     Inode(bool src_type, int magic_number, int sizeof_file, str_t identifier,
           int block_amount, vector_size_t storage_blocks):
@@ -60,4 +59,5 @@ public:
     void update_last_file_and_inode_modif_fields();
     void increase_references_amount();
     void decrease_references_amount();
+    void set_optional_bits_to_zeroes();
 };
