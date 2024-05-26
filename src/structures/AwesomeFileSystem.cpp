@@ -201,9 +201,20 @@ void AwesomeFileSystem::create_dir(str_t src_name) {
     } else throw IOException("File " + src_name + " already exists!"); // 🐱‍👤
 }
 
-void AwesomeFileSystem::delete_dir(str_t src_name) { }
-void AwesomeFileSystem::add_file_to_dir(str_t file_name, str_t dir_name) { }
-void AwesomeFileSystem::delete_file_in_dir(str_t file_name, str_t dir_name) { }
+void AwesomeFileSystem::delete_dir(str_t src_name) {
+    if(current_dir->is_src_in_directory(src_name)){
+        src_name = get_abs_path(src_name);
+    } else if(dentry_map.find(src_name) == dentry_map.end()){
+        throw IOException("No such directory!");
+    }
+    dentry_map.erase(src_name);
+}
+void AwesomeFileSystem::add_file_to_current_dir(str_t src_name) {
+    current_dir->d_add_src(src_name);
+}
+void AwesomeFileSystem::delete_file_in_current_dir(str_t src_name) { 
+    current_dir->d_delete_src(src_name);
+}
 Inode& AwesomeFileSystem::open_dir(str_t src_name) { return open_file(src_name);}
 void AwesomeFileSystem::close_dir(str_t src_name) { }
 
@@ -220,6 +231,5 @@ void AwesomeFileSystem::change_to_parent_dir(){
     if (d_parent) current_dir = d_parent;
     else std::cout << "You are already in root dir!" << std::endl;
 }
-bool AwesomeFileSystem::is_dir_existing(str_t src_name) {}
 // void AwesomeFileSystem::link_dir(str_t src_name) { }
 // void AwesomeFileSystem::unlink_dir(str_t src_name) { }
