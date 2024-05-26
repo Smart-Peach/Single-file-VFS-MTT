@@ -57,8 +57,8 @@ public:
     // Directories operations:
     virtual void create_dir(str_t src_name) = 0;
     virtual void delete_dir(str_t src_name) = 0;
-    virtual void add_file_to_dir(str_t file_name, str_t dir_name) = 0;
-    virtual void delete_file_in_dir(str_t file_name, str_t dir_name) = 0;
+    virtual void add_file_to_current_dir(str_t file_name) = 0;
+    virtual void delete_file_in_current_dir(str_t file_name) = 0;
     virtual Inode& open_dir(str_t src_name) = 0;
     virtual void close_dir(str_t src_name) = 0;
     virtual str_t get_working_dir_name() = 0;

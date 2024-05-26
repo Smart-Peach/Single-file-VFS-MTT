@@ -38,8 +38,8 @@ private:
     // Directory operations:
     void create_dir(str_t src_name) override;
     void delete_dir(str_t src_name) override;
-    void add_file_to_dir(str_t file_name, str_t dir_name) override;
-    void delete_file_in_dir(str_t file_name, str_t dir_name) override;
+    void add_file_to_current_dir(str_t file_name) override;
+    void delete_file_in_current_dir(str_t file_name) override;
     Inode& open_dir(str_t src_name) override;
     void close_dir(str_t src_name) override;
     void change_dir(str_t src_name) override;
