@@ -20,18 +20,18 @@ class Parser {
 
     std::map<const str_t, cmd_cstr_t> zero_args_funcs = {
     {"exit", []() { return new Exit(); }},
-    {"pwd", []() { return new Pwd(); }}};
+    {"pwd", []() { return new Pwd(); }}, 
+    {"ls", []() { return new Ls();}}};
 
     std::map<const str_t, cmd_cstr_t> one_arg_funcs {
     {"create", []() { return new CreateFile(); }},
+    {"cd", []() { return new ChangeDir(); }},
     {"delete", []() { return new DeleteFile(); }},
     {"edit", []() { return new EditFile(); }},
     {"read", []() { return new ReadFile(); }},
     {"crtdir", []() { return new CreateDir(); }},
     {"deldir", []() { return new DeleteDir(); }},
-    {"rdir", []() { return new ReadDir(); }},
-    {"ldir", []() { return new LinkDir(); }},
-    {"uldir", []() { return new UnlinkDir(); }}};
+    {"rdir", []() { return new ReadDir(); }}};
 
     std::map<const str_t, cmd_cstr_t> two_args_funcs{
     {"rename", []() { return new RenameFile(); }},

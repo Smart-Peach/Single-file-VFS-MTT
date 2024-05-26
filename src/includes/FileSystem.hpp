@@ -31,7 +31,11 @@ public:
         // Loader.get_root_inode()
         // dentry_map[root_dir->d_name] = root_dir;
 
-        Dentry* root = new Dentry("root", new Inode(1, 512));
+        // Use create dir func
+        str_t root_name = "root";
+        inode_map.add_inode(1, root_name, 512);
+        Dentry* root = new Dentry(root_name, inode_map.get_inode(root_name));
+
         root_dir = root; current_dir = root;
         dentry_map[root_dir->d_name] = root;
         fs_file.open(fs_name, std::ios_base::in | std::ios_base::out | std::ios_base::binary);
@@ -66,6 +70,7 @@ public:
     // virtual void unlink_dir(str_t src_name) = 0;
     virtual void change_dir(str_t src_name) = 0;
     virtual void change_to_parent_dir() = 0;
-    virtual bool is_dir_existing(str_t src_name) = 0;
-    virtual const std::unordered_map<str_t, Dentry*> get_list_of_objects_in_cur_dir() = 0;
+    virtual str_t get_existent_dir_name(str_t src_name) = 0;
+    virtual bool is_dir_empty(str_t src_name) = 0;
+    virtual const std::vector<str_t> get_list_of_objects_names_in_dir(str_t src_name) = 0;
 };

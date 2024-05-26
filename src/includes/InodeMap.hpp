@@ -18,7 +18,7 @@ typedef std::unordered_map<size_t, Inode> inode_hashmap_t;
 
 class Dentry;
 class InodeMap {
-    friend Dentry;
+    friend class Dentry;
 
 public:
     // std::optional<Inode> get_inode(str_t src_name);

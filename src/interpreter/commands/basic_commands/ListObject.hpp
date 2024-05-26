@@ -11,7 +11,9 @@ public:
     ~Ls() = default;
 
     void apply(Context* context) override {
-        // for (const auto elem: context->get_fs(). )
-        std::cout << "Current working directory: " << context->get_fs()->get_working_dir_name() << std::endl;
+        str_t curr_dir_name = context->get_fs()->get_working_dir_name();
+        for (const auto elem: context->get_fs()->get_list_of_objects_names_in_dir(curr_dir_name)) {
+            std::cout << elem << std::endl;
+        }
     }
 };

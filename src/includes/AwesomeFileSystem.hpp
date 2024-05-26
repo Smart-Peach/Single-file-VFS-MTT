@@ -10,8 +10,9 @@ public:
     AwesomeFileSystem(const AwesomeFileSystem& other) = delete;
     ~AwesomeFileSystem() { 
         fs_file.close();
-        if (root_dir != current_dir) delete current_dir; 
-        delete root_dir;
+        for (auto elem: dentry_map){
+            if (elem.second) delete elem.second;
+        }
     }
 
     // Memory functions:
@@ -34,7 +35,6 @@ public:
 private:
     void write_to_file_with_specified_boundaries(int start, int end, str_t data, int address) override;
 
-
     // Directory operations:
     void create_dir(str_t src_name) override;
     void delete_dir(str_t src_name) override;
@@ -48,7 +48,7 @@ private:
 
      // Utils
     str_t get_abs_path( str_t src_name) { return current_dir->get_d_name() + "/" + src_name; }
-    bool is_dir_existing(str_t src_name) override;
-    const std::unordered_map<str_t, Dentry*> get_list_of_objects_in_cur_dir() override;
-
+    str_t get_existent_dir_name(str_t src_name) override;
+    bool is_dir_empty(str_t src_name) override;
+    const std::vector<str_t> get_list_of_objects_names_in_dir(str_t src_name) override;
 };

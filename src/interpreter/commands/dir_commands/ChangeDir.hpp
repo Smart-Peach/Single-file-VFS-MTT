@@ -10,6 +10,8 @@ public:
     ~ChangeDir() = default;
 
     void apply(Context* context) override {
+        if (context->get_basic_src_name() == "..") context->get_fs()->change_to_parent_dir();
+        else context->get_fs()->change_dir(context->get_basic_src_name());
         std::cout << "ChangeDir command was applied to \"" << context->get_basic_src_name() << "\"" << std::endl;
         return;
     }
