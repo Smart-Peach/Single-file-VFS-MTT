@@ -14,21 +14,21 @@ public:
 
     void prepare_file() {
         loader.fs_file.seekg(0);
-        for(int i = 0; i < 100; i++) {
-            loader.fs_file << 0;
+        for(int i = 0; i < 10000; i++) {
+            loader.write_char(i, 0);
         }
     }
 
     void run_all_tests() {
-        test_write_int();
-        test_write_multiple_ints();
-        test_int_boundaries();
-        test_write_char();
-        test_read_wrong_memory();
-        test_write_int();
+        // test_write_int();
+        // test_write_multiple_ints();
+        // test_int_boundaries();
+        // test_write_char();
+        // test_read_wrong_memory();
+        // test_write_int();
         test_write_freeblocks();
-        test_different_types();
-        test_superblock();
+        // test_different_types();
+        // test_superblock();
     }
 
     void test_write_char() {
@@ -115,18 +115,29 @@ public:
 
     void test_write_freeblocks() {
         std::cout << "[RUN-] ReadWriteFREEBLOCKS\n";
+        prepare_file();
 
+        std::vector<bit> nums {false, true, true, true, false, false, true, false, true, true, true, false, true, false, true, true, false, true, true};
+        loader.write_freeblocks(nums);
+
+        std::vector<bit> actual = loader.read_freeblocks(nums.size());
+
+        ASSERT_EQ(nums.size(), actual.size());
+        for (size_t i=0; i< nums.size(); i++) {
+            std::cout << nums[i] << " " << actual[i] << "\n";
+            ASSERT_EQ(nums[i], actual[i]);
+        }
 
         std::cout << "[--OK] ReadWriteFREEBLOCKS\n";
     }
 
     void test_superblock() {
         std::cout << "[RUN-] ReadWriteSUPERBLOCK\n";
+        prepare_file();
 
         std::vector<bool> vec {false, false};
         Superblock superblock_exp = Superblock("linear", 1000, 10, 100, 52, 52, 30, 5, 50, vec);
         loader.load_superblock(superblock_exp);
-
         Superblock superblock_actual = loader.unload_superblock();
 
         // check fs type

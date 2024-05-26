@@ -28,18 +28,48 @@ const char* LoaderBinFile::read_constchar(size_t address) {
 
 }
 
-std::vector<bool> LoaderBinFile::read_freeblocks() {
-    fs_file.seekg(SIZEOF_BOOT_SECTOR + SIZEOF_SUPERBLOCK);
-    std::vector<bool> blocks {false, false, false};
-    return blocks;
-}
-
 void LoaderBinFile::write_constchar(size_t address, const char* string) {
     
 }
 
-void LoaderBinFile::write_freeblocks(std::vector<bool> free_blocks) {
+void LoaderBinFile::write_freeblocks(std::vector<bit> free_blocks) {
+    char byte;
+    size_t bytes_count = 0;
+    size_t bits_count = BITS_IN_BYTE;
 
+    for (size_t i = 0; i < free_blocks.size(); i++) {
+        bit bit_i = free_blocks[i];
+        byte = (byte << 1) + bit_i;
+        bits_count--;
+
+        if(!bits_count || i == free_blocks.size() - 1) {
+            byte <<= bits_count;
+            write_char(SIZEOF_BOOT_SECTOR + SIZEOF_SUPERBLOCK + sizeof(char) * (bytes_count++), byte);
+            byte = 0;
+            bits_count = BITS_IN_BYTE;
+        }
+    }
+}
+
+std::vector<bit> LoaderBinFile::read_freeblocks(int freeblocks_amount) {
+    int busy_bytes_amount = freeblocks_amount / BITS_IN_BYTE + (freeblocks_amount % BITS_IN_BYTE ? 1 : 0);
+    std::vector<bit> free_blocks(freeblocks_amount);
+    int bits_left = freeblocks_amount;
+
+    for (size_t i = 0; i < busy_bytes_amount; i++) {
+        char byte = read_char(SIZEOF_BOOT_SECTOR + SIZEOF_SUPERBLOCK + sizeof(char)*i);
+        
+        for (size_t j = 0; j < 8; j++) {
+            bit curr_bit = byte & 0b10000000;
+            byte <<= 1;
+            free_blocks[i * 8 + j] = curr_bit;
+            bits_left--;
+            if (!bits_left) {
+                break;
+            }
+        }
+    }
+    return free_blocks;
 }
 
 void LoaderBinFile::load_superblock(Superblock superblock) {
@@ -72,7 +102,7 @@ Superblock LoaderBinFile::unload_superblock() {
     int size_of_rootdir         = read_int(SIZEOF_BOOT_SECTOR + sizeof(unsigned int) * 8);
 
     // std::bitset<> bitset = read_bitset();
-    std::vector free_blocks = read_freeblocks();
+    std::vector free_blocks = read_freeblocks(number_blocks);
     const char* string = "linear";
     return Superblock(string, sizeof_fs, max_sizeof_file, sizeof_ilist_bytes, number_blocks, number_free_blocks, number_available_inodes, sizeof_block, size_of_rootdir, free_blocks);
 }

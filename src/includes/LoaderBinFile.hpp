@@ -18,14 +18,12 @@ class LoaderBinFile : public Loader {
     char read_char(size_t address) override;
     unsigned int read_int(size_t address) override;
     const char* read_constchar(size_t address) override;
-    std::vector<bool> read_freeblocks();
+    std::vector<bit> read_freeblocks(int freeblocks_amount);
 
     void write_char(size_t address, char ch) override;
     void write_int(size_t address, unsigned int num) override;
-    void write_freeblocks(std::vector<bool> free_blocks);
+    void write_freeblocks(std::vector<bit> free_blocks);
     void write_constchar(size_t address, const char* string) override;
-
-    // FRIEND_TEST(LoaderTest, WriteIntBasic);
 
 public:
     LoaderBinFile(std::string file_src) {
@@ -44,7 +42,5 @@ public:
     void unload_inode_map() override;
     void unload_rootdir() override;
 
-    // FRIEND_TEST(LoaderTest, WriteIntBasic);
-    // FRIEND_TEST(BasicFunctions, WriteCharBasic);
     friend class LoaderTest;
 };

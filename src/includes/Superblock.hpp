@@ -21,23 +21,23 @@ class Superblock {
     // const int             size_of_rootdir         = 512;        // Size of root directory
     // std::vector<bool>     free_blocks;                          // May be faster in case array of bool --> in beginning 838776 0's 
 
-    const char*           fs_type;                  // Maybe special structure should be here (aka fs_type)
-    const int             sizeof_fs;                // Sizeof file system in bytes, 1 Gb
-    const int             max_sizeof_file;          // Maximum available file size, 1 Mb
-    int                   sizeof_ilist_bytes;       // Sizeof ilist in bytes (in memory)
-    const int             number_blocks; 
-    int                   number_free_blocks;       // Number of blocks available for data storage
-    int                   number_available_inodes;  // Number of inodes available for storage
-    const int             sizeof_block;             // Sizeof one block
-    const int             size_of_rootdir;          // Size of root directory
-    std::vector<bool>     free_blocks;              // May be faster in case array of bool --> in beginning 838776 0's 
+    const char*       fs_type;                  // Maybe special structure should be here (aka fs_type)
+    const int         sizeof_fs;                // Sizeof file system in bytes, 1 Gb
+    const int         max_sizeof_file;          // Maximum available file size, 1 Mb
+    int               sizeof_ilist_bytes;       // Sizeof ilist in bytes (in memory)
+    const int         number_blocks; 
+    int               number_free_blocks;       // Number of blocks available for data storage
+    int               number_available_inodes;  // Number of inodes available for storage
+    const int         sizeof_block;             // Sizeof one block
+    const int         size_of_rootdir;          // Size of root directory
+    std::vector<bit>  free_blocks;              // May be faster in case array of bool --> in beginning 838776 0's 
 
     int get_block_address_by_bit_ind(int bit_ind);
     int get_block_bit_ind_by_address(int block_address);
 
 public:
 
-    Superblock(const char* fs_type, int sizeof_fs, int max_sizeof_file, int sizeof_ilist_bytes, int number_blocks, int number_free_blocks, int number_available_inodes, int sizeof_block, int size_of_rootdir, std::vector<bool> free_blocks)
+    Superblock(const char* fs_type, int sizeof_fs, int max_sizeof_file, int sizeof_ilist_bytes, int number_blocks, int number_free_blocks, int number_available_inodes, int sizeof_block, int size_of_rootdir, std::vector<bit> free_blocks)
     : fs_type(fs_type),
       sizeof_fs(sizeof_fs),
       max_sizeof_file(max_sizeof_file),
