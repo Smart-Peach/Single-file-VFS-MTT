@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
     CommandTest(AFS, 9,"pwd", "Current working directory: \"nice_dir\"");
     CommandTest(AFS, 9,"cd .. pwd", "ChangeDir command was applied to \"..\"\nCurrent working directory: \"root\"");
     CommandTest(AFS, 10,"deldir nice_dir", "DeleteDir command was applied to \"nice_dir\"");
-    CommandTest(AFS, 11,"deldir nice_dir", "No such directory!");
+    CommandTest(AFS, 11,"deldir nice_dir", "Directory \"nice_dir\" does not exist!");
 
     std::cout << "=================End test running=================" << std::endl;
 
