@@ -12,8 +12,8 @@ class Superblock {
 // TODO: add field for root directory
     // const char*           fs_type                 = "linear";   // Maybe special structure should be here (aka fs_type)
     // const int             sizeof_fs               = 1073741824; // Sizeof file system in bytes, 1 Gb
-    // const int             max_sizeof_file         = 104857600;  // Maximum available file size, 1 Mb
-    // int                   sizeof_ilist_bytes      = 214726656;  // Sizeof ilist in bytes (in memory)
+    // const int             max_sizeof_file         = 1048576;  // Maximum available file size, 1 Mb
+    // int                   sizeof_ilist_bytes      = 214726656 | 204800000 (aka 256 for each);  // Sizeof ilist in bytes (in memory)
     // const int             number_blocks; 
     // int                   number_free_blocks      = 800000;     // Number of blocks available for data storage
     // int                   number_available_inodes = 800000;     // Number of inodes available for storage

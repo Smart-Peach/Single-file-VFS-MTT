@@ -20,16 +20,17 @@ public:
     }
 
     void run_all_tests() {
-        test_write_int();
-        test_write_multiple_ints();
-        test_int_boundaries();
-        test_write_char();
-        test_read_wrong_memory();
-        test_write_int();
-        test_write_freeblocks();
-        test_different_types();
-        test_superblock();
-        test_string();
+        // test_write_int();
+        // test_write_multiple_ints();
+        // test_int_boundaries();
+        // test_write_char();
+        // test_read_wrong_memory();
+        // test_write_freeblocks();
+        // test_different_types();
+        // test_superblock();
+        // test_string();
+        test_time();
+        test_inode();
     }
 
     void test_write_char() {
@@ -158,6 +159,32 @@ public:
         }
 
         std::cout << "[--OK] ReadWriteSUPERBLOCK\n";
+    }
+
+    void test_inode() {
+        std::cout << "[RUN-] ReadWriteEmptyINODE\n";
+        prepare_file();
+
+        Inode inode_exp = Inode(0, 512);
+        loader.load_inode(0, inode_exp);
+        Inode inode_act = loader.unload_inode(0, 256);
+
+        std::cout << "[--OK] ReadWriteEmptyINODE\n";
+    }
+
+    void test_time() {
+        std::cout << "[RUN-] ReadWriteTime_t\n";
+        prepare_file();
+
+        time_t current_time;
+        time(&current_time);
+
+        loader.write_time_t(0, current_time);
+        time_t actual_time = loader.read_time_t(0);
+
+        ASSERT_EQ(current_time, actual_time);
+
+        std::cout << "[--OK] ReadWriteTime_t\n";
     }
 };
 

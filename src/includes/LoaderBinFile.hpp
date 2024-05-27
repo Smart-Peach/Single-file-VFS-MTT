@@ -18,12 +18,16 @@ class LoaderBinFile : public Loader {
     char read_char(size_t address) override;
     unsigned int read_int(size_t address) override;
     str_t read_string(size_t address) override;
+    time_t read_time_t(size_t address);
     std::vector<bit> read_freeblocks(int freeblocks_amount);
+    Inode unload_inode(size_t address, size_t sizeof_inode);
 
     void write_char(size_t address, char ch) override;
     void write_int(size_t address, unsigned int num) override;
     void write_freeblocks(std::vector<bit> free_blocks);
     void write_string(size_t address, const str_t string) override;
+    void write_time_t(size_t address, time_t time);
+    void load_inode(size_t address, Inode inode);
 
 public:
     LoaderBinFile(str_t file_src) {
@@ -35,11 +39,11 @@ public:
     }
 
     void load_superblock(Superblock superblock) override;
-    void load_inode_map() override;
+    void load_inode_map(InodeMap mapa, size_t sizeof_freeblocks, size_t sizeof_inode) override;
     void load_rootdir() override;
 
     Superblock unload_superblock() override;
-    void unload_inode_map() override;
+    InodeMap unload_inode_map(size_t sizeof_ilist, size_t sizeof_freeblocks, size_t sizeof_inode) override;
     void unload_rootdir() override;
 
     friend class LoaderTest;

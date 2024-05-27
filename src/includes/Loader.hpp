@@ -21,10 +21,10 @@ private:
 
 public: 
     virtual void load_superblock(Superblock superblock) = 0;
-    virtual void load_inode_map() = 0;
+    virtual void load_inode_map(InodeMap mapa, size_t sizeof_freeblocks, size_t sizeof_inode) = 0;
     virtual void load_rootdir() = 0;
 
     virtual Superblock unload_superblock() = 0;
-    virtual void unload_inode_map() = 0;
+    virtual InodeMap unload_inode_map(size_t sizeof_ilist, size_t sizeof_freeblocks, size_t sizeof_inode) = 0;
     virtual void unload_rootdir() = 0;
 };
