@@ -4,21 +4,22 @@
 #include <bitset>
 #include "../includes/Inode.hpp"
 #include "../exceptions/SuperblockException.hpp"
+#include "Dentry.hpp"
 #include "types.hpp"
 
 
 // Contains information about file system in general
 class Superblock {
 // TODO: add field for root directory
-    const char*           fs_type                 = "linear";   // Maybe special structure should be here (aka fs_type)
-    const int             sizeof_fs               = 1073741824; // Sizeof file system in bytes, 1 Gb
-    const int             max_sizeof_file         = 104857600;  // Maximum available file size, 1 Mb
-    int                   sizeof_ilist_bytes      = 214726656;  // Sizeof ilist in bytes (in memory) 
-    static const int      number_blocks           = 800000;     // Number of all blocks (occupied and free)
-    int                   number_free_blocks      = 800000;     // Number of blocks available for data storage
-    int                   number_available_inodes = 800000;     // Number of inodes available for storage
-    const int             sizeof_block            = 1024;       // Sizeof one block
-    const int             size_of_rootdir         = 512;        // Size of root directory
+    const char*                fs_type                 = "linear";   // Maybe special structure should be here (aka fs_type)
+    const int                  sizeof_fs               = 1073741824; // Sizeof file system in bytes, 1 Gb
+    const int                  max_sizeof_file         = 104857600;  // Maximum available file size, 1 Mb
+    int                        sizeof_ilist_bytes      = 214726656;  // Sizeof ilist in bytes (in memory) 
+    constexpr static int       number_blocks           = 800000;     // Number of all blocks (occupied and free)
+    int                        number_free_blocks      = 800000;     // Number of blocks available for data storage
+    int                        number_available_inodes = 800000;     // Number of inodes available for storage
+    const int                  sizeof_block            = 1024;       // Sizeof one block
+    const int                  size_of_rootdir         = 512;        // Size of root directory
     std::bitset<number_blocks> free_blocks;                          // May be faster in case array of bool --> in beginning 838776 0's 
 
     int get_block_address_by_bit_ind(int bit_ind);

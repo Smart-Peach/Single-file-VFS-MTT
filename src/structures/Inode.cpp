@@ -2,7 +2,6 @@
 #include <vector>
 #include "../includes/Inode.hpp"
 
-
 Inode::Inode(bool src_type, size_t address_block):
             is_directory(src_type),
             number_references(0),
@@ -87,4 +86,10 @@ void Inode::update_last_access_time(){
 void Inode::update_last_file_and_inode_modif_fields(){
     time(&last_file_modif_time);
     time(&last_inode_modif_time);
+}
+
+//Sets 0 in the optional bits field after closing the file 
+void Inode::set_optional_bits_to_zeroes(){
+    optional_bit1 = 0;
+    optional_bit2 = 0;
 }

@@ -1,8 +1,8 @@
 #pragma once
-#include <iostream>
-#include "../includes/types.hpp"
 
-class SuperblockException: public std::exception {
+#include "FileSystemException.hpp"
+
+class SuperblockException: virtual public FileSystemException {
     str_t message;
 
 public:

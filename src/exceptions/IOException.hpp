@@ -1,8 +1,8 @@
 #pragma once
-#include <iostream>
-#include "../includes/types.hpp"
 
-class IOException: public std::exception {
+#include "FileSystemException.hpp"
+
+class IOException: virtual public FileSystemException {
     str_t message;
 
 public:

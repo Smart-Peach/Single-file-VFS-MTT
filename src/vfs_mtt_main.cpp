@@ -7,9 +7,8 @@
 #include "includes/AwesomeFileSystem.hpp"
 #include "includes/Superblock.hpp"
 #include "includes/InodeMap.hpp"
+#include "includes/Dentry.hpp"
 #include "includes/types.hpp"
-
-
 
 
 int main(int argc, char* argv[]){

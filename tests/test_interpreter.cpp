@@ -17,7 +17,7 @@ void CommandTest(FileSystem* AFS, size_t test_number, std::string input_line, st
     Interpreter interpreter = Interpreter(AFS);
     try {
         interpreter.interpret(input_line);
-    } catch (const InterpreterException& e) {
+    } catch (const std::exception& e) {
         std::cout << e.what() << std::endl;
     }
 
@@ -40,10 +40,16 @@ int main(int argc, char* argv[]) {
     std::cout << "\n=================Start test running=================" << std::endl;
     CommandTest(AFS, 1, "write ajjajaj.a", "Missed text for command!");
     CommandTest(AFS, 2, "write", "Missed argument for command!");
-    CommandTest(AFS, 3, "uldir", "Missed argument for command!");
+    CommandTest(AFS, 3, "cd", "Missed argument for command!");
     CommandTest(AFS, 4,"odir nicedir", "Unknown command 'odir'!");
     CommandTest(AFS, 5,"create file.txt write file.txt \"nice message\"", "CreateFile command was applied to \"file.txt\"\nWriteFile command was applied to \"file.txt\"\nText: nice message");
-
+    CommandTest(AFS, 6,"create file1.txt delete file1.txt", "CreateFile command was applied to \"file1.txt\"\nDeleteFile command was applied to \"file1.txt\"");
+    CommandTest(AFS, 7,"crtdir nice_dir", "CreateDir command was applied to \"nice_dir\"");
+    CommandTest(AFS, 8,"cd nice_dir", "ChangeDir command was applied to \"nice_dir\"");
+    CommandTest(AFS, 9,"pwd", "Current working directory: \"root/nice_dir\"");
+    CommandTest(AFS, 9,"cd .. pwd", "ChangeDir command was applied to \"..\"\nCurrent working directory: \"root\"");
+    CommandTest(AFS, 10,"deldir nice_dir", "DeleteDir command was applied to \"nice_dir\"");
+    CommandTest(AFS, 11,"deldir nice_dir", "Directory \"nice_dir\" does not exist!");
 
     std::cout << "=================End test running=================" << std::endl;
 

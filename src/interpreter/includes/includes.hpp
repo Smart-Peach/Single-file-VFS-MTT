@@ -18,9 +18,10 @@
 #include "../commands/dir_commands/DeleteDir.hpp"
 #include "../commands/dir_commands/ReadDir.hpp"
 #include "../commands/dir_commands/RenameDir.hpp"
-#include "../commands/dir_commands/LinkDir.hpp"
-#include "../commands/dir_commands/UnlinkDir.hpp"
+#include "../commands/dir_commands/ChangeDir.hpp"
 #include "../commands/basic_commands/Exit.hpp"
+#include "../commands/basic_commands/Pwd.hpp"
+#include "../commands/basic_commands/ListObject.hpp"
 
 #include "../../exceptions/InterpreterException.hpp"
 

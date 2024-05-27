@@ -1,6 +1,7 @@
 #include "../includes/AwesomeFileSystem.hpp"
 #include "../exceptions/IOException.hpp"
 #include "../exceptions/OutOfMemoryException.hpp"
+#include <vector>
 
 /* TODO: EXTENDS FileSystem.cpp
 Create file:
@@ -65,24 +66,31 @@ void AwesomeFileSystem::load_superblock_from_memory() {
 }
 
 void AwesomeFileSystem::create_file(str_t src_name) {
-    // std::cout << "\nCreate file: " << src_name << "\n" << std::endl;
-    if (!inode_map.is_file_in_directory(src_name)) {
+    // if (!current_dir->is_src_in_directory(src_name)) {
+    if(!current_dir->is_src_in_directory(src_name)){
         int free_block = superblock.get_free_block();
-        // std::cout << free_block << src_name << std::endl;
         Inode file_inode = Inode(0, free_block);
+
+        inode_map.add_inode(0, get_abs_path(src_name), free_block);  // pass zero - type of src for inode
+        current_dir->d_add_src(src_name);
+
         superblock.update_fields_after_inode_addition(file_inode);
-        inode_map.add_inode(0, src_name, free_block);  // pass zero - type of src for inode
         load_all_into_memory();
-    } else throw IOException("File " + src_name + " already exists!");
+    } else throw IOException("CreateFile: File " + src_name + " already exists!"); // 🐱‍👤
 };
 
 void AwesomeFileSystem::delete_file(str_t src_name) {
-    if (inode_map.is_file_in_directory(src_name)) {
-        Inode& deleted_inode = inode_map.get_inode(src_name);
-        inode_map.delete_inode(src_name);
+    // if (inode_map.is_file_in_directory(src_name)) {
+    if (current_dir->is_src_in_directory(src_name)) {
+
+        str_t abs_path = get_abs_path(src_name);
+        Inode& deleted_inode = inode_map.get_inode(abs_path);
         superblock.update_fields_after_inode_deletion(deleted_inode);
+        inode_map.delete_inode(abs_path);
+        current_dir->d_delete_src(src_name);
+
         load_all_into_memory();
-    } else throw IOException("No such file in directory!");
+    } else throw IOException("DeleteFile: No such file in directory!");
 };
 
 void AwesomeFileSystem::write_to_file(str_t src_name, str_t data) { 
@@ -134,14 +142,16 @@ void AwesomeFileSystem::write_to_file(str_t src_name, str_t data) {
 
 //Returns the file's inode
 Inode& AwesomeFileSystem::open_file(str_t src_name) {
-    if (inode_map.is_file_in_directory(src_name)){
-        Inode& inode = inode_map.get_inode(src_name);
+    str_t abs_path = get_abs_path(src_name);
+    if (inode_map.is_file_in_directory(abs_path)){
+        Inode& inode = inode_map.get_inode(abs_path);
         inode.update_last_access_time();
         return inode;
-    } else throw IOException("No such file in directory!");
+    } else throw IOException("OpenFile: No such file in directory!");
 };
 
 void AwesomeFileSystem::read_file(str_t src_name) {
+
     Inode& inode = open_file(src_name);
     vector_size_t storage = inode.get_blocks_storage();
     int num_of_available_char = inode.get_sizeof_file();
@@ -162,7 +172,10 @@ void AwesomeFileSystem::read_file(str_t src_name) {
     fs_file.seekg(0);
 }
 
-void AwesomeFileSystem::close_file(str_t src_name) { }
+void AwesomeFileSystem::close_file(str_t src_name) { 
+    Inode& inode = inode_map.get_inode(src_name);
+    inode.set_optional_bits_to_zeroes();
+}
 
 void AwesomeFileSystem::upload_to_file(str_t src_name){ }
 
@@ -176,13 +189,68 @@ int AwesomeFileSystem::get_for_test(){
 
 // Directory's operations:
 void AwesomeFileSystem::create_dir(str_t src_name) {
-    Inode dir_inode = open_file(src_name);
+    if (!current_dir->is_src_in_directory(src_name)) {
+        int free_block = superblock.get_free_block();
+        Inode file_inode = Inode(1, free_block);
+        str_t abs_path = get_abs_path(src_name);
+
+        inode_map.add_inode(1, abs_path, free_block);  // pass zero - type of src for inode
+        current_dir->d_add_src(src_name);
+        dentry_map[abs_path] = new Dentry(abs_path, inode_map.get_inode(abs_path), current_dir);
+
+        superblock.update_fields_after_inode_addition(inode_map.get_inode(abs_path));
+        load_all_into_memory();
+    } else throw IOException("Directory " + src_name + " already exists!"); // 🐱‍👤
 }
 
-void AwesomeFileSystem::delete_dir(str_t src_name) { }
-void AwesomeFileSystem::add_file_to_dir(str_t file_name, str_t dir_name) { }
-void AwesomeFileSystem::delete_file_in_dir(str_t file_name, str_t dir_name) { }
+void AwesomeFileSystem::delete_dir(str_t src_name) {
+    str_t input_name = src_name;
+    // Not this exception
+    if (!get_existent_dir_name(src_name)) throw IOException("Directory \"" + src_name + "\" does not exist!");
+    if (!is_dir_empty(src_name))  throw IOException("DeleteDir: can not delete dir cause it's not empty!");
+
+    if (current_dir->is_src_in_directory(input_name)) current_dir->d_delete_src(input_name);
+    inode_map.delete_inode(src_name);
+    delete dentry_map[src_name];
+    dentry_map.erase(src_name);
+}
+
+void AwesomeFileSystem::add_file_to_current_dir(str_t src_name) {
+    current_dir->d_add_src(src_name);
+}
+void AwesomeFileSystem::delete_file_in_current_dir(str_t src_name) { 
+    current_dir->d_delete_src(src_name);
+}
 Inode& AwesomeFileSystem::open_dir(str_t src_name) { return open_file(src_name);}
 void AwesomeFileSystem::close_dir(str_t src_name) { }
-void AwesomeFileSystem::link_dir(str_t src_name) { }
-void AwesomeFileSystem::unlink_dir(str_t src_name) { }
+
+
+void AwesomeFileSystem::change_dir(str_t src_name) {
+    if (!get_existent_dir_name(src_name)) throw IOException("Directory \"" + src_name + "\" does not exist!"); 
+    current_dir = dentry_map[src_name];
+}
+
+void AwesomeFileSystem::change_to_parent_dir(){
+    Dentry* d_parent = current_dir->get_parent_dir();
+    if (d_parent) current_dir = d_parent;
+    else std::cout << "You are already in root dir!" << std::endl;
+}
+
+bool AwesomeFileSystem::get_existent_dir_name(str_t& src_name) {
+    if (dentry_map.find(src_name) != dentry_map.end()) {
+        return true;
+    } else if (dentry_map.find(get_abs_path(src_name)) != dentry_map.end()) {
+        src_name = get_abs_path(src_name);
+    } else return false;
+    return true;
+
+}
+bool AwesomeFileSystem::is_dir_empty(str_t src_name) {
+    if (!get_existent_dir_name(src_name)) throw IOException("Directory \"" + src_name + "\" does not exist!");
+    return dentry_map[src_name]->get_list_of_objects().empty();
+}
+
+const std::vector<str_t> AwesomeFileSystem::get_list_of_objects_names_in_dir(str_t src_name) {
+    if (!get_existent_dir_name(src_name)) throw IOException("Directory \"" + src_name + "\" does not exist!");
+    return dentry_map[src_name]->get_list_of_objects();
+}

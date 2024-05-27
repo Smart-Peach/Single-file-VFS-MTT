@@ -10,6 +10,7 @@ public:
     ~DeleteDir() = default;
 
     void apply(Context* context) override {
+        context->get_fs()->delete_dir(context->get_basic_src_name());
         std::cout << "DeleteDir command was applied to \"" << context->get_basic_src_name() << "\"" << std::endl;
         return;
     }
