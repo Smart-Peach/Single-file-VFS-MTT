@@ -142,7 +142,6 @@ void AwesomeFileSystem::write_to_file(str_t src_name, str_t data) {
 
 //Returns the file's inode
 Inode& AwesomeFileSystem::open_file(str_t src_name) {
-
     str_t abs_path = get_abs_path(src_name);
     if (inode_map.is_file_in_directory(abs_path)){
         Inode& inode = inode_map.get_inode(abs_path);
@@ -205,16 +204,17 @@ void AwesomeFileSystem::create_dir(str_t src_name) {
 }
 
 void AwesomeFileSystem::delete_dir(str_t src_name) {
-    str_t dir_name = get_existent_dir_name(src_name);
+    str_t input_name = src_name;
     // Not this exception
-    if (is_dir_empty(dir_name)) { 
-        throw IOException("DeleteDir: can not delete dir cause it's not empty!");
-    }
-    if (current_dir->is_src_in_directory(src_name)) current_dir->d_delete_src(src_name);
-    inode_map.delete_inode(dir_name);
-    delete dentry_map[dir_name];
-    dentry_map.erase(dir_name);
+    if (!get_existent_dir_name(src_name)) throw IOException("Directory \"" + src_name + "\" does not exist!");
+    if (!is_dir_empty(src_name))  throw IOException("DeleteDir: can not delete dir cause it's not empty!");
+
+    if (current_dir->is_src_in_directory(input_name)) current_dir->d_delete_src(input_name);
+    inode_map.delete_inode(src_name);
+    delete dentry_map[src_name];
+    dentry_map.erase(src_name);
 }
+
 void AwesomeFileSystem::add_file_to_current_dir(str_t src_name) {
     current_dir->d_add_src(src_name);
 }
@@ -225,9 +225,9 @@ Inode& AwesomeFileSystem::open_dir(str_t src_name) { return open_file(src_name);
 void AwesomeFileSystem::close_dir(str_t src_name) { }
 
 
-void AwesomeFileSystem::change_dir(str_t src_name){
-    str_t dir_name = get_existent_dir_name(src_name); 
-    current_dir = dentry_map[dir_name];
+void AwesomeFileSystem::change_dir(str_t src_name) {
+    if (!get_existent_dir_name(src_name)) throw IOException("Directory \"" + src_name + "\" does not exist!"); 
+    current_dir = dentry_map[src_name];
 }
 
 void AwesomeFileSystem::change_to_parent_dir(){
@@ -236,18 +236,21 @@ void AwesomeFileSystem::change_to_parent_dir(){
     else std::cout << "You are already in root dir!" << std::endl;
 }
 
-str_t AwesomeFileSystem::get_existent_dir_name(str_t src_name) {
-    if (dentry_map.find(src_name) != dentry_map.end()) return src_name;
-    else if (dentry_map.find(get_abs_path(src_name)) != dentry_map.end()) return get_abs_path(src_name);
-    else throw IOException("Directory \"" + src_name + "\" does not exist!");
+bool AwesomeFileSystem::get_existent_dir_name(str_t& src_name) {
+    if (dentry_map.find(src_name) != dentry_map.end()) {
+        return true;
+    } else if (dentry_map.find(get_abs_path(src_name)) != dentry_map.end()) {
+        src_name = get_abs_path(src_name);
+    } else return false;
+    return true;
 
 }
 bool AwesomeFileSystem::is_dir_empty(str_t src_name) {
-    str_t dir_name = get_existent_dir_name(src_name);
-    return !dentry_map[dir_name]->get_list_of_objects().empty();
+    if (!get_existent_dir_name(src_name)) throw IOException("Directory \"" + src_name + "\" does not exist!");
+    return dentry_map[src_name]->get_list_of_objects().empty();
 }
 
 const std::vector<str_t> AwesomeFileSystem::get_list_of_objects_names_in_dir(str_t src_name) {
-    str_t dir_name = get_existent_dir_name(src_name);
-    return dentry_map[dir_name]->get_list_of_objects();
+    if (!get_existent_dir_name(src_name)) throw IOException("Directory \"" + src_name + "\" does not exist!");
+    return dentry_map[src_name]->get_list_of_objects();
 }

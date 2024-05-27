@@ -48,7 +48,7 @@ private:
 
      // Utils
     str_t get_abs_path( str_t src_name) { return current_dir->get_d_name() + "/" + src_name; }
-    str_t get_existent_dir_name(str_t src_name) override;
+    bool get_existent_dir_name(str_t& src_name) override;
     bool is_dir_empty(str_t src_name) override;
     const std::vector<str_t> get_list_of_objects_names_in_dir(str_t src_name) override;
 };

@@ -1,8 +1,8 @@
 #pragma once
-#include <iostream>
-#include "../includes/types.hpp"
 
-class OutOfMemoryException: public std::exception {
+#include "FileSystemException.hpp"
+
+class OutOfMemoryException: virtual public FileSystemException {
     str_t message;
 
 public:

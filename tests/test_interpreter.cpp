@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
     CommandTest(AFS, 6,"create file1.txt delete file1.txt", "CreateFile command was applied to \"file1.txt\"\nDeleteFile command was applied to \"file1.txt\"");
     CommandTest(AFS, 7,"crtdir nice_dir", "CreateDir command was applied to \"nice_dir\"");
     CommandTest(AFS, 8,"cd nice_dir", "ChangeDir command was applied to \"nice_dir\"");
-    CommandTest(AFS, 9,"pwd", "Current working directory: \"nice_dir\"");
+    CommandTest(AFS, 9,"pwd", "Current working directory: \"root/nice_dir\"");
     CommandTest(AFS, 9,"cd .. pwd", "ChangeDir command was applied to \"..\"\nCurrent working directory: \"root\"");
     CommandTest(AFS, 10,"deldir nice_dir", "DeleteDir command was applied to \"nice_dir\"");
     CommandTest(AFS, 11,"deldir nice_dir", "Directory \"nice_dir\" does not exist!");
