@@ -17,16 +17,16 @@ class LoaderBinFile : public Loader {
 
     char read_char(size_t address) override;
     unsigned int read_int(size_t address) override;
-    const char* read_constchar(size_t address) override;
+    str_t read_string(size_t address) override;
     std::vector<bit> read_freeblocks(int freeblocks_amount);
 
     void write_char(size_t address, char ch) override;
     void write_int(size_t address, unsigned int num) override;
     void write_freeblocks(std::vector<bit> free_blocks);
-    void write_constchar(size_t address, const char* string) override;
+    void write_string(size_t address, const str_t string) override;
 
 public:
-    LoaderBinFile(std::string file_src) {
+    LoaderBinFile(str_t file_src) {
         fs_file.open(file_src, std::ios_base::in | std::ios_base::out | std::ios_base::binary);
     }
 

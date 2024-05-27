@@ -20,15 +20,16 @@ public:
     }
 
     void run_all_tests() {
-        // test_write_int();
-        // test_write_multiple_ints();
-        // test_int_boundaries();
-        // test_write_char();
-        // test_read_wrong_memory();
-        // test_write_int();
+        test_write_int();
+        test_write_multiple_ints();
+        test_int_boundaries();
+        test_write_char();
+        test_read_wrong_memory();
+        test_write_int();
         test_write_freeblocks();
-        // test_different_types();
-        // test_superblock();
+        test_different_types();
+        test_superblock();
+        test_string();
     }
 
     void test_write_char() {
@@ -103,13 +104,14 @@ public:
         std::cout << "[--OK] ReadDifferentTypes\n";
     }
 
-    void test_constchar() {
+    void test_string() {
         std::cout << "[RUN-] ReadWriteConstChar\n";
         prepare_file();
 
-        loader.write_char(0, '5');
-        unsigned int num = loader.read_int(0); // 808464437 --> UB (Ok)
+        loader.write_string(0, "Hello world!");
+        std::string res = loader.read_string(0);
         
+        ASSERT_EQ(res, "Hello world!");
         std::cout << "[--OK] ReadWriteConstChar\n";
     }
 
@@ -124,7 +126,6 @@ public:
 
         ASSERT_EQ(nums.size(), actual.size());
         for (size_t i=0; i< nums.size(); i++) {
-            std::cout << nums[i] << " " << actual[i] << "\n";
             ASSERT_EQ(nums[i], actual[i]);
         }
 
@@ -135,8 +136,8 @@ public:
         std::cout << "[RUN-] ReadWriteSUPERBLOCK\n";
         prepare_file();
 
-        std::vector<bool> vec {false, false};
-        Superblock superblock_exp = Superblock("linear", 1000, 10, 100, 52, 52, 30, 5, 50, vec);
+        std::vector<bit> vec {false, false, false};
+        Superblock superblock_exp = Superblock("linear", 1000, 10, 100, 3, 52, 30, 5, 50, vec);
         loader.load_superblock(superblock_exp);
         Superblock superblock_actual = loader.unload_superblock();
 
@@ -149,8 +150,12 @@ public:
         ASSERT_EQ(superblock_exp.number_available_inodes, superblock_actual.number_available_inodes);
         ASSERT_EQ(superblock_exp.sizeof_block,            superblock_actual.sizeof_block);
         ASSERT_EQ(superblock_exp.size_of_rootdir,         superblock_actual.size_of_rootdir);
-        // check free blocks
+        
+        ASSERT_EQ(superblock_exp.free_blocks.size(), superblock_actual.free_blocks.size());
 
+        for (size_t i=0; i< vec.size(); i++) {
+            ASSERT_EQ(superblock_exp.free_blocks[i], superblock_actual.free_blocks[i]);
+        }
 
         std::cout << "[--OK] ReadWriteSUPERBLOCK\n";
     }

@@ -21,7 +21,7 @@ class Superblock {
     // const int             size_of_rootdir         = 512;        // Size of root directory
     // std::vector<bool>     free_blocks;                          // May be faster in case array of bool --> in beginning 838776 0's 
 
-    const char*       fs_type;                  // Maybe special structure should be here (aka fs_type)
+    str_t             fs_type;                  // Maybe special structure should be here (aka fs_type)
     const int         sizeof_fs;                // Sizeof file system in bytes, 1 Gb
     const int         max_sizeof_file;          // Maximum available file size, 1 Mb
     int               sizeof_ilist_bytes;       // Sizeof ilist in bytes (in memory)
@@ -37,7 +37,7 @@ class Superblock {
 
 public:
 
-    Superblock(const char* fs_type, int sizeof_fs, int max_sizeof_file, int sizeof_ilist_bytes, int number_blocks, int number_free_blocks, int number_available_inodes, int sizeof_block, int size_of_rootdir, std::vector<bit> free_blocks)
+    Superblock(str_t fs_type, int sizeof_fs, int max_sizeof_file, int sizeof_ilist_bytes, int number_blocks, int number_free_blocks, int number_available_inodes, int sizeof_block, int size_of_rootdir, std::vector<bit> free_blocks)
     : fs_type(fs_type),
       sizeof_fs(sizeof_fs),
       max_sizeof_file(max_sizeof_file),
@@ -47,7 +47,7 @@ public:
       number_available_inodes(number_available_inodes),
       sizeof_block(sizeof_block),
       size_of_rootdir(size_of_rootdir),
-      free_blocks(free_blocks) {} // May be error
+      free_blocks(free_blocks) {}
 
     //Loads Superblock's fields into second 1024 bytes
     void load_into_memory(std::fstream& address_space);
