@@ -93,3 +93,7 @@ void Inode::set_optional_bits_to_zeroes(){
     optional_bit1 = 0;
     optional_bit2 = 0;
 }
+
+void Inode::change_magic_number(size_t new_magic_number) {
+    magic_number = new_magic_number;
+}

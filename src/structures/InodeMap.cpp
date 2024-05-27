@@ -1,4 +1,5 @@
 #include "../includes/InodeMap.hpp"
+#include <cstddef>
 
 // Get nice inode hash
 int InodeMap::get_inode_hash(str_t name) {
@@ -47,4 +48,10 @@ const inode_hashmap_t InodeMap::dump_inode_map() {
     return inode_map;
 };
 
-
+void InodeMap::change_magic_number_inode(str_t new_name, str_t old_name) {
+    size_t new_magic_num = get_inode_hash(new_name);
+    Inode& inode = get_inode(old_name);
+    inode_map.erase(inode.get_magic_number());
+    inode.change_magic_number(new_magic_num);
+    inode_map[new_magic_num] = inode;
+}

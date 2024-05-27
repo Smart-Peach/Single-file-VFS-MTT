@@ -151,7 +151,6 @@ Inode& AwesomeFileSystem::open_file(str_t src_name) {
 };
 
 void AwesomeFileSystem::read_file(str_t src_name) {
-
     Inode& inode = open_file(src_name);
     vector_size_t storage = inode.get_blocks_storage();
     int num_of_available_char = inode.get_sizeof_file();
@@ -185,6 +184,35 @@ void AwesomeFileSystem::change_superblock(int new_item) {
 
 int AwesomeFileSystem::get_for_test(){
     return superblock.sizeof_ilist_bytes;
+}
+
+void AwesomeFileSystem::rename_dir(str_t src_name, str_t new_name) {
+    str_t input_name = src_name;
+    if (!get_existent_dir_name(src_name)) throw IOException("Directory \"" + src_name + "\" does not exist!");
+    Dentry* dentry = dentry_map[src_name];
+    Dentry* parent_dentry = dentry->get_parent_dir();
+    
+    str_t new_abs_path = parent_dentry->get_d_name() + "/" + new_name;
+    // str_t old_abs_path = get_abs_path(input_name);
+
+    parent_dentry->d_delete_src(input_name);
+    parent_dentry->d_add_src(new_name);
+    dentry->change_d_name(new_abs_path);
+
+    dentry_map.erase(src_name);
+    dentry_map[new_abs_path] = dentry;
+    inode_map.change_magic_number_inode(new_abs_path, src_name);
+}
+
+void AwesomeFileSystem::rename_file(str_t src_name, str_t new_name) {
+    if (!current_dir->is_src_in_directory(src_name)) throw IOException("File \"" + src_name + "\" does not exist!");
+    current_dir->d_delete_src(src_name);
+    current_dir->d_add_src(new_name);
+
+    str_t new_abs_path = get_abs_path(new_name);
+    str_t old_abs_path = get_abs_path(src_name);
+
+    inode_map.change_magic_number_inode(new_abs_path, old_abs_path);
 }
 
 // Directory's operations:

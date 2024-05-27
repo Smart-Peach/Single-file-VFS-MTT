@@ -66,8 +66,9 @@ public:
     void d_delete_src(str_t src_name) { d_magic_numbers_map.erase(src_name); }
     void d_add_src(str_t src_name) { d_magic_numbers_map[src_name] = InodeMap::get_inode_hash(src_name); }
     bool is_src_in_directory(str_t src_name) { return d_magic_numbers_map.find(src_name) != d_magic_numbers_map.end(); }
-    str_t get_d_name() { return d_name; }
     Dentry* get_parent_dir() { return d_parent; }
+    str_t get_d_name() { return d_name; }
+    void change_d_name(str_t new_name) { d_name = new_name; }
 
     const std::vector<str_t> get_list_of_objects() {
         std::vector<str_t> keys;

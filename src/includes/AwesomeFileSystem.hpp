@@ -26,6 +26,7 @@ public:
     void write_to_file(str_t src_name, str_t data) override;
     Inode& open_file(str_t src_name) override;
     void read_file(str_t src_name) override;
+    void rename_file(str_t new_name, str_t src_name) override;
     void close_file(str_t src_name) override;
     void upload_to_file(str_t src_name) override;
     void change_superblock(int new_item);
@@ -40,6 +41,7 @@ private:
     void delete_dir(str_t src_name) override;
     void add_file_to_current_dir(str_t file_name) override;
     void delete_file_in_current_dir(str_t file_name) override;
+    void rename_dir(str_t new_name, str_t src_name) override;
     Inode& open_dir(str_t src_name) override;
     void close_dir(str_t src_name) override;
     void change_dir(str_t src_name) override;

@@ -53,6 +53,7 @@ public:
     virtual void write_to_file(str_t src_name, str_t data) = 0;
     virtual Inode& open_file(str_t src_name) = 0;
     virtual void read_file(str_t src_name) = 0;
+    virtual void rename_file(str_t new_name, str_t src_name) = 0;
     virtual void close_file(str_t src_name) = 0;
     virtual void upload_to_file(str_t src_name) = 0;
     virtual void write_to_file_with_specified_boundaries(int start, int end, str_t data, int address) = 0;
@@ -65,8 +66,7 @@ public:
     virtual Inode& open_dir(str_t src_name) = 0;
     virtual void close_dir(str_t src_name) = 0;
     virtual str_t get_working_dir_name() = 0;
-    // virtual void link_dir(str_t src_name) = 0;
-    // virtual void unlink_dir(str_t src_name) = 0;
+    virtual void rename_dir(str_t new_name, str_t src_name) = 0;
     virtual void change_dir(str_t src_name) = 0;
     virtual void change_to_parent_dir() = 0;
     virtual bool get_existent_dir_name(str_t& src_name) = 0;

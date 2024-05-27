@@ -60,4 +60,5 @@ public:
     void increase_references_amount();
     void decrease_references_amount();
     void set_optional_bits_to_zeroes();
+    void change_magic_number(size_t new_magic_number);
 };

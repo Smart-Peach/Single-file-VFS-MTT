@@ -19,6 +19,7 @@ typedef std::unordered_map<size_t, Inode> inode_hashmap_t;
 class Dentry;
 class InodeMap {
     friend class Dentry;
+    friend class FileSystem;
 
 public:
     // std::optional<Inode> get_inode(str_t src_name);
@@ -27,6 +28,7 @@ public:
     void  delete_inode(str_t src_name);
     void  update_inode(Inode& updated_inode);
     bool  is_file_in_directory(str_t src_name);
+    void change_magic_number_inode(str_t new_name,  str_t old_name);
     
 private:
     inode_hashmap_t inode_map;
