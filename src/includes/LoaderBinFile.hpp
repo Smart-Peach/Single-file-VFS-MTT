@@ -12,8 +12,7 @@
 // and provides functions for reading from address space 
 class LoaderBinFile : public Loader {
     
-    friend class LoaderTest;
-    std::fstream        fs_file;        // opened file --> open in VFS_init
+    std::fstream fs_file;        // opened file --> open in VFS_init
 
     char read_char(size_t& address) override;
     unsigned int read_int(size_t& address) override;
@@ -38,8 +37,8 @@ public:
         fs_file.close();
     }
 
-    void load_superblock(Superblock superblock) override;
-    void load_inode_map(InodeMap mapa, size_t sizeof_freeblocks, size_t sizeof_inode) override;
+    void load_superblock(Superblock& superblock) override;
+    void load_inode_map(InodeMap& mapa, size_t sizeof_freeblocks, size_t sizeof_inode) override;
     void load_rootdir() override;
 
     Superblock unload_superblock() override;

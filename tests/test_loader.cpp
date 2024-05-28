@@ -20,17 +20,17 @@ public:
     }
 
     void run_all_tests() {
-        // test_write_int();
-        // test_write_multiple_ints();
-        // test_int_boundaries();
-        // test_write_char();
-        // test_string();
-        // test_time();
-        // test_different_types();
-        // test_read_wrong_memory();
-        // test_write_freeblocks();
-        // test_superblock();
-        // test_inode();
+        test_write_int();
+        test_write_multiple_ints();
+        test_int_boundaries();
+        test_write_char();
+        test_string();
+        test_time();
+        test_different_types();
+        test_read_wrong_memory();
+        test_write_freeblocks();
+        test_superblock();
+        test_inode();
         test_mapa();
     }
 

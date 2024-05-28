@@ -49,6 +49,9 @@ public:
       size_of_rootdir(size_of_rootdir),
       free_blocks(free_blocks) {}
 
+    Superblock(const Superblock& other) = default;
+    Superblock(Superblock&& other) = default;
+    
     //Loads Superblock's fields into second 1024 bytes
     void load_into_memory(std::fstream& address_space);
     void load_from_memory(std::fstream& address_space);

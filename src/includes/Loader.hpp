@@ -20,8 +20,8 @@ private:
     virtual void write_string(size_t& address, const str_t string) = 0;
 
 public: 
-    virtual void load_superblock(Superblock superblock) = 0;
-    virtual void load_inode_map(InodeMap mapa, size_t sizeof_freeblocks, size_t sizeof_inode) = 0;
+    virtual void load_superblock(Superblock& superblock) = 0;
+    virtual void load_inode_map(InodeMap& mapa, size_t sizeof_freeblocks, size_t sizeof_inode) = 0;
     virtual void load_rootdir() = 0;
 
     virtual Superblock unload_superblock() = 0;
