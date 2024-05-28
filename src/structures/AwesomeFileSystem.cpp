@@ -78,15 +78,14 @@ void AwesomeFileSystem::create_file(str_t src_name) {
 };
 
 void AwesomeFileSystem::delete_file(str_t src_name) {
-    // if (inode_map.is_file_in_directory(src_name)) {
     if (current_dir->is_src_in_directory(src_name)) {
-
         str_t abs_path = get_abs_path(src_name);
         Inode& deleted_inode = inode_map.get_inode(abs_path);
-        superblock.update_fields_after_inode_deletion(deleted_inode);
-        inode_map.delete_inode(abs_path);
         current_dir->d_delete_src(src_name);
 
+        // SOME SHIT IS HEPPENING HERE
+        inode_map.delete_inode(abs_path);
+        superblock.update_fields_after_inode_deletion(deleted_inode);
         load_all_into_memory();
     } else throw IOException("DeleteFile: No such file in directory!");
 };
@@ -191,7 +190,6 @@ void AwesomeFileSystem::rename_dir(str_t src_name, str_t new_name) {
     Dentry* parent_dentry = dentry->get_parent_dir();
     
     str_t new_abs_path = parent_dentry->get_d_name() + "/" + new_name;
-    if(parent_dentry != current_dir) std::cout<<"Oh NOOOOOOO"<<std::endl;
 
     parent_dentry->d_delete_src(old_name);
     parent_dentry->d_add_src(new_name);
@@ -199,12 +197,8 @@ void AwesomeFileSystem::rename_dir(str_t src_name, str_t new_name) {
 
     auto iter = dentry_map.find(src_name);
     dentry_map.erase(iter);
-
     dentry_map[new_abs_path] = dentry;
 
-
-    std::cout << new_abs_path << std::endl;
-    std::cout << src_name << std::endl;
     inode_map.change_magic_number_inode(new_abs_path, src_name);
 }
 
@@ -215,6 +209,8 @@ void AwesomeFileSystem::rename_file(str_t src_name, str_t new_name) {
 
     str_t new_abs_path = get_abs_path(new_name);
     str_t old_abs_path = get_abs_path(src_name);
+
+    Inode& i = inode_map.get_inode(old_abs_path);
 
     inode_map.change_magic_number_inode(new_abs_path, old_abs_path);
 }

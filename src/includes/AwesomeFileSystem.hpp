@@ -26,7 +26,7 @@ public:
     void write_to_file(str_t src_name, str_t data) override;
     Inode& open_file(str_t src_name) override;
     void read_file(str_t src_name) override;
-    void rename_file(str_t new_name, str_t src_name) override;
+    void rename_file(str_t src_name, str_t new_name) override;
     void close_file(str_t src_name) override;
     void upload_to_file(str_t src_name) override;
     void change_superblock(int new_item);

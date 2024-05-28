@@ -78,6 +78,8 @@ public:
 
     str_t get_d_name() { return d_name; }
 
+    Inode& get_d_inode() { return d_inode; }
+
     void change_d_name(str_t new_name) { d_name = new_name; }
 
     const std::vector<str_t> get_list_of_objects() {
