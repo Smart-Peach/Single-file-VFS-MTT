@@ -20,17 +20,18 @@ public:
     }
 
     void run_all_tests() {
-        // test_write_int();
-        // test_write_multiple_ints();
-        // test_int_boundaries();
-        // test_write_char();
-        // test_read_wrong_memory();
-        // test_write_freeblocks();
-        // test_different_types();
-        // test_superblock();
-        // test_string();
+        test_write_int();
+        test_write_multiple_ints();
+        test_int_boundaries();
+        test_write_char();
+        test_read_wrong_memory();
+        test_write_freeblocks();
+        test_different_types();
+        test_superblock();
+        test_string();
         test_time();
         test_inode();
+        test_mapa();
     }
 
     void test_write_char() {
@@ -162,14 +163,44 @@ public:
     }
 
     void test_inode() {
-        std::cout << "[RUN-] ReadWriteEmptyINODE\n";
+        std::cout << "[RUN-] ReadWriteINODE\n";
         prepare_file();
 
-        Inode inode_exp = Inode(0, 512);
+        // Inode inode_exp = Inode(0, 512);
+        vector_size_t blocks {1258, 789, 4567, 79965, 12566};
+        // is_dir, magic_num, references, ident, sizeof_file, blocks_amount, <blocks>
+        Inode inode_exp = Inode(false, 123456, 864, "Neighbour", 5,  blocks);
+
         loader.load_inode(0, inode_exp);
         Inode inode_act = loader.unload_inode(0, 256);
 
-        std::cout << "[--OK] ReadWriteEmptyINODE\n";
+        ASSERT_EQ(inode_exp.is_directory, inode_act.is_directory);
+        ASSERT_EQ(inode_exp.magic_number, inode_act.magic_number);
+        ASSERT_EQ(inode_exp.optional_bit1, inode_act.optional_bit1);
+        ASSERT_EQ(inode_exp.optional_bit2, inode_act.optional_bit2);
+        ASSERT_EQ(inode_exp.number_references, inode_act.number_references);
+        ASSERT_EQ(inode_exp.identifier, inode_act.identifier);
+        ASSERT_EQ(inode_exp.sizeof_file, inode_act.sizeof_file);
+        ASSERT_EQ(inode_exp.last_access_time, inode_act.last_access_time);
+        ASSERT_EQ(inode_exp.last_file_modif_time, inode_act.last_file_modif_time);
+        ASSERT_EQ(inode_exp.last_inode_modif_time, inode_act.last_inode_modif_time);
+        ASSERT_EQ(inode_exp.blocks_amount, inode_act.blocks_amount);
+    
+        ASSERT_EQ(inode_exp.blocks_storage.size(), inode_act.blocks_storage.size());
+
+        for (size_t i=0; i< inode_exp.blocks_storage.size(); i++) {
+            ASSERT_EQ(inode_exp.blocks_storage[i], inode_act.blocks_storage[i]);
+        }
+
+        std::cout << "[--OK] ReadWriteINODE\n";
+    }
+
+    void test_mapa() {
+        std::cout << "[RUN-] ReadWriteINODE\n";
+        InodeMap mapa = InodeMap();
+
+        loader
+        std::cout << "[--OK] ReadWriteINODE\n";
     }
 
     void test_time() {

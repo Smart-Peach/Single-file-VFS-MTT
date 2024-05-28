@@ -33,10 +33,11 @@ public:
           int block_amount, vector_size_t storage_blocks):
                                             is_directory(src_type),
                                             magic_number(magic_number),
-                                            number_references(0),
+                                            sizeof_file(sizeof_file),
                                             identifier(identifier), 
                                             blocks_amount(block_amount), 
-                                            blocks_storage(storage_blocks) 
+                                            blocks_storage(storage_blocks), 
+                                            number_references(0)
             {
                 time_t current_time = time(nullptr);
                 last_access_time = current_time;
@@ -44,6 +45,8 @@ public:
                 last_inode_modif_time = current_time;
             };
     Inode& operator=(const Inode& other) = default;
+    Inode(const Inode& other) = default;
+    Inode(Inode&& other) = default;
     ~Inode() = default;
 
     const vector_size_t& get_blocks_storage();
@@ -66,4 +69,7 @@ public:
     void update_last_file_and_inode_modif_fields();
     void increase_references_amount();
     void decrease_references_amount();
+
+    friend class LoaderTest;
+    friend class LoaderBinFile;
 };

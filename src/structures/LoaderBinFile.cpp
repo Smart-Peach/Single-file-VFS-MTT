@@ -138,34 +138,34 @@ Superblock LoaderBinFile::unload_superblock() {
     return Superblock(type_fs, sizeof_fs, max_sizeof_file, sizeof_ilist_bytes, number_blocks, number_free_blocks, number_available_inodes, sizeof_block, size_of_rootdir, free_blocks);
 }
 
-void LoaderBinFile::load_inode(size_t address, Inode inode) {
+void LoaderBinFile::load_inode(size_t address, Inode& inode) {
     // TODO: check address
     write_int(address, inode.if_directory());
     write_int(address + sizeof(int), inode.get_magic_number());
-    write_int(address + sizeof(int) * 2, inode.get_number_of_references());
-    write_int(address + sizeof(int) * 3, inode.get_sizeof_file());
-    write_int(address + sizeof(int) * 4, inode.get_blocks_amount());
-    write_time_t(address + sizeof(int) * 5, inode.get_last_access_time());
-    write_time_t(address + sizeof(int) * 5 + sizeof(time_t), inode.get_last_file_modif_time());
-    write_time_t(address + sizeof(int) * 5 + sizeof(time_t) * 2, inode.get_last_inode_modif_time());
+    write_int(address + sizeof(int) * 2, inode.get_sizeof_file());
+    write_int(address + sizeof(int) * 3, inode.get_blocks_amount());
 
-    size_t shift = address + sizeof(int) * 5 + sizeof(time_t) * 3;
+    write_time_t(address + sizeof(int) * 4, inode.get_last_access_time());
+    write_time_t(address + sizeof(int) * 4 + sizeof(time_t), inode.get_last_file_modif_time());
+    write_time_t(address + sizeof(int) * 4 + sizeof(time_t) * 2, inode.get_last_inode_modif_time());
+
+    size_t shift = address + sizeof(int) * 4 + sizeof(time_t) * 3;
     write_string(shift, inode.get_identifier());
     shift += sizeof(char) * (inode.get_identifier().size() + 1);
 
+    size_t count = 0;
     for(size_t block : inode.get_blocks_storage()) {
-        write_int(shift + sizeof(int), block);
+        write_int(shift + sizeof(int) * (count++), block);
     }
 }
 
 Inode LoaderBinFile::unload_inode(size_t address, size_t sizeof_inode) {
     bool   is_directory      = read_int(address);
     int    magic_number      = read_int(address + sizeof(int));
-    int    number_references = read_int(address + sizeof(int) * 2);
-    int    sizeof_file       = read_int(address + sizeof(int) * 3);
-    int    blocks_amount     = read_int(address + sizeof(int) * 4);
+    int    sizeof_file       = read_int(address + sizeof(int) * 2);
+    int    blocks_amount     = read_int(address + sizeof(int) * 3);
 
-    size_t shift = address + sizeof(int) * 5;
+    size_t shift = address + sizeof(int) * 4;
 
     time_t last_access_time      = read_time_t(shift);
     time_t last_file_modif_time  = read_time_t(shift + sizeof(time_t));
@@ -174,8 +174,9 @@ Inode LoaderBinFile::unload_inode(size_t address, size_t sizeof_inode) {
     shift += sizeof(time_t) * 3;
 
     str_t identifier = read_string(shift);
+
     shift += sizeof(char) * (identifier.size() + 1);
-    size_t count = 0;
+    size_t count = 1;
     vector_size_t storage_blocks;
     size_t block = read_int(shift);
     while(block) {
@@ -201,7 +202,7 @@ InodeMap LoaderBinFile::unload_inode_map(size_t sizeof_ilist, size_t sizeof_free
 
     InodeMap mapa;
 
-    for (size_t i=0; i< inodes_amount; i++) {
+    for (size_t i = 0; i < inodes_amount; i++) {
         Inode inode = unload_inode(shift + sizeof_inode * i, sizeof_inode);
         mapa.add_inode(inode);
     }

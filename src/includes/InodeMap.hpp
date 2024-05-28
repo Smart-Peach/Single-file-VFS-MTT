@@ -33,4 +33,5 @@ private:
     int   get_inode_hash(str_t name);
 
     friend class LoaderBinFile;
+    friend class LoaderTest;
 };

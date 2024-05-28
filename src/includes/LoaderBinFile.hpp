@@ -27,7 +27,7 @@ class LoaderBinFile : public Loader {
     void write_freeblocks(std::vector<bit> free_blocks);
     void write_string(size_t address, const str_t string) override;
     void write_time_t(size_t address, time_t time);
-    void load_inode(size_t address, Inode inode);
+    void load_inode(size_t address, Inode& inode);
 
 public:
     LoaderBinFile(str_t file_src) {
