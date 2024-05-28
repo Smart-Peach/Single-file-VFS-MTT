@@ -2,7 +2,8 @@
 #include <vector>
 #include "../includes/Inode.hpp"
 
-Inode::Inode(bool src_type, size_t address_block):
+Inode::Inode(bool src_type, size_t address_block, int magic_number):
+            magic_number(magic_number),
             is_directory(src_type),
             number_references(0),
             sizeof_file(0),

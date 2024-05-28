@@ -19,7 +19,7 @@ void InodeMap::add_inode(bool src_type, str_t src_name, int address_block) {
     if(inode_map.find(magic_number) != inode_map.end()) {
         throw InodeMapException("Impossible to add Inode with name '" + src_name + "' because it already exists");
     }
-    inode_map[magic_number] = Inode(src_type, address_block);
+    inode_map[magic_number] = Inode(src_type, address_block, magic_number);
 };
 
 // Delete inode from InodeMap, update FS bin file
@@ -53,6 +53,8 @@ void InodeMap::change_magic_number_inode(str_t new_name, str_t old_name) {
     size_t new_magic_num = get_inode_hash(new_name);
     Inode& inode = get_inode(old_name);
 
+
+    std::cout << "check for hash" << (get_inode_hash(old_name) == inode.get_magic_number()) << std::endl;
     auto iter = inode_map.find(inode.get_magic_number());
     if (iter == inode_map.end()) throw InodeMapException("No such source to rename!");
 

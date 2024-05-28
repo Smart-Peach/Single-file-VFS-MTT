@@ -66,16 +66,14 @@ void AwesomeFileSystem::load_superblock_from_memory() {
 }
 
 void AwesomeFileSystem::create_file(str_t src_name) {
-    // if (!current_dir->is_src_in_directory(src_name)) {
     if(!current_dir->is_src_in_directory(src_name)){
         int free_block = superblock.get_free_block();
-        Inode file_inode = Inode(0, free_block);
-
         inode_map.add_inode(0, get_abs_path(src_name), free_block);  // pass zero - type of src for inode
         current_dir->d_add_src(src_name);
 
-        superblock.update_fields_after_inode_addition(file_inode);
+        superblock.update_fields_after_inode_addition(inode_map.get_inode(get_abs_path(src_name)));
         load_all_into_memory();
+
     } else throw IOException("CreateFile: File " + src_name + " already exists!"); // 🐱‍👤
 };
 
@@ -193,9 +191,7 @@ void AwesomeFileSystem::rename_dir(str_t src_name, str_t new_name) {
     Dentry* parent_dentry = dentry->get_parent_dir();
     
     str_t new_abs_path = parent_dentry->get_d_name() + "/" + new_name;
-    // str_t old_abs_path = get_abs_path(old_name);
     if(parent_dentry != current_dir) std::cout<<"Oh NOOOOOOO"<<std::endl;
-    // if (old_abs_path != src_name) std::cout << "HUGGING HUG" << std::endl;
 
     parent_dentry->d_delete_src(old_name);
     parent_dentry->d_add_src(new_name);
@@ -205,6 +201,10 @@ void AwesomeFileSystem::rename_dir(str_t src_name, str_t new_name) {
     dentry_map.erase(iter);
 
     dentry_map[new_abs_path] = dentry;
+
+
+    std::cout << new_abs_path << std::endl;
+    std::cout << src_name << std::endl;
     inode_map.change_magic_number_inode(new_abs_path, src_name);
 }
 
@@ -223,8 +223,10 @@ void AwesomeFileSystem::rename_file(str_t src_name, str_t new_name) {
 void AwesomeFileSystem::create_dir(str_t src_name) {
     if (!current_dir->is_src_in_directory(src_name)) {
         int free_block = superblock.get_free_block();
-        Inode file_inode = Inode(1, free_block);
+        // Inode file_inode = Inode(1, free_block, );
         str_t abs_path = get_abs_path(src_name);
+
+        std::cout << "abs path in crtdir " << abs_path << std::endl;
 
         inode_map.add_inode(1, abs_path, free_block);  // pass zero - type of src for inode
         current_dir->d_add_src(src_name);

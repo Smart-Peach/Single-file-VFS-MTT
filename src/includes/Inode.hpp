@@ -27,7 +27,7 @@ private:
 
 public:
     Inode() = default;
-    Inode(bool src_type, size_t free_block);
+    Inode(bool src_type, size_t free_block, int magic_num);
     Inode(bool src_type, int magic_number, int sizeof_file, str_t identifier,
           int block_amount, vector_size_t storage_blocks):
                                             is_directory(src_type),
