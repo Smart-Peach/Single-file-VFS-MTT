@@ -7,11 +7,11 @@
 
 
 class Dentry {
-    size_t  d_inode_index; // Associated with directory inode
-    Dentry* d_parent;      // Dentry object of parent
-    str_t   d_name;        // Name of directory
-    size_t  d_name_len;    // Length of directory's name (idk for what it's needed but let it be)
-    size_t  d_records_len; // length of directory's records (len of file) 
+    size_t        d_inode_index; // Associated with directory inode
+    Dentry*       d_parent;      // Dentry object of parent
+    str_t         d_name;        // Name of directory
+    size_t        d_name_len;    // Length of directory's name (idk for what it's needed but let it be)
+    size_t        d_records_len; // length of directory's records (len of file) 
     vector_size_t f_indexes_list; // List of files magic numbers
 public:
     Dentry(size_t d_inode_index, str_t d_name, size_t d_name_len, Dentry* d_parent = nullptr):
