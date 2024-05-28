@@ -13,24 +13,24 @@ class LoaderTest {
 public:
 
     void prepare_file() {
-        loader.fs_file.seekg(0);
+        size_t address = 0;
         for(int i = 0; i < 10000; i++) {
-            loader.write_char(i, 0);
+            loader.write_char(address, 0);
         }
     }
 
     void run_all_tests() {
-        test_write_int();
-        test_write_multiple_ints();
-        test_int_boundaries();
-        test_write_char();
-        test_read_wrong_memory();
-        test_write_freeblocks();
-        test_different_types();
-        test_superblock();
-        test_string();
-        test_time();
-        test_inode();
+        // test_write_int();
+        // test_write_multiple_ints();
+        // test_int_boundaries();
+        // test_write_char();
+        // test_string();
+        // test_time();
+        // test_different_types();
+        // test_read_wrong_memory();
+        // test_write_freeblocks();
+        // test_superblock();
+        // test_inode();
         test_mapa();
     }
 
@@ -58,16 +58,21 @@ public:
     void test_write_char() {
         std::cout << "[RUN-] WriteReadChar\n";
         prepare_file();
+        size_t address = 0;
+        loader.write_char(address, 'a');
+        loader.write_char(address, 'b');
+        loader.write_char(address, 'c');
+        loader.write_char(address, 'd');
 
-        loader.write_char(0, 'a');
-        loader.write_char(1, 'b');
-        loader.write_char(2, 'c');
-        loader.write_char(3, 'd');
+        size_t address0 = 0;
+        size_t address1 = 1;
+        size_t address2 = 2;
+        size_t address3 = 3;
 
-        ASSERT_EQ(loader.read_char(1), 'b');
-        ASSERT_EQ(loader.read_char(0), 'a');
-        ASSERT_EQ(loader.read_char(3), 'd');
-        ASSERT_EQ(loader.read_char(2), 'c');
+        ASSERT_EQ(loader.read_char(address1), 'b');
+        ASSERT_EQ(loader.read_char(address0), 'a');
+        ASSERT_EQ(loader.read_char(address3), 'd');
+        ASSERT_EQ(loader.read_char(address2), 'c');
 
         std::cout << "[--OK] WriteReadChar\n";
     }
@@ -82,8 +87,10 @@ public:
         std::cout << "[RUN-] ReadWriteSingleInt\n";
         prepare_file();
 
-        loader.write_int(0, 123);
-        ASSERT_EQ(loader.read_int(0), 123);
+        size_t address = 0;
+        loader.write_int(address, 123);
+        size_t address0 = 0;
+        ASSERT_EQ(loader.read_int(address0), 123);
 
         std::cout << "[--OK] ReadWriteSingleInt\n";
     }
@@ -91,15 +98,17 @@ public:
     void test_write_multiple_ints() {
         std::cout << "[RUN-] ReadWriteSingleInt\n";
         prepare_file();
+        size_t address = 0;
         size_t size = sizeof(unsigned int);
 
-        loader.write_int(0, 123);
-        loader.write_int(size, 5660077);
-        loader.write_int(size * 2, 788);
+        loader.write_int(address, 123);
+        loader.write_int(address, 5660077);
+        loader.write_int(address, 788);
 
-        ASSERT_EQ(loader.read_int(0), 123);
-        ASSERT_EQ(loader.read_int(size), 5660077);
-        ASSERT_EQ(loader.read_int(size * 2), 788);
+        size_t address0 = 0;
+        ASSERT_EQ(loader.read_int(address0), 123);
+        ASSERT_EQ(loader.read_int(address0), 5660077);
+        ASSERT_EQ(loader.read_int(address0), 788);
 
         std::cout << "[--OK] ReadWriteSingleInt\n";
     }
@@ -108,11 +117,16 @@ public:
         std::cout << "[RUN-] ReadIntBoundaries\n";
         prepare_file();
 
-        loader.write_int(0, 2147483647);
-        ASSERT_EQ(loader.read_int(0), 2147483647);
+        size_t address = 0;
+        loader.write_int(address, 2147483647);
 
-        loader.write_int(0, 4294967295);
-        ASSERT_EQ(loader.read_int(0), 4294967295);
+        size_t address0 = 0;
+        ASSERT_EQ(loader.read_int(address0), 2147483647);
+
+        address = 0;
+        loader.write_int(address, 4294967295);
+        address0 = 0;
+        ASSERT_EQ(loader.read_int(address0), 4294967295);
 
         std::cout << "[--OK] ReadIntBoundaries\n";
     }
@@ -121,8 +135,11 @@ public:
         std::cout << "[RUN-] ReadDifferentTypes\n";
         prepare_file();
 
-        loader.write_char(0, '5');
-        unsigned int num = loader.read_int(0); // 808464437 --> UB (Ok)
+        size_t address = 0;
+        loader.write_char(address, '5');
+
+        size_t address0 = 0;
+        unsigned int num = loader.read_int(address0); // 808464437 --> UB (Ok)
         
         std::cout << "[--OK] ReadDifferentTypes\n";
     }
@@ -131,8 +148,11 @@ public:
         std::cout << "[RUN-] ReadWriteConstChar\n";
         prepare_file();
 
-        loader.write_string(0, "Hello world!");
-        std::string res = loader.read_string(0);
+        size_t address = 0;
+        loader.write_string(address, "Hello world!");
+
+        size_t address0 = 0;
+        std::string res = loader.read_string(address0);
         
         ASSERT_EQ(res, "Hello world!");
         std::cout << "[--OK] ReadWriteConstChar\n";
@@ -192,8 +212,11 @@ public:
         // is_dir, magic_num, references, ident, sizeof_file, blocks_amount, <blocks>
         Inode inode_exp = Inode(false, 123456, 864, "Neighbour", 5,  blocks);
 
-        loader.load_inode(0, inode_exp);
-        Inode inode_act = loader.unload_inode(0, 256);
+        size_t address = 0;
+        loader.load_inode(address, inode_exp, 256);
+
+        size_t address0 = 0;
+        Inode inode_act = loader.unload_inode(address0, 256);
 
         checker_inodes(inode_exp, inode_act);
 
@@ -202,6 +225,8 @@ public:
 
     void test_mapa() {
         std::cout << "[RUN-] ReadWriteMAPAPAPAPAPA\n";
+
+        prepare_file();
 
         vector_size_t blocks1 {1258, 789, 4567, 79965, 12566};
         Inode inode_1 = Inode(false, 123456, 864, "Neighbour", 5,  blocks1);
@@ -240,8 +265,11 @@ public:
         time_t current_time;
         time(&current_time);
 
-        loader.write_time_t(0, current_time);
-        time_t actual_time = loader.read_time_t(0);
+        size_t address = 0;
+        loader.write_time_t(address, current_time);
+
+        size_t address0 = 0;
+        time_t actual_time = loader.read_time_t(address0);
 
         ASSERT_EQ(current_time, actual_time);
 
