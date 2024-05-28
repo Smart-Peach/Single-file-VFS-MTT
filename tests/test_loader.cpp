@@ -34,6 +34,27 @@ public:
         test_mapa();
     }
 
+    void checker_inodes(const Inode& inode_exp, const Inode& inode_act) {
+
+        ASSERT_EQ(inode_exp.is_directory, inode_act.is_directory);
+        ASSERT_EQ(inode_exp.magic_number, inode_act.magic_number);
+        ASSERT_EQ(inode_exp.optional_bit1, inode_act.optional_bit1);
+        ASSERT_EQ(inode_exp.optional_bit2, inode_act.optional_bit2);
+        ASSERT_EQ(inode_exp.number_references, inode_act.number_references);
+        ASSERT_EQ(inode_exp.identifier, inode_act.identifier);
+        ASSERT_EQ(inode_exp.sizeof_file, inode_act.sizeof_file);
+        ASSERT_EQ(inode_exp.last_access_time, inode_act.last_access_time);
+        ASSERT_EQ(inode_exp.last_file_modif_time, inode_act.last_file_modif_time);
+        ASSERT_EQ(inode_exp.last_inode_modif_time, inode_act.last_inode_modif_time);
+        ASSERT_EQ(inode_exp.blocks_amount, inode_act.blocks_amount);
+    
+        ASSERT_EQ(inode_exp.blocks_storage.size(), inode_act.blocks_storage.size());
+
+        for (size_t i=0; i< inode_exp.blocks_storage.size(); i++) {
+            ASSERT_EQ(inode_exp.blocks_storage[i], inode_act.blocks_storage[i]);
+        }
+    }
+
     void test_write_char() {
         std::cout << "[RUN-] WriteReadChar\n";
         prepare_file();
@@ -174,33 +195,42 @@ public:
         loader.load_inode(0, inode_exp);
         Inode inode_act = loader.unload_inode(0, 256);
 
-        ASSERT_EQ(inode_exp.is_directory, inode_act.is_directory);
-        ASSERT_EQ(inode_exp.magic_number, inode_act.magic_number);
-        ASSERT_EQ(inode_exp.optional_bit1, inode_act.optional_bit1);
-        ASSERT_EQ(inode_exp.optional_bit2, inode_act.optional_bit2);
-        ASSERT_EQ(inode_exp.number_references, inode_act.number_references);
-        ASSERT_EQ(inode_exp.identifier, inode_act.identifier);
-        ASSERT_EQ(inode_exp.sizeof_file, inode_act.sizeof_file);
-        ASSERT_EQ(inode_exp.last_access_time, inode_act.last_access_time);
-        ASSERT_EQ(inode_exp.last_file_modif_time, inode_act.last_file_modif_time);
-        ASSERT_EQ(inode_exp.last_inode_modif_time, inode_act.last_inode_modif_time);
-        ASSERT_EQ(inode_exp.blocks_amount, inode_act.blocks_amount);
-    
-        ASSERT_EQ(inode_exp.blocks_storage.size(), inode_act.blocks_storage.size());
-
-        for (size_t i=0; i< inode_exp.blocks_storage.size(); i++) {
-            ASSERT_EQ(inode_exp.blocks_storage[i], inode_act.blocks_storage[i]);
-        }
+        checker_inodes(inode_exp, inode_act);
 
         std::cout << "[--OK] ReadWriteINODE\n";
     }
 
     void test_mapa() {
-        std::cout << "[RUN-] ReadWriteINODE\n";
+        std::cout << "[RUN-] ReadWriteMAPAPAPAPAPA\n";
+
+        vector_size_t blocks1 {1258, 789, 4567, 79965, 12566};
+        Inode inode_1 = Inode(false, 123456, 864, "Neighbour", 5,  blocks1);
+
+        vector_size_t blocks2 {898, 36546, 5646, 654654, 56645, 7898445, 454545};
+        Inode inode_2 = Inode(true, 654654, 1245, "Owner", 7,  blocks2);
+
+        vector_size_t blocks3 {33212321, 554, 654654, 787897, 66465, 654654, 465477, 79889, 7878787, 111111};
+        Inode inode_3 = Inode(false, 222222, 1000, "User", 10,  blocks3);
+
         InodeMap mapa = InodeMap();
 
-        loader
-        std::cout << "[--OK] ReadWriteINODE\n";
+        mapa.add_inode(inode_1);
+        mapa.add_inode(inode_2);
+        mapa.add_inode(inode_3);     
+
+        loader.load_inode_map(mapa, 10, 100);
+
+        InodeMap mapa_act = loader.unload_inode_map(300, 10, 100);
+
+        ASSERT_EQ(mapa.inode_map.size(), mapa_act.inode_map.size());
+
+        for (auto inode : mapa.inode_map) {
+            Inode inode_exp = inode.second;
+            int key = inode_exp.get_magic_number();
+            Inode inode_act = mapa_act[key];
+            checker_inodes(inode_exp, inode_act);
+        }
+        std::cout << "[--OK] ReadWriteMAPAPAPAPAPA\n";
     }
 
     void test_time() {

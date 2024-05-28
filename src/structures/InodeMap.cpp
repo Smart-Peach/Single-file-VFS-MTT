@@ -1,5 +1,10 @@
 #include "../includes/InodeMap.hpp"
 
+
+Inode& InodeMap::operator[](int magic_number) {
+    return inode_map.at(magic_number);
+}
+
 // Get nice inode hash
 int InodeMap::get_inode_hash(str_t name) {
     return std::hash<str_t>{} (name);   // TODO: use our own hash func

@@ -18,6 +18,7 @@ typedef std::unordered_map<size_t, Inode> inode_hashmap_t;
 class InodeMap {
 
 public:
+    Inode& operator[](int magic_number);
     // std::optional<Inode> get_inode(str_t src_name);
     Inode& get_inode(str_t src_name);
     void  add_inode(bool src_type, str_t src_name, int address_block);
