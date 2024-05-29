@@ -1,6 +1,10 @@
 #include "../includes/InodeMap.hpp"
 #include <cstddef>
 
+Inode& InodeMap::operator[](int magic_number) {
+    return inode_map.at(magic_number);
+}
+
 // Get nice inode hash
 int InodeMap::get_inode_hash(str_t name) {
     return std::hash<str_t>{} (name);   // TODO: use our own hash func
@@ -23,6 +27,16 @@ void InodeMap::add_inode(bool src_type, str_t src_name, int address_block) {
     }
     inode_map[magic_number] = Inode(src_type, address_block, magic_number);
 };
+
+// Special for Loader to construct InodeMap
+void InodeMap::add_inode(Inode inode) {
+    int magic_number = inode.get_magic_number();
+    if(inode_map.find(magic_number) != inode_map.end()) {
+        throw InodeMapException("Impossible to add Inode with magic number '" + std::to_string(magic_number) + "' because it already exists");
+    }
+    inode_map[magic_number] = inode;
+};
+
 
 // Delete inode from InodeMap, update FS bin file
 void InodeMap::delete_inode(str_t src_name) {

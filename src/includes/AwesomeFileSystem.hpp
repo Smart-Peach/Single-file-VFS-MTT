@@ -1,24 +1,29 @@
 #pragma once
 
 #include "FileSystem.hpp"
-#include "types.hpp"
+#include "LoaderBinFile.hpp"
+// #include "types.hpp"
 
 class AwesomeFileSystem: public FileSystem {
 public:
-    AwesomeFileSystem(Superblock superblock, InodeMap inode_map, str_t fs_name):
-                FileSystem(superblock, inode_map, fs_name) { }
+    // AwesomeFileSystem(Superblock superblock, InodeMap inode_map, LoaderBinFile loader):
+    //             FileSystem(superblock, inode_map, loader) { }
+
+    AwesomeFileSystem(Loader* loader) : FileSystem(loader) { std::cout << "AwesomeFileSystem is built\n"; }
     AwesomeFileSystem(const AwesomeFileSystem& other) = delete;
-    ~AwesomeFileSystem() { 
-        fs_file.close();
+    ~AwesomeFileSystem() {
+        loader->load_superblock(superblock);
+        loader->load_inode_map(inode_map, superblock.number_blocks, 256); 
+        // fs_file.close(); 
         for (auto elem: dentry_map){
             if (elem.second) delete elem.second;
         }
-    }
-
+        };
+    
     // Memory functions:
-    void load_superblock_into_memory() override;
-    void load_superblock_from_memory() override;
-    void load_all_into_memory() override;
+    // void load_superblock_into_memory() override;
+    // void load_superblock_from_memory() override;
+    // void load_all_into_memory() override;
 
     // File operations:
     void create_file(str_t src_name) override;
@@ -34,7 +39,11 @@ public:
     int get_for_test();
     
 private:
-    void write_to_file_with_specified_boundaries(int start, int end, str_t data, int address) override;
+    // void init() override;
+    // void finish() override;
+
+    // void write_to_file_with_specified_boundaries(int start, int end, str_t data, int address) override;
+
 
     // Directory operations:
     void create_dir(str_t src_name) override;

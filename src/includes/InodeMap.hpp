@@ -22,9 +22,11 @@ class InodeMap {
     friend class FileSystem;
 
 public:
+    Inode& operator[](int magic_number);
     // std::optional<Inode> get_inode(str_t src_name);
     Inode& get_inode(str_t src_name);
     void  add_inode(bool src_type, str_t src_name, int address_block);
+    void  add_inode(Inode inode);
     void  delete_inode(str_t src_name);
     void  update_inode(Inode& updated_inode);
     bool  is_file_in_directory(str_t src_name);
@@ -34,4 +36,7 @@ private:
     inode_hashmap_t inode_map;
     const inode_hashmap_t dump_inode_map();
     static int get_inode_hash(str_t name);
+
+    friend class LoaderBinFile;
+    friend class LoaderTest;
 };

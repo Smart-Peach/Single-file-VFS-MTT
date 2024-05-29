@@ -40,6 +40,9 @@ void Inode::print_fields() {
     for(int i = 0; i < blocks_amount; i++) std::cout << blocks_storage[i] << " ";
 }
 
+str_t Inode::get_identifier() {
+    return identifier;
+}
 
 int Inode::get_sizeof_file() {
     return sizeof_file;
@@ -51,6 +54,26 @@ int Inode::get_magic_number() {
 
 int Inode::get_blocks_amount() {
     return blocks_amount;
+}
+
+int Inode::get_number_of_references() { 
+    return number_references;
+}
+
+bool Inode::if_directory() {
+    return is_directory;
+}
+
+time_t Inode::get_last_access_time() {
+    return last_access_time;
+}
+
+time_t Inode::get_last_file_modif_time() {
+    return last_file_modif_time;
+}
+
+time_t Inode::get_last_inode_modif_time() {
+    return last_inode_modif_time;
 }
 
 void Inode::increase_blocks_amount(){
