@@ -1,7 +1,6 @@
 #pragma once
 
 #include <fstream>
-#include <bitset>
 #include "../includes/Inode.hpp"
 #include "../exceptions/SuperblockException.hpp"
 #include "types.hpp"
@@ -22,14 +21,14 @@ class Superblock {
     // std::vector<bool>     free_blocks;                          // May be faster in case array of bool --> in beginning 838776 0's 
 
     str_t             fs_type;                  // Maybe special structure should be here (aka fs_type)
-    const int         sizeof_fs;                // Sizeof file system in bytes, 1 Gb
-    const int         max_sizeof_file;          // Maximum available file size, 1 Mb
+    int         sizeof_fs;                // Sizeof file system in bytes, 1 Gb
+    int         max_sizeof_file;          // Maximum available file size, 1 Mb
     int               sizeof_ilist_bytes;       // Sizeof ilist in bytes (in memory)
-    const int         number_blocks; 
+    int         number_blocks; 
     int               number_free_blocks;       // Number of blocks available for data storage
     int               number_available_inodes;  // Number of inodes available for storage
-    const int         sizeof_block;             // Sizeof one block
-    const int         size_of_rootdir;          // Size of root directory
+    int         sizeof_block;             // Sizeof one block
+    int         size_of_rootdir;          // Size of root directory
     std::vector<bit>  free_blocks;              // May be faster in case array of bool --> in beginning 838776 0's 
 
     int get_block_address_by_bit_ind(int bit_ind);
@@ -49,7 +48,9 @@ public:
       size_of_rootdir(size_of_rootdir),
       free_blocks(free_blocks) {}
 
+    Superblock() = default;
     Superblock(const Superblock& other) = default;
+    Superblock& operator=(const Superblock& other) = default;
     Superblock(Superblock&& other) = default;
     
     //Loads Superblock's fields into second 1024 bytes
@@ -66,6 +67,7 @@ public:
     bool check_needed_number_of_free_blocks(int count);
 
     friend class AwesomeFileSystem;
+    friend class FileSystem;
     friend class TestSuperblock;
     friend class LoaderBinFile;
     friend class LoaderTest;

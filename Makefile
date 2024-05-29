@@ -25,8 +25,8 @@ gen-bin-file:
 	rm *.out
 
 interpreter:
-	$(CXX) -c src/interpreter/Lexer.cpp src/interpreter/Parser.cpp src/structures/AwesomeFileSystem.cpp src/structures/Superblock.cpp src/structures/Inode.cpp src/structures/InodeMap.cpp src/interpreter/Interpreter.cpp  src/vfs_mtt_main.cpp $(STD)
-	$(CXX) vfs_mtt_main.o Lexer.o Superblock.o Inode.o InodeMap.o Parser.o AwesomeFileSystem.o Interpreter.o -o main.out $(STD)
+	$(CXX) -c src/interpreter/Lexer.cpp src/interpreter/Parser.cpp src/structures/AwesomeFileSystem.cpp src/structures/Superblock.cpp src/structures/Inode.cpp src/structures/InodeMap.cpp src/interpreter/Interpreter.cpp src/structures/LoaderBinFile.cpp src/vfs_mtt_main.cpp $(SAN) $(STD)
+	$(CXX) vfs_mtt_main.o Lexer.o Superblock.o Inode.o InodeMap.o Parser.o AwesomeFileSystem.o Interpreter.o LoaderBinFile.o -o main.out $(SAN) $(STD)
 	rm *.o
 	./main.out
 
@@ -66,5 +66,10 @@ test-loader:
 	./test.out
 	rm *.out *.o
 
+prepare:
+	$(CXX) -c info_generator.cpp src/structures/LoaderBinFile.cpp src/structures/Superblock.cpp src/structures/Inode.cpp src/structures/InodeMap.cpp $(SAN) $(STD)
+	$(CXX) info_generator.o LoaderBinFile.o Superblock.o Inode.o InodeMap.o -o test.out $(TEST_FLAGS) $(SAN) $(STD)
+	./test.out
+	rm *.out *.o
 clean: 
 	rm *.out 

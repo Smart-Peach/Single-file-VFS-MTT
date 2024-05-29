@@ -216,7 +216,7 @@ public:
         loader.load_inode(address, inode_exp, 256);
 
         size_t address0 = 0;
-        Inode inode_act = loader.unload_inode(address0, 256);
+        Inode inode_act = loader.unload_inode(address0, 256).value();
 
         checker_inodes(inode_exp, inode_act);
 

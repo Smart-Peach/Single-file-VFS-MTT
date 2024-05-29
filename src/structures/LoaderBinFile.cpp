@@ -81,6 +81,25 @@ void LoaderBinFile::write_time_t(size_t& address, time_t time) {
     address += sizeof(time_t);
 }
 
+void LoaderBinFile::write_data(size_t& address, const str_t& string) {
+    std::cout << "String with limits: " << string << "\n";
+    for (size_t i = 0; i < string.size(); i++) {
+        char ch = string[i];
+        write_char(address, ch);
+    }
+}
+
+/// @brief 
+/// @param start 
+/// @param num_of_char 
+/// @param data 
+/// @param address 
+void LoaderBinFile::write_string_with_limits(size_t& address, int start, int num_of_char, str_t data) {
+    // fs_file.seekg(address);
+    write_data(address, data.substr(start, num_of_char));
+    // fs_file << data.substr(start, num_of_char);
+};
+
 /// @brief Writes in bytes information about free blocks exactly after Superblock
 /// @param free_blocks std::vector<bit>
 void LoaderBinFile::write_freeblocks(std::vector<bit> free_blocks) {
@@ -106,11 +125,13 @@ void LoaderBinFile::write_freeblocks(std::vector<bit> free_blocks) {
 /// @param freeblocks_amount 
 /// @return std::vector<bit>
 std::vector<bit> LoaderBinFile::read_freeblocks(int freeblocks_amount) {
+    std::cout << "Reading information about free blocks\n";
     int busy_bytes_amount = freeblocks_amount / BITS_IN_BYTE + (freeblocks_amount % BITS_IN_BYTE ? 1 : 0);
     std::vector<bit> free_blocks(freeblocks_amount);
     int bits_left = freeblocks_amount;
     size_t address = SIZEOF_BOOT_SECTOR + SIZEOF_SUPERBLOCK;
 
+    std::cout << busy_bytes_amount << "\n";
     for (size_t i = 0; i < busy_bytes_amount; i++) {
         char byte = read_char(address);
 
@@ -124,10 +145,11 @@ std::vector<bit> LoaderBinFile::read_freeblocks(int freeblocks_amount) {
             }
         }
     }
+    std::cout << "Information about blocks is ready\n";
     return free_blocks;
 }
 
-void LoaderBinFile::load_superblock(Superblock& superblock) {
+void LoaderBinFile::load_superblock(Superblock superblock) {
     size_t address = SIZEOF_BOOT_SECTOR;
 
     write_string(address, superblock.fs_type);
@@ -143,6 +165,7 @@ void LoaderBinFile::load_superblock(Superblock& superblock) {
 }
 
 Superblock LoaderBinFile::unload_superblock() {
+    std::cout << "Start reading superblock\n";
     size_t address = SIZEOF_BOOT_SECTOR;
 
     str_t type_fs                 = read_string(address);
@@ -156,6 +179,7 @@ Superblock LoaderBinFile::unload_superblock() {
     int   size_of_rootdir         = read_int(address);
     std::vector free_blocks       = read_freeblocks(number_blocks);
     
+    std::cout << "Superblock is ready\n";
     return Superblock(type_fs, sizeof_fs, max_sizeof_file, sizeof_ilist_bytes, number_blocks, number_free_blocks, number_available_inodes, sizeof_block, size_of_rootdir, free_blocks);
 }
 
@@ -185,11 +209,12 @@ void LoaderBinFile::load_inode(size_t& address, Inode& inode, size_t sizeof_inod
 /// @brief Reads inode by address from sizeof_inode bytes and shifts address by sizeof_inode bytes
 /// @param address in bytes
 /// @param sizeof_inode in bytes
-Inode LoaderBinFile::unload_inode(size_t& address, size_t sizeof_inode) {
+std::optional<Inode> LoaderBinFile::unload_inode(size_t& address, size_t sizeof_inode) {
     size_t address_start = address;
 
     bool   is_directory  = read_int(address);
     int    magic_number  = read_int(address);
+    if (!magic_number) { return std::nullopt; } // TODO: exit if magic number is 0
     int    sizeof_file   = read_int(address);
     int    blocks_amount = read_int(address);
 
@@ -214,7 +239,7 @@ Inode LoaderBinFile::unload_inode(size_t& address, size_t sizeof_inode) {
 /// @param sizeof_freeblocks in bytes
 /// @param sizeof_inode in bytes
 void LoaderBinFile::load_inode_map(InodeMap& mapa, size_t sizeof_freeblocks, size_t sizeof_inode) {
-    size_t address = sizeof_freeblocks + SIZEOF_BOOT_SECTOR + SIZEOF_SUPERBLOCK;
+    size_t address = SIZEOF_BOOT_SECTOR + SIZEOF_SUPERBLOCK + sizeof_freeblocks;
 
     for (std::pair<const unsigned long, Inode> inode_pair : mapa.inode_map) {
         load_inode(address, inode_pair.second, sizeof_inode);
@@ -226,14 +251,19 @@ void LoaderBinFile::load_inode_map(InodeMap& mapa, size_t sizeof_freeblocks, siz
 /// @param sizeof_freeblocks in bytes
 /// @param sizeof_inode in bytes
 InodeMap LoaderBinFile::unload_inode_map(size_t sizeof_ilist, size_t sizeof_freeblocks, size_t sizeof_inode) {
+    std::cout << "Start reading mapa\n";
     size_t address = SIZEOF_BOOT_SECTOR + SIZEOF_SUPERBLOCK + sizeof_freeblocks;
     size_t inodes_amount = sizeof_ilist / sizeof_inode;
 
     InodeMap mapa;
-
+    std::cout << "Inodes to read : " << inodes_amount << "\n";
     for (size_t i = 0; i < inodes_amount; i++) {
-        Inode inode = unload_inode(address, sizeof_inode);
-        mapa.add_inode(inode);
+        std::optional<Inode> inode = unload_inode(address, sizeof_inode);
+        if (inode) {
+            std:: cout << inode.value().get_magic_number();
+            mapa.add_inode(inode.value());
+        }
+        if (!(i % 100000)) { std::cout << "Inode: " << i << "\n"; }
     }
     return mapa;
 }

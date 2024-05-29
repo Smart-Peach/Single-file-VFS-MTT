@@ -3,72 +3,15 @@
 #include "../exceptions/OutOfMemoryException.hpp"
 
 
-// Loads all information about file system from memory
-void AwesomeFileSystem::init() {
-
-}
-
-//Loads Superblock's fields into second 1024 bytes
-void AwesomeFileSystem::load_superblock_into_memory() {
-    if (!fs_file.is_open()) {
-        throw SuperblockException("Superblock: It's impossible to load, because file is closed");
-    }
-
-    fs_file.seekg(SIZEOF_BOOT_SECTOR);
-    fs_file << superblock.fs_type;
-    fs_file << superblock.sizeof_fs;
-    fs_file << superblock.max_sizeof_file;
-    fs_file << superblock.sizeof_ilist_bytes;
-    fs_file << superblock.number_blocks;
-    fs_file << superblock.number_free_blocks;
-    fs_file << superblock.number_available_inodes;
-    fs_file << superblock.sizeof_block;
-    fs_file << superblock.size_of_rootdir;
-    fs_file << superblock.free_blocks.to_string();
-    fs_file.seekg(0);
-}
-
-void AwesomeFileSystem::load_all_into_memory() {
-    load_superblock_into_memory();
-}
-
-//Goes to the specified address and writes data to the specified boundaries
-void AwesomeFileSystem::write_to_file_with_specified_boundaries(int start, int num_of_char, str_t data, int address){
-    fs_file.seekg(address);
-    fs_file << data.substr(start, num_of_char);
-};
-
-//Reads data from second 1024 bytes and loads it to Superblock
-void AwesomeFileSystem::load_superblock_from_memory() {
-
-    if (!fs_file.is_open()) {
-        throw SuperblockException("Superblock: It's impossible to load, because file is closed");
-    }
-
-    fs_file.seekg(SIZEOF_BOOT_SECTOR);
-    fs_file.read((char*)(&superblock.sizeof_fs), sizeof(superblock.sizeof_fs));
-    fs_file.read((char*)(&superblock.max_sizeof_file), sizeof(superblock.max_sizeof_file));
-    fs_file.read((char*)(&superblock.sizeof_ilist_bytes), sizeof(superblock.sizeof_ilist_bytes));
-    // fs_file.read((char*)(&Superblock::number_blocks), sizeof(superblock.number_blocks));
-    fs_file.read((char*)(&superblock.number_free_blocks), sizeof(superblock.number_free_blocks));
-    fs_file.read((char*)(&superblock.number_available_inodes), sizeof(superblock.number_available_inodes));
-    fs_file.read((char*)(&superblock.sizeof_block), sizeof(superblock.sizeof_block));
-    fs_file.read((char*)(&superblock.size_of_rootdir), sizeof(superblock.size_of_rootdir));
-    
-    fs_file.seekg(SIZEOF_BOOT_SECTOR + SIZEOF_SUPERBLOCK);
-    fs_file.read((char*)(&superblock.free_blocks), sizeof(superblock.free_blocks));
-    fs_file.seekg(0);
-}
-
 void AwesomeFileSystem::create_file(str_t src_name) {
-    // std::cout << "\nCreate file: " << src_name << "\n" << std::endl;
+    std::cout << "\nCreate file: " << src_name << "\n" << std::endl;
     if (!inode_map.is_file_in_directory(src_name)) {
         int free_block = superblock.get_free_block();
         // std::cout << free_block << src_name << std::endl;
         Inode file_inode = Inode(0, free_block);
         superblock.update_fields_after_inode_addition(file_inode);
         inode_map.add_inode(0, src_name, free_block);  // pass zero - type of src for inode
-        load_all_into_memory();
+        // // load_all_into_memory();
     } else throw IOException("File " + src_name + " already exists!");
 };
 
@@ -77,7 +20,7 @@ void AwesomeFileSystem::delete_file(str_t src_name) {
         Inode& deleted_inode = inode_map.get_inode(src_name);
         inode_map.delete_inode(src_name);
         superblock.update_fields_after_inode_deletion(deleted_inode);
-        load_all_into_memory();
+        // load_all_into_memory();
     } else throw IOException("No such file in directory!");
 };
 
@@ -95,24 +38,29 @@ void AwesomeFileSystem::write_to_file(str_t src_name, str_t data) {
     size_t address = inode.get_last_block() + shift;
 
     if(new_size <= available_memory){ //if we can write all data into last block
-        write_to_file_with_specified_boundaries(0, data.size(), data, address);
-        fs_file.seekg(0);
+    std::cout << "Address to write : " << address << "\n";
+        loader->write_string_with_limits(address, 0, data.size(), data);  // LOADER
+        // fs_file.seekg(0); // DELETE
+
         //update info in inode
         inode.add_size_to_sizeof_file(data.size());
         inode.update_last_file_and_inode_modif_fields();
     } else{
-        write_to_file_with_specified_boundaries(0, free_memory_in_last_block, data, address); //fill in the last block to the end
+        loader->write_string_with_limits(address, 0, free_memory_in_last_block, data); //fill in the last block to the end
         inode.add_size_to_sizeof_file(free_memory_in_last_block);
 
+        // CHANGE TO ONE STRING
         int extra_blocks = (new_size - available_memory)/block_size; //the integer part of the number (extra blocks for data)
         if((new_size - available_memory) % block_size > 0){
             extra_blocks ++;  //+ 1 block for data
         }
+
+        
         if(superblock.check_needed_number_of_free_blocks(extra_blocks)){
             int index = 0;
             while (extra_blocks > 1){
-                int new_address = superblock.get_free_block();
-                write_to_file_with_specified_boundaries(index, block_size, data, new_address);
+                size_t new_address = superblock.get_free_block();
+                loader->write_string_with_limits(new_address, index, block_size, data);
                 index += block_size;
                 
                 //update info in inode
@@ -121,9 +69,9 @@ void AwesomeFileSystem::write_to_file(str_t src_name, str_t data) {
 
             extra_blocks --;
             }
-            int new_address = superblock.get_free_block();
-            write_to_file_with_specified_boundaries(index, data.size() - index, data, new_address);
-            fs_file.seekg(0);
+            size_t new_address = superblock.get_free_block();
+            loader->write_string_with_limits(new_address, index, data.size() - index, data);
+            // fs_file.seekg(0); // DELETED
         } else throw OutOfMemoryException("Not enough memory");
     }
 };
@@ -138,24 +86,27 @@ Inode& AwesomeFileSystem::open_file(str_t src_name) {
 };
 
 void AwesomeFileSystem::read_file(str_t src_name) {
+    std::cout << "Reading file\n";
+
     Inode& inode = open_file(src_name);
+
     vector_size_t storage = inode.get_blocks_storage();
     int num_of_available_char = inode.get_sizeof_file();
     const int block_size = superblock.sizeof_block;
 
     for(int i = 0; i < storage.size(); i++){
-        int index = storage[i];
-        fs_file.seekg(index); //change location to start of current block
+        size_t index = storage[i];
         int count = 0;
+
+        std::cout << index << " - BLOCK ADDRESS\n";
         while (count < block_size && num_of_available_char > 0){
             char y;
-            fs_file.read((char*)&y,sizeof(y));
-            std::cout << y;
+            // fs_file.read((char*)&y,sizeof(y));
+            std::cout << loader->read_char(index); // Check index!!!!!!!!!!!!!!!!
             count++;
             num_of_available_char--;
         }
     }
-    fs_file.seekg(0);
 }
 
 void AwesomeFileSystem::close_file(str_t src_name) { }

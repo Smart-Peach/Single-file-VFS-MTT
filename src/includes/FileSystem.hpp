@@ -1,12 +1,11 @@
 #pragma once
 
-// #include <bitset>
 #include <fstream>
 
 #include "types.hpp" 
 #include "InodeMap.hpp"
 #include "Superblock.hpp"
-//#include "Loader.hpp"
+#include "Loader.hpp"
 
 class Dentry;
 
@@ -16,27 +15,36 @@ class FileSystem {
 protected:
     Superblock          superblock;     // file system metadata
     InodeMap            inode_map;      // contains all inodes
-    std::fstream        fs_file;        // opened file
-    // Loader*             loader;             
+    // std::fstream        fs_file;        // opened file
+    Loader*             loader;             
 
+    // virtual void init() = 0;
+    // virtual void finish() = 0;
 public:
 
-    FileSystem(Superblock superblock, InodeMap inode_map, str_t fs_name):
+    FileSystem(Superblock superblock, InodeMap inode_map, Loader* loader):
                                 superblock(superblock),
-                                inode_map(inode_map) 
+                                inode_map(inode_map),
+                                loader(loader) 
     {
-        fs_file.open(fs_name, std::ios_base::in | std::ios_base::out | std::ios_base::binary);
-        
+        // init();        
     }
+
+    FileSystem(Loader* loader) : loader(loader) {
+        std::cout << "Building file system\n";
+        // loader = loader; 
+        superblock = loader->unload_superblock();
+        inode_map = loader->unload_inode_map(superblock.sizeof_ilist_bytes, superblock.number_blocks, 256);
+        std::cout << "File system is built\n";
+    }
+
     FileSystem(const FileSystem& other) = delete;
     virtual ~FileSystem() { };
     
-    virtual void init() = 0;
-    
     // Memory functions:
-    virtual void load_all_into_memory() = 0;
-    virtual void load_superblock_into_memory() = 0;
-    virtual void load_superblock_from_memory() = 0;
+    // virtual void load_all_into_memory() = 0;
+    // virtual void load_superblock_into_memory() = 0;
+    // virtual void load_superblock_from_memory() = 0;
 
     // File operations:
     virtual void create_file(str_t src_name) = 0;
@@ -46,7 +54,7 @@ public:
     virtual void read_file(str_t src_name) = 0;
     virtual void close_file(str_t src_name) = 0;
     virtual void upload_to_file(str_t src_name) = 0;
-    virtual void write_to_file_with_specified_boundaries(int start, int end, str_t data, int address) = 0;
+    // virtual void write_to_file_with_specified_boundaries(int start, int end, str_t data, int address) = 0;
 
     // Directories operations:
     virtual void create_dir(str_t src_name) = 0;

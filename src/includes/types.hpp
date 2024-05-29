@@ -2,6 +2,7 @@
 
 // #include <bitset>
 #include <vector>
+#include <string>
 
 const int SIZEOF_BOOT_SECTOR = 1024;
 const int SIZEOF_SUPERBLOCK = 1024;
