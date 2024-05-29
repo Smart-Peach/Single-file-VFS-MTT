@@ -1,0 +1,10 @@
+/.vs
+/.vscode
+*.out
+
+/.idea
+*.xml
+*.iml
+
+# binary files
+*.bin
