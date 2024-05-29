@@ -1,0 +1,23 @@
+AwesomeFileSystem manual:
+
+Commands:
+    - Basic commands:
+        - exit                                          
+        - ls
+        - pwd 
+        - help
+
+    - Files commands:
+        - create [file_name]
+        - delete [file_name]
+        - rename [file_name] [new_file_name]
+        - read   [file_name]
+        - write  [file_name] "content"
+        - open   [file_name]
+        - close  [file_name]
+
+    - Directories commands:
+        - mkdir  [dir_name]
+        - deldir [dir_name]
+        - rndir  [dir_name] [new_dir_name]
+        - cd     [dir_name]
