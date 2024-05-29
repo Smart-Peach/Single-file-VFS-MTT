@@ -60,5 +60,10 @@ test-superblock:
 	./test_bin.out
 	rm *.out
 
+test-crypter:
+	$(CXX) tests/test_crypter.cpp src/structures/Crypter.cpp -o test_bin.out $(STD)
+	./test_bin.out
+	rm *.out
+
 clean: 
 	rm *.out 

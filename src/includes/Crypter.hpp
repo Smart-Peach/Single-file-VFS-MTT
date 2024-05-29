@@ -1,10 +1,20 @@
 #pragma once
 #include "types.hpp"
+#include <cstdlib>
+
+
 class Crypter{
-    str_t key_for_decryption; //the key to decrypt the FS data
+    //TODO: we need str_t type, not int
+    int key_for_decryption; //the key to decrypt the FS data 
 public:
-    str_t key_for_encryption; //the key for encrypting the data coming from the user
-    str_t& get_key_for_encryption();
-    void data_encryption(str_t src_name, str_t data); //function for encrypting incoming data
-    str_t& data_decryption(str_t src_name); //a function for decrypting data from the file system
+    int key_for_encryption; //the key for encrypting the data coming from the user
+    int& get_key_for_encryption();
+    str_t data_encryption(str_t data); //function for encrypting incoming data
+    str_t data_decryption(str_t data); //a function for decrypting data from the file system
+    std::pair<int, int> generate_keys(); // function which generate keys for work with data
+    Crypter(){
+        std::pair<int, int> keys = generate_keys();
+        key_for_encryption = keys.first;
+        key_for_decryption = keys.second;
+    };
 };

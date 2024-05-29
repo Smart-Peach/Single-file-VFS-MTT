@@ -37,7 +37,7 @@ Some basic commands to implement:
 |info                   | Boot sector           | Superblock            | Information about free blocks     | i-list    | root dir   | file's data   |
 | --------------------- | --------------------- |-----------------------|-----------------------------------|-----------|------------|---------------|
 | size  (bytes)         | 1024                  | 1024                  | 800 000                           | 800 000   | 512        |               |
-| realisation           |  wtf                  | structure             | bit table                         | hash-table| hz         |               |
+| implementation           |  -                  | Superblock structure             | bitset                         | hash-table| Dentry structure         |               |
 
 </br>
 

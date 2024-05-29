@@ -1,9 +1,8 @@
 Part 3 ,2024-04-30,2024-05-27
-Buffer for data (Tasya P) ,2024-04-30,2024-05-10
-Hash and rehash functions for inode magic number (Masha),2024-04-30,2024-05-10
-Directories (Tasya K,2024-04-30,2024-05-10
-Implement functions in AFS(for directories) (Tasya K),2024-05-11,2024-05-21
+Directories (Masha, Tasia P.),2024-04-30,2024-05-10
+Implement functions in AFS(for directories) (Tasya P, Masha),2024-05-11,2024-05-21
 Modifiers for file(like "r" "w" "rw") (Tasya P),2024-05-11,2024-05-26
+Loader (Tasya K),2024-04-30, 2024-05-27
 Tests (Masha),2024-04-30,2024-05-27
 Debug,2024-05-06,2024-05-27
 Documentation (Masha),2024-05-18,2024-05-27
