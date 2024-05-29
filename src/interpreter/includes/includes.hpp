@@ -21,6 +21,7 @@
 #include "../commands/dir_commands/ChangeDir.hpp"
 #include "../commands/basic_commands/Exit.hpp"
 #include "../commands/basic_commands/Pwd.hpp"
+#include "../commands/basic_commands/Help.hpp"
 #include "../commands/basic_commands/ListObject.hpp"
 
 #include "../../exceptions/InterpreterException.hpp"

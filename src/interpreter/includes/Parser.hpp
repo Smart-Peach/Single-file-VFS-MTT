@@ -21,6 +21,7 @@ class Parser {
     std::map<const str_t, cmd_cstr_t> zero_args_funcs = {
     {"exit", []() { return new Exit(); }},
     {"pwd", []() { return new Pwd(); }}, 
+    {"help", []() { return new Help(); }},
     {"ls", []() { return new Ls();}}};
 
     std::map<const str_t, cmd_cstr_t> one_arg_funcs {
