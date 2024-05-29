@@ -27,7 +27,7 @@ private:
 
 public:
     Inode() = default;
-    Inode(bool src_type, size_t free_block);
+    Inode(bool src_type, size_t free_block, int magic_num);
     Inode(bool src_type, int magic_number, int sizeof_file, str_t identifier,
           int block_amount, vector_size_t storage_blocks):
                                             is_directory(src_type),
@@ -42,8 +42,49 @@ public:
                 last_file_modif_time = current_time;
                 last_inode_modif_time = current_time;
             };
-    Inode& operator=(const Inode& other) = default;
-    ~Inode() = default;
+    Inode(const Inode& other):  is_directory(other.is_directory),
+                                magic_number(other.magic_number),
+                                optional_bit1(other.optional_bit1),
+                                optional_bit2(other.optional_bit2),
+                                number_references(other.number_references),
+                                identifier(other.identifier),
+                                sizeof_file(other.sizeof_file),
+                                last_access_time(other.last_file_modif_time),
+                                last_file_modif_time(other.last_file_modif_time),
+                                last_inode_modif_time(other.last_inode_modif_time),
+                                blocks_amount(other.blocks_amount),
+                                blocks_storage(other.blocks_storage) { }
+                                
+    Inode(Inode&& other):   is_directory(other.is_directory),
+                            magic_number(other.magic_number),
+                            optional_bit1(other.optional_bit1),
+                            optional_bit2(other.optional_bit2),
+                            number_references(other.number_references),
+                            identifier(other.identifier),
+                            sizeof_file(other.sizeof_file),
+                            last_access_time(other.last_file_modif_time),
+                            last_file_modif_time(other.last_file_modif_time),
+                            last_inode_modif_time(other.last_inode_modif_time),
+                            blocks_amount(other.blocks_amount),
+                            blocks_storage(other.blocks_storage) { }
+
+    Inode& operator=(Inode other) {
+        std::swap(is_directory, other.is_directory);
+        std::swap(magic_number, other.magic_number);
+        std::swap(optional_bit1, other.optional_bit1);
+        std::swap(optional_bit2, other.optional_bit2);
+        std::swap(number_references, other.number_references);
+        std::swap(identifier, other.identifier);
+        std::swap(sizeof_file, other.sizeof_file);
+        std::swap(last_access_time, other.last_file_modif_time);
+        std::swap(last_file_modif_time, other.last_file_modif_time);
+        std::swap(last_inode_modif_time, other.last_inode_modif_time);
+        std::swap(blocks_amount, other.blocks_amount);
+        std::swap(blocks_storage, other.blocks_storage);
+        return *this;
+    }
+
+    ~Inode() {}
 
     const vector_size_t& get_blocks_storage();
     size_t get_last_block();   
@@ -60,4 +101,5 @@ public:
     void increase_references_amount();
     void decrease_references_amount();
     void set_optional_bits_to_zeroes();
+    void change_magic_number(size_t new_magic_number);
 };

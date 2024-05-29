@@ -2,7 +2,8 @@
 #include <vector>
 #include "../includes/Inode.hpp"
 
-Inode::Inode(bool src_type, size_t address_block):
+Inode::Inode(bool src_type, size_t address_block, int magic_number):
+            magic_number(magic_number),
             is_directory(src_type),
             number_references(0),
             sizeof_file(0),
@@ -92,4 +93,8 @@ void Inode::update_last_file_and_inode_modif_fields(){
 void Inode::set_optional_bits_to_zeroes(){
     optional_bit1 = 0;
     optional_bit2 = 0;
+}
+
+void Inode::change_magic_number(size_t new_magic_number) {
+    magic_number = new_magic_number;
 }

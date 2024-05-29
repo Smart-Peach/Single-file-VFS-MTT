@@ -26,7 +26,9 @@ void Superblock::update_fields_after_inode_deletion(Inode& inode) {
     number_free_blocks += inode.get_blocks_amount();
 
     for (int block_address : inode.get_blocks_storage()) {
+        
         int block_ind = get_block_bit_ind_by_address(block_address);
+        std::cout << block_address << " " << block_ind<< std::endl;
         if (!free_blocks.test(block_ind)) {
             throw SuperblockException("Superblock, update_fields_after_inode_deletion: block with index " + std::to_string(block_ind) +
             " and actual address " + std::to_string(block_address) + " isn't busy! Deleting an Inode was failed!");
